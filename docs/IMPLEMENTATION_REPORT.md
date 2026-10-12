@@ -58,6 +58,17 @@ GitHub source belongs to `GorillaCoder001/bambu-config-advisor`. Expected Pages 
 
 ## Limitations and next work
 
-No slicing/G-code, native process-preset import, certified self-intersection detection, actual bridge spans, local thickness, internal cavity dimensions or per-plate 3MF analysis. No automatic repair/rotation/scaling. Priorities and family knowledge cannot guarantee mechanical strength or filament calibration. Models are limited to 24 MiB/120,000 triangles to bound in-browser work.
+No slicing/G-code, native process-preset import, certified self-intersection detection, actual bridge spans, local thickness, internal cavity dimensions or per-plate 3MF analysis. No automatic repair/rotation/scaling. Priorities and family knowledge cannot guarantee mechanical strength or filament calibration. Models support 256 MiB input and 2,000,000 triangles. Expanded model XML is bounded at 512 MiB; detailed topology is withheld above 200,000 triangles. Large previews use at most 200,000 sampled faces.
 
 Next: physical calibration coupons for exact spool/printer/nozzle/plate combinations; verified X2D extruder variant mapping; BVH thickness/occlusion; per-object and per-plate analysis; orientation ranking; browser/mobile QA; version-pinned native preset import/export tests if that export is later implemented.
+
+
+## October 12 capacity and settings comparison update
+
+Raised the STL/3MF file limit from 24 to 256 MiB and the triangle cap from 120,000 to 2,000,000. Resource vertices now allow 6,000,000 and ZIP entries 4,096. Central-directory size/path/encryption/ratio checks remain; declared archive expansion is bounded at 2 GiB, selected geometry XML at 512 MiB and each settings metadata file at 8 MiB. Mesh tables are parsed into typed arrays, model entries are inflated individually and expanded instances are counted before output allocation. Detailed topology remains bounded; skipped counts render as “Not checked” rather than zero. Preview sampling does not change analysis geometry.
+
+Added Current → Recommended → Reason columns to every settings tab, manual values, JSON upload/paste, explicit global settings import from Bambu project 3MF, variant preservation, override review badges and comparison status. Values are taken from uploaded settings, never substituted from the recommendation. Importing another model clears stale settings. Current/recommended values also appear in copy, JSON and print reports. JSON report schema is 2 and retains `compatiblePreset: false`.
+
+Metadata paths were checked against Bambu Studio's pinned `src/libslic3r/Format/bbs_3mf.cpp` (47a13eeb1d9af65ef2371e361c856e21d4f6ca72). Synthetic fixtures cover project JSON and XML override metadata; no user model file was attached to this change request, only screenshots, so the exact failing project cannot be replayed here. Browser/WebGL visual QA remains unavailable in this managed environment.
+
+Update validation: all 93 tests and strict TypeScript/production build pass. Regression coverage includes 3MF geometry above the previous 120,000 resource limit, a two-million-triangle binary STL over the previous file limit, explicit skipped topology, compact preview sampling, current-value imports, manual edits, merged JSON, variant/override review and current/recommended report output.

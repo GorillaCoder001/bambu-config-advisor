@@ -2,7 +2,8 @@
 import {describe,it,expect,vi,beforeEach,afterEach} from 'vitest';
 import {render,screen,fireEvent,waitFor,cleanup} from '@testing-library/react';
 import App from '../src/App';
-import {binary} from './fixtures';
+import {binary,mf,xml} from './fixtures';
+import {strToU8} from 'fflate';
 import {parseModel} from '../src/analysis/parsers';
 import {analyzeMesh} from '../src/analysis/mesh-analysis';
 vi.mock('../src/components/ModelViewer',()=>({ModelViewer:({mesh}:{mesh:any})=><div aria-label="Interactive model preview">{mesh?mesh.positions.length/9+' triangles':'Waiting'}</div>}));
@@ -26,4 +27,13 @@ describe('workspace interaction contract',()=>{
  it('shows key comparisons without a giant table',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Compare modes'}));expect(screen.getByText('Find your balance')).toBeTruthy();expect(screen.getByRole('table')).toBeTruthy();});
  it('opens manufacturer/profile preferences and source guidance',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Filament profile & preferences'}));expect(screen.getByLabelText('Manufacturer')).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'Research'}));expect(screen.getByText('Official sources')).toBeTruthy();expect(screen.getByRole('link',{name:'Download full source matrix'})).toBeTruthy();});
  it('exposes print guide explanations',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Print guide'}));expect(screen.getByText('Volumetric flow')).toBeTruthy();expect(screen.getByText('Fit and clearance')).toBeTruthy();});
+});
+
+
+describe('current-to-recommended settings',()=>{
+ it('shows missing values without inventing current defaults and accepts manual edits',()=>{render(<App/>);const input=screen.getByRole('textbox',{name:'Current Layer height Layer height'}) as HTMLInputElement;expect(input.value).toBe('');expect(input.placeholder).toBe('Not provided');fireEvent.change(input,{target:{value:'0.'}});expect(input.value).toBe('0.');fireEvent.change(input,{target:{value:'0.2 mm'}});expect(input.value).toBe('0.2 mm');expect(screen.getAllByText('Change suggested').length).toBeGreaterThan(0);});
+ it('imports current project settings after uploading 3MF',async()=>{render(<App/>);const buffer=mf(xml(),{'Metadata/project_settings.config':strToU8('{"layer_height":"0.2","wall_loops":"4"}')});const f=new File([buffer],'current-project.3mf');Object.defineProperty(f,'arrayBuffer',{value:async()=>buffer});fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[f]}});await waitFor(()=>expect((screen.getByLabelText('Current Layer height Layer height') as HTMLInputElement).value).toBe('0.2 mm'));expect(screen.getByRole('region',{name:'Current Bambu Studio settings'}).textContent).toContain('Bambu 3MF project');});
+ it('merges process and filament JSON and clears imported values',()=>{render(<App/>);const input=screen.getByLabelText('Paste current settings JSON');fireEvent.change(input,{target:{value:'{"layer_height":"0.2"}'}});fireEvent.click(screen.getByRole('button',{name:'Apply current settings'}));fireEvent.change(input,{target:{value:'{"nozzle_temperature":["220"]}'}});fireEvent.click(screen.getByRole('button',{name:'Apply current settings'}));expect((screen.getByLabelText('Current Layer height Layer height') as HTMLInputElement).value).toBe('0.2 mm');fireEvent.click(screen.getByRole('button',{name:'Clear current settings'}));expect((screen.getByLabelText('Current Layer height Layer height') as HTMLInputElement).value).toBe('');});
+ it('includes both current and recommended values in copied reports',async()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Current Layer height Layer height'),{target:{value:'0.2 mm'}});fireEvent.click(screen.getByRole('button',{name:'Copy all'}));await waitFor(()=>expect(navigator.clipboard.writeText).toHaveBeenCalled());expect(vi.mocked(navigator.clipboard.writeText).mock.calls[0][0]).toContain('Current: 0.2 mm → Recommended:');});
+ it('clears previous project settings when switching to a geometry-only model',async()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Current Layer height Layer height'),{target:{value:'0.2 mm'}});const buffer=binary();const f=new File([buffer],'new.stl');Object.defineProperty(f,'arrayBuffer',{value:async()=>buffer});fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[f]}});await waitFor(()=>expect(screen.getByText('new.stl')).toBeTruthy());expect((screen.getByLabelText('Current Layer height Layer height') as HTMLInputElement).value).toBe('');});
 });

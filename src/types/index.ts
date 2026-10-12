@@ -2,13 +2,14 @@ export type Confidence = 'high' | 'medium' | 'low';
 export type Basis = 'Model' | 'Material' | 'Preference' | 'Preset';
 export type Tab = 'Quality' | 'Strength' | 'Speed' | 'Support' | 'Others' | 'Filament & Temperature' | 'Cooling';
 export type Priority = 'Maximum quality' | 'Balanced' | 'Fast' | 'Maximum strength';
-export interface Mesh {positions: Float32Array; notes: string[]; format: 'STL'|'3MF'|'Demo';}
+export interface CurrentSettings {values:Record<string,string[]>;source:string;notes:string[];overrides:string[];manualKeys?:string[];}
+export interface Mesh {currentSettings?:CurrentSettings;positions: Float32Array; notes: string[]; format: 'STL'|'3MF'|'Demo';}
 export interface Analysis {
- dimensions: number[]; min: number[]; max: number[]; triangles:number; vertices:number; area:number; volume:number|null;
+ dimensions: number[]; min: number[]; max: number[]; triangles:number; vertices:number|null; topologyChecked?:boolean; area:number; volume:number|null;
  footprint:number; contactArea:number; aspect:number; height:number; topPercent:number; bottomPercent:number;
  overhangPercent:number; steepPercent:number; overhangBins:number[]; flatAreas: number[]; candidates:{axis:string;area:number}[];
- health:'Good'|'Review recommended'|'Problem detected'; boundaryEdges:number; nonManifoldEdges:number; windingEdges:number;
- degenerate:number; duplicateTriangles:number; components:number; invertedComponents:number; watertight:boolean; dense:boolean;
+ health:'Good'|'Review recommended'|'Problem detected'; boundaryEdges:number|null; nonManifoldEdges:number|null; windingEdges:number|null;
+ degenerate:number; duplicateTriangles:number|null; components:number|null; invertedComponents:number|null; watertight:boolean; dense:boolean;
  classifications:{label:string;confidence:Confidence;reason:string}[]; fineDetail:boolean; apparentFeature:number|null;
  thinDimension:number; bridgeCandidate:boolean; normalReliability:boolean; notes:string[];
 }

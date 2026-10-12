@@ -61,7 +61,13 @@ The database is a sourced starting point, **not physically production validated*
 
 Your model is analyzed locally in your browser and is not uploaded to a server. Files remain in memory and are released on replacement/closing. Exports may include geometry/context but omit the model's triangle coordinates and original filename. There is no persistence or telemetry. Opening a source link navigates to that public website but does not send the model.
 
-All parsing/topology analysis runs in a Web Worker with progress and termination-based cancellation. Limits: 24 MiB input, 120,000 triangles, 500,000 resource vertices, 128 ZIP entries, 64 MiB declared expanded archive. ZIP directory/local sizes and paths are checked before model-entry decompression; ZIP64, encryption, external resources, traversal and high-ratio large entries are rejected. XML DOCTYPE/entities are rejected, entity processing is disabled, indices/transforms are validated, and cyclic or excessively nested component graphs are rejected. Model metadata is never rendered as HTML. A restrictive CSP excludes external runtime scripts and object embeds.
+All parsing/geometry analysis runs in a Web Worker with progress and termination-based cancellation. Limits: 256 MiB input, 2,000,000 triangles, 6,000,000 resource vertices, 4,096 ZIP entries, 2 GiB declared expanded archive, and 512 MiB expanded model XML. ZIP directory/local sizes and paths are checked before model-entry decompression; ZIP64, encryption, external resources, traversal and high-ratio large entries are rejected. XML DOCTYPE/entities are rejected, entity processing is disabled, indices/transforms are validated, and cyclic or excessively nested component graphs are rejected. Large model XML mesh tables use compact typed arrays rather than millions of XML objects. Above 200,000 triangles, every face still contributes to surface/dimension measurements, but detailed topology, unique-vertex counts, components and solid volume are withheld. The preview samples at most 200,000 triangles with a visible notice. Model metadata is never rendered as HTML. A restrictive CSP excludes external runtime scripts and object embeds.
+
+## Current settings → recommendations
+
+The settings table shows **Setting · Current · Recommended · Reason & evidence**. Uploading a Bambu project 3MF reads explicit global values from `Metadata/project_settings.config`; object/part/plate override metadata is flagged for review. Missing inherited preset values are shown as **Not provided** rather than inferred from a recommendation. Filament/extruder arrays retain their variants.
+
+For STL or geometry-only 3MF, import Bambu process/filament JSON via **Import settings JSON**, paste JSON, or enter current values directly in the table. Process and filament imports merge field by field. Replacing the model clears previous current values so they are not attributed to the wrong project. Copy/text/print and JSON reports include both current and recommended settings; report schema version is 2. These reports remain non-importable recommendations.
 
 ## Limitations
 
@@ -72,7 +78,7 @@ All parsing/topology analysis runs in a Web Worker with progress and termination
 - Overhang candidates use face slope from horizontal and area weighting. Occlusion, anchors, actual bridge spans and support reachability need slicing. Winding issues downgrade orientation-dependent results.
 - Local wall thickness, semantic text/figurine recognition and internal hole/shaft fits are not reliably measured. The user supplies intended use and fine-text context.
 - Nominal process speeds are authored heuristics, capped by unambiguous known flow limits; machine constraints and calibrated flow still apply.
-- Colours, painted supports, modifier meshes, existing 3MF slicer settings, plate assignments and advanced 3MF extensions are not imported. Multiple build items are analyzed together, with review guidance.
+- Colours, painted supports, modifier meshes, plate assignments and advanced 3MF extensions are not imported. Multiple build items are analyzed together, with review guidance.
 - OBJ, STEP and SVG are not supported. No silent mesh repair, scaling, reorientation or dimensional compensation.
 - JSON/text are reports, **not Bambu Studio importable process presets**. Bambu's inheritance, IDs, machine compatibility and extruder variants make unsupervised preset export version-sensitive; verified round-trip compatibility is not claimed.
 - Browser/WebGL QA was unavailable in the build environment. Automated UI tests mock the renderer/Worker wiring; a real-device smoke test remains necessary.
