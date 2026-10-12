@@ -4,7 +4,7 @@ Browser-local STL/3MF model inspection and deterministic, explainable recommenda
 
 ## Run locally
 
-Requires Node.js 22+ and npm.
+Requires Node.js 22.12+ (or Node.js 24) and npm.
 
 ```sh
 npm ci

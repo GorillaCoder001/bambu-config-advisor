@@ -48,13 +48,13 @@ Confidence means confidence in the explanation/fact, not a statistical probabili
 
 69 automated tests cover ASCII/binary STL, 3MF geometry/units/transforms/local production paths, malformed/oversized input, ZIP decompression bounds/path/size checks, XML entities, cyclic components, mesh topology, synthetic coaster/tower/thin/overhang/multi-component forms, recommendation priorities/nozzle/support/strength/fit/build limits, exact-profile provenance and unknown values, upload, tab/keyboard navigation, context updates, copying/export/print and comparison/help navigation.
 
-Production dependency audit after updating fast-xml-parser to 5.11.2 and fflate to 0.8.3: no reported vulnerabilities at the time checked. The full production static build succeeded.
+Full dependency audit (runtime and development) after updating fast-xml-parser to 5.11.2, fflate to 0.8.3, Vite to 6.4.4 and Vitest to 4.1.11: no reported vulnerabilities at the time checked. All 69 tests, strict TypeScript validation and the production static build pass on the final dependencies.
 
 `npm run check` performs strict TypeScript checks and `npm run build` compiles the static app. UI tests run with jsdom and mocked WebGL viewer/worker transport; parser/analysis behavior is separately tested with actual geometry. No browser-control skill was available, so live WebGL rendering and responsive layout have **not** been visually verified. CSS has explicit 1100/800/580 px breakpoints and print rules; these are not a substitute for real-device QA.
 
 ## Deployment
 
-GitHub source belongs to `GorillaCoder001/bambu-config-advisor`. Expected Pages project URL: `https://gorillacoder001.github.io/bambu-config-advisor/` after the Pages workflow succeeds. Enable **Settings → Pages → GitHub Actions** if not already enabled; the available connector does not expose Pages administration. No server routing is used. The exact saved/private Sites URL is reported after successful publication.
+GitHub source belongs to `GorillaCoder001/bambu-config-advisor`. Expected Pages project URL: `https://gorillacoder001.github.io/bambu-config-advisor/` after the Pages workflow succeeds. Enable **Settings → Pages → GitHub Actions** if not already enabled; the available connector does not expose Pages administration. No server routing is used. GitHub independently passed all 69 tests and the production build; the initial Pages workflow stopped at configure-pages because Pages was not enabled (404). Select Settings → Pages → Source → GitHub Actions and rerun the workflow. Private review site: https://created3d-print-advisor.cheekyyak1024.chatgpt.site . The final updated dependency set is also locally verified.
 
 ## Limitations and next work
 
