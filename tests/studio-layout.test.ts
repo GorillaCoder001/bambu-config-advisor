@@ -35,3 +35,17 @@ describe('Studio placement matches supplied screenshots and official layout',()=
  it('exports exact paths and visibility instructions as well as values',()=>{const text=exportText(recommend(a,defaults),a,defaults);expect(text).toContain('Process → Quality → Precision → Slice gap closing radius');expect(text).toContain('Process → Strength → Advanced → Infill/Wall overlap');expect(text).toContain('Enable “Override filament scarf seam setting”');});
  it('represents every standard process recommendation with a concrete navigation path',()=>{for(const row of recommend(a,defaults).settings.filter(s=>['Quality','Strength','Speed','Support','Others'].includes(s.tab))){expect(row.location?.[0],row.key).toBe('Process');expect(row.location?.[1],row.key).toBe(row.tab);expect(row.location?.[2],row.key).toBe(row.group);}});
 });
+
+describe('Studio infill storage names versus visible dropdown labels',()=>{
+ it.each(['top_surface_pattern','bottom_surface_pattern','internal_solid_infill_pattern','sub_top_surface_pattern'])('shows Rectilinear for the stored zig-zag value in %s',key=>{
+  const current=parseCurrentSettings(JSON.stringify({[key]:'zig-zag'}));const row=recommend(a,defaults,current).settings.find(s=>s.key===key)!;
+  expect(currentValue(current,row)).toBe('Rectilinear');
+  if(row.intent==='retain'){expect(row.value).toBe('Rectilinear');expect(comparisonStatus(current,row)).toBe('same');}
+  const text=exportText(recommend(a,defaults,current),a,defaults,current);expect(text).not.toContain('Current: zig-zag');expect(text).toContain('Current: Rectilinear');
+ });
+ it('distinguishes Rectilinear from the separate sparse-infill Zig Zag option',()=>{
+  const current=parseCurrentSettings('{"sparse_infill_pattern":"zigzag"}');const row=recommend(a,defaults).settings.find(s=>s.key==='sparse_infill_pattern')!;expect(currentValue(current,row)).toBe('Zig Zag');
+  const rectilinear=parseCurrentSettings('{"sparse_infill_pattern":"zig-zag"}');expect(currentValue(rectilinear,row)).toBe('Rectilinear');
+ });
+ it('resolves non-translated literal dropdown labels such as Fuzzy Skin noise type',()=>{const current=parseCurrentSettings('{"fuzzy_skin_noise_type":"ridgedmulti"}');const row=recommend(a,defaults,current).settings.find(s=>s.key==='fuzzy_skin_noise_type')!;expect(currentValue(current,row)).toBe('Ridged Multifractal');expect(row.value).toBe('Ridged Multifractal');});
+});

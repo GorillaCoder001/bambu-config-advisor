@@ -1059,7 +1059,17 @@
       "order": 79,
       "type": "coEnum",
       "mode": "Simple",
-      "enums": {}
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "monotonic": "Monotonic",
+        "monotonicline": "Monotonic line",
+        "globalmonotonicline": "Global monotonic line",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral"
+      }
     },
     {
       "tab": "Strength",
@@ -1129,7 +1139,17 @@
       "order": 85,
       "type": "coEnum",
       "mode": "Simple",
-      "enums": {}
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "monotonic": "Monotonic",
+        "monotonicline": "Monotonic line",
+        "globalmonotonicline": "Global monotonic line",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral"
+      }
     },
     {
       "tab": "Strength",
@@ -1629,7 +1649,15 @@
       "order": 109,
       "type": "coFloatOrPercent",
       "unit": "mm or %",
-      "mode": "Advanced"
+      "mode": "Advanced",
+      "enums": {
+        "0": "0 (no open anchors)",
+        "1": "1 mm",
+        "2": "2 mm",
+        "5": "5 mm",
+        "10": "10 mm",
+        "1000": "1000 (unlimited)"
+      }
     },
     {
       "tab": "Strength",
@@ -1638,7 +1666,15 @@
       "name": "Maximum length of sparse infill anchor",
       "order": 110,
       "type": "coFloatOrPercent",
-      "mode": "Simple"
+      "mode": "Simple",
+      "enums": {
+        "0": "0 (not anchored)",
+        "1": "1 mm",
+        "2": "2 mm",
+        "5": "5 mm",
+        "10": "10 mm",
+        "1000": "1000 (unlimited)"
+      }
     },
     {
       "tab": "Strength",
@@ -1734,7 +1770,17 @@
       "order": 119,
       "type": "coEnum",
       "mode": "Advanced",
-      "enums": {}
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "monotonic": "Monotonic",
+        "monotonicline": "Monotonic line",
+        "globalmonotonicline": "Global monotonic line",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral"
+      }
     },
     {
       "tab": "Strength",
@@ -2703,7 +2749,13 @@
       "order": 197,
       "type": "coInt",
       "unit": "layers",
-      "mode": "Advanced"
+      "mode": "Advanced",
+      "enums": {
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3"
+      }
     },
     {
       "tab": "Support",
@@ -3413,6 +3465,13 @@
           "all walls"
         ],
         "label": "Select a Fuzzy Skin mode other than Disabled under Others → Special mode."
+      },
+      "enums": {
+        "classic": "Classic",
+        "perlin": "Perlin",
+        "billow": "Billow",
+        "ridgedmulti": "Ridged Multifractal",
+        "voronoi": "Voronoi"
       }
     },
     {
