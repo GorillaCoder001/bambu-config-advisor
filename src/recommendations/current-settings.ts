@@ -1,7 +1,8 @@
 import {XMLParser, XMLValidator} from 'fast-xml-parser';
 import labels from '../profiles/setting-labels.json';
+import {formatStudioValue,studioControls} from './studio-layout';
 import type {CurrentSettings,Setting} from '../types';
-const known=new Set(Object.keys(labels));
+const known=new Set([...Object.keys(labels),...studioControls.map(s=>s.key)]);
 const aliases:Record<string,string>={initial_layer_height:'initial_layer_print_height',chamber_temperature:'chamber_temperatures'};
 export function parseCurrentSettings(text:string,source='Imported Bambu settings JSON'):CurrentSettings {
  if(text.length>8*1024*1024)throw new Error('Settings file exceeds the 8 MB limit.');
@@ -29,15 +30,7 @@ export function readObjectOverrides(xml:string):string[]{
 export function mergeCurrentSettings(current:CurrentSettings|null,next:CurrentSettings):CurrentSettings {
  return {...next,manualKeys:current?.manualKeys?.filter(key=>!next.values[key]),values:{...current?.values,...next.values},overrides:[...new Set([...(current?.overrides||[]),...next.overrides])],notes:[...new Set([...(current?.notes||[]),...next.notes])],source:current?current.source+' + '+next.source:next.source};
 }
-const enumLabels:Record<string,string>={aligned:'Aligned',none:'None',classic:'Classic',arachne:'Arachne',monotonic:'Monotonic',monotonicline:'Monotonic line',cubic:'Cubic',gyroid:'Gyroid',no_brim:'No-brim',outer_only:'Outer brim only',top:'Top surfaces',top_surfaces:'Top surfaces',no_ironing:'No ironing'};
-const booleanKeys=new Set(['is_infill_first','enable_support','support_on_build_plate_only','enable_overhang_speed','enable_prime_tower','reduce_fan_stop_start_freq','slow_down_for_layer_cooling']);
-function formatValue(raw:string,s:Setting){
- if(booleanKeys.has(s.key)&&/^(?:0|1|true|false)$/i.test(raw))return /^(1|true)$/i.test(raw)?'ON':'OFF';
- if(enumLabels[raw.toLowerCase()])return enumLabels[raw.toLowerCase()];
- const unit=s.value.match(/(?:mm\/s²|mm³\/s|mm\/s|g\/cm³|mm|°C|%|°| layers)$/)?.[0];
- if(unit&&/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(raw.trim()))return String(Number(raw))+(unit==='%'||unit==='°C'||unit==='°'?'':' ')+unit.trim();
- return raw;
-}
+const formatValue=formatStudioValue;
 export function currentValue(current:CurrentSettings|null|undefined,s:Setting):string|null {
  let values=current?.values[s.key];
  if(!values&&s.key==='range'){const lo=current?.values.nozzle_temperature_range_low,hi=current?.values.nozzle_temperature_range_high;if(lo&&hi&&new Set(lo).size===1&&new Set(hi).size===1)return lo[0]+'–'+hi[0]+'°C';}

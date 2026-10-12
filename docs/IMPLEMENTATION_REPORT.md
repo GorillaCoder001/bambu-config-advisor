@@ -22,7 +22,7 @@ Priority policies are typed data. Named ordered rules adjust quality detail, fun
 | Filament & Temperature | Initial/other nozzle temperatures, reference range; plate-specific initial/other bed temperature; Flow ratio, Max volumetric speed, Density; source-aware drying and AMS distinction; enclosure/chamber guidance |
 | Cooling | No cooling for first layers; derived initial part-cooling fan; Min/Max fan speed threshold fan values; Fan speed for overhang; Min print speed; Keep fan always on; Slow printing down for better layer cooling |
 
-Elephant-foot compensation is placed in **Quality**, matching the actual source category. Advanced scarf/Arachne transitions and uncalibrated bridge-flow/retraction overrides are deliberately not invented. Grid and Rectilinear can be added later; initial recommendation rules choose Cubic or Gyroid. Complete recommendations retain manufacturer/calibrated presets for fields that cannot be responsibly specified.
+Elephant-foot compensation is placed in **Quality**, matching the actual source category. Advanced scarf/Arachne controls and bridge-flow settings retain the supplied current values or process preset; numeric overrides are not inferred from geometry. Grid and Rectilinear can be added later; initial recommendation rules choose Cubic or Gyroid. Complete recommendations retain manufacturer/calibrated presets for fields that cannot be responsibly specified.
 
 ## Material research
 
@@ -72,3 +72,14 @@ Added Current → Recommended → Reason columns to every settings tab, manual v
 Metadata paths were checked against Bambu Studio's pinned `src/libslic3r/Format/bbs_3mf.cpp` (47a13eeb1d9af65ef2371e361c856e21d4f6ca72). Synthetic fixtures cover project JSON and XML override metadata; no user model file was attached to this change request, only screenshots, so the exact failing project cannot be replayed here. Browser/WebGL visual QA remains unavailable in this managed environment.
 
 Update validation: all 93 tests and strict TypeScript/production build pass. Regression coverage includes 3MF geometry above the previous 120,000 resource limit, a two-million-triangle binary STL over the previous file limit, explicit skipped topology, compact preview sampling, current-value imports, manual edits, merged JSON, variant/override review and current/recommended report output.
+
+
+## October 12 exact placement update
+
+Checked all five Process tabs against pinned official Studio `src/slic3r/GUI/Tab.cpp`, `src/libslic3r/PrintConfig.cpp` and `src/slic3r/GUI/ConfigManipulation.cpp`. Supplied screenshots anchor Quality ordering/visible controls and the complete ordinary Strength field sequence. The new catalog records official labels, ordering, groups, enum storage/display aliases, units and conditional reveal instructions. Settings carry navigation paths into the on-screen comparison and text/print/JSON reports.
+
+Corrected Quality section order (Ironing before Wall generator and Advanced), Strength Top/bottom shells wording, Speed Initial layer speed/Other layers speed/Travel speed sections, Support Advanced placement for gaps/interface values and Others skirt-before-brim ordering. Expanded standard controls across all five tabs; unsupported numeric tuning keeps current/process-preset values rather than receiving invented recommendations. Process scarf controls require the filament-scarf override checkbox. Arachne, ironing, infill-pattern, height slowdown, tree support, prime tower, spiral/fuzzy and interlocking controls have reveal notes. Jerk fields are hidden for Bambu printer presets. Developer-only controls and script/note entry are excluded.
+
+Thermal values now show actual Filament dialog paths (Basic information, Print temperature and Volumetric speed limitation), with nested plate/nozzle fields. Cooling uses Part cooling fan and nested threshold fields. Replaced the derived initial-part-fan pseudo-setting with Studio's actual `first_x_layer_part_fan_speed`; unverified profile values remain withheld. Resolution retains 0.012 mm precision. Stored/display enum normalization prevents an unchanged inner/outer wall order from being marked as a change.
+
+All 110 tests pass, including supplied screenshot field coverage/order, exact paths on every process row, conditionally revealed scarf/Arachne controls, preserved bridge calibration, filament paths, Bambu Jerk visibility and enum/precision regressions. Strict TypeScript and the production build pass. Browser/WebGL visual QA remains unavailable in this environment; screenshot comparison verifies labels/structure, not a live rendered screenshot.

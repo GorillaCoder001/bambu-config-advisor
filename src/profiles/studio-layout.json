@@ -1,0 +1,4001 @@
+{
+  "version": "47a13eeb1d9af65ef2371e361c856e21d4f6ca72",
+  "reviewed": "2026-10-12",
+  "sources": [
+    "src/slic3r/GUI/Tab.cpp",
+    "src/libslic3r/PrintConfig.cpp",
+    "src/slic3r/GUI/ConfigManipulation.cpp"
+  ],
+  "settings": [
+    {
+      "tab": "Quality",
+      "group": "Layer height",
+      "key": "layer_height",
+      "name": "Layer height",
+      "order": 0,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Layer height",
+      "key": "initial_layer_print_height",
+      "name": "Initial layer height",
+      "order": 1,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Layer height",
+      "key": "enable_mixed_color_sublayer",
+      "name": "Mixed color sublayer",
+      "order": 2,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "line_width",
+      "name": "Default",
+      "order": 3,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "initial_layer_line_width",
+      "name": "Initial layer",
+      "order": 4,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "initial_layer_infill_line_width",
+      "name": "Initial layer infill",
+      "order": 5,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "outer_wall_line_width",
+      "name": "Outer wall",
+      "order": 6,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "inner_wall_line_width",
+      "name": "Inner wall",
+      "order": 7,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "top_surface_line_width",
+      "name": "Top surface",
+      "order": 8,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "sparse_infill_line_width",
+      "name": "Sparse infill",
+      "order": 9,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "internal_solid_infill_line_width",
+      "name": "Internal solid infill",
+      "order": 10,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Line width",
+      "key": "support_line_width",
+      "name": "Support",
+      "order": 11,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_position",
+      "name": "Seam position",
+      "order": 12,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "nearest": "Nearest",
+        "aligned": "Aligned",
+        "back": "Back",
+        "random": "Random"
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_placement_away_from_overhangs",
+      "name": "Seam placement away from overhangs(experimental)",
+      "order": 13,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_gap",
+      "name": "Seam gap",
+      "order": 14,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_conditional",
+      "name": "Smart scarf seam application",
+      "order": 15,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "scarf_angle_threshold",
+      "name": "Scarf application angle threshold",
+      "order": 16,
+      "type": "coInt",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_entire_loop",
+      "name": "Scarf around entire wall",
+      "order": 17,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_steps",
+      "name": "Scarf steps",
+      "order": 18,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_inner_walls",
+      "name": "Scarf joint for inner walls",
+      "order": 19,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "override_filament_scarf_seam_setting",
+      "name": "Override filament scarf seam setting",
+      "order": 20,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_type",
+      "name": "Scarf seam type",
+      "order": 21,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "none": "None",
+        "external": "Contour",
+        "all": "Contour and hole"
+      },
+      "condition": {
+        "key": "override_filament_scarf_seam_setting",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable “Override filament scarf seam setting” in Quality → Seam."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_start_height",
+      "name": "Scarf start height",
+      "order": 22,
+      "type": "coFloatOrPercent",
+      "unit": "mm/%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "override_filament_scarf_seam_setting",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable “Override filament scarf seam setting” in Quality → Seam."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_gap",
+      "name": "Scarf slope gap",
+      "order": 23,
+      "type": "coFloatOrPercent",
+      "unit": "mm/%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "override_filament_scarf_seam_setting",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable “Override filament scarf seam setting” in Quality → Seam."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "seam_slope_min_length",
+      "name": "Scarf length",
+      "order": 24,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "override_filament_scarf_seam_setting",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable “Override filament scarf seam setting” in Quality → Seam."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "wipe_speed",
+      "name": "Wipe speed",
+      "order": 25,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Seam",
+      "key": "role_base_wipe_speed",
+      "name": "Role-based wipe speed",
+      "order": 26,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "slice_closing_radius",
+      "name": "Slice gap closing radius",
+      "order": 27,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "resolution",
+      "name": "Resolution",
+      "order": 28,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "enable_arc_fitting",
+      "name": "Arc fitting",
+      "order": 29,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "xy_hole_compensation",
+      "name": "X-Y hole compensation",
+      "order": 30,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "xy_contour_compensation",
+      "name": "X-Y contour compensation",
+      "order": 31,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "enable_circle_compensation",
+      "name": "Auto circle contour-hole compensation",
+      "order": 32,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "circle_compensation_manual_offset",
+      "name": "User Customized Offset",
+      "order": 33,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_circle_compensation",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Auto circle contour-hole compensation."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "elefant_foot_compensation",
+      "name": "Elephant foot compensation",
+      "order": 34,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "precise_outer_wall",
+      "name": "Precise wall",
+      "order": 35,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Precision",
+      "key": "precise_z_height",
+      "name": "Precise Z height",
+      "order": 36,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_type",
+      "name": "Ironing Type",
+      "order": 37,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "no ironing": "No ironing",
+        "top": "Top surfaces",
+        "topmost": "Topmost surface",
+        "solid": "All solid layer"
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_pattern",
+      "name": "Ironing Pattern",
+      "order": 38,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "ironingarchimedeanspiral": "Archimedean Chords"
+      },
+      "condition": {
+        "key": "ironing_type",
+        "values": [
+          "top",
+          "top surfaces",
+          "topmost",
+          "topmost surface",
+          "solid",
+          "all solid layer"
+        ],
+        "label": "Select an Ironing Type other than No ironing."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_speed",
+      "name": "Ironing speed",
+      "order": 39,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "ironing_type",
+        "values": [
+          "top",
+          "top surfaces",
+          "topmost",
+          "topmost surface",
+          "solid",
+          "all solid layer"
+        ],
+        "label": "Select an Ironing Type other than No ironing."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_flow",
+      "name": "Ironing flow",
+      "order": 40,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "ironing_type",
+        "values": [
+          "top",
+          "top surfaces",
+          "topmost",
+          "topmost surface",
+          "solid",
+          "all solid layer"
+        ],
+        "label": "Select an Ironing Type other than No ironing."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_spacing",
+      "name": "Ironing line spacing",
+      "order": 41,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "ironing_type",
+        "values": [
+          "top",
+          "top surfaces",
+          "topmost",
+          "topmost surface",
+          "solid",
+          "all solid layer"
+        ],
+        "label": "Select an Ironing Type other than No ironing."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_inset",
+      "name": "Ironing inset",
+      "order": 42,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "ironing_type",
+        "values": [
+          "top",
+          "top surfaces",
+          "topmost",
+          "topmost surface",
+          "solid",
+          "all solid layer"
+        ],
+        "label": "Select an Ironing Type other than No ironing."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Ironing",
+      "key": "ironing_direction",
+      "name": "ironing direction",
+      "order": 43,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "wall_generator",
+      "name": "Wall generator",
+      "order": 44,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "classic": "Classic",
+        "arachne": "Arachne"
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "wall_transition_angle",
+      "name": "Wall transitioning threshold angle",
+      "order": 45,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "wall_generator",
+        "values": [
+          "arachne"
+        ],
+        "label": "Select Arachne under Quality → Wall generator."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "wall_transition_filter_deviation",
+      "name": "Wall transitioning filter margin",
+      "order": 46,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "wall_generator",
+        "values": [
+          "arachne"
+        ],
+        "label": "Select Arachne under Quality → Wall generator."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "wall_transition_length",
+      "name": "Wall transition length",
+      "order": 47,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "wall_generator",
+        "values": [
+          "arachne"
+        ],
+        "label": "Select Arachne under Quality → Wall generator."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "wall_distribution_count",
+      "name": "Wall distribution count",
+      "order": 48,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "wall_generator",
+        "values": [
+          "arachne"
+        ],
+        "label": "Select Arachne under Quality → Wall generator."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "min_bead_width",
+      "name": "Minimum wall width",
+      "order": 49,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "wall_generator",
+        "values": [
+          "arachne"
+        ],
+        "label": "Select Arachne under Quality → Wall generator."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Wall generator",
+      "key": "min_feature_size",
+      "name": "Minimum feature size",
+      "order": 50,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "wall_generator",
+        "values": [
+          "arachne"
+        ],
+        "label": "Select Arachne under Quality → Wall generator."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "wall_sequence",
+      "name": "Order of walls",
+      "order": 51,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "inner wall/outer wall": "inner/outer",
+        "outer wall/inner wall": "outer/inner",
+        "inner-outer-inner wall": "inner wall/outer wall/inner wall"
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "is_infill_first",
+      "name": "Print infill first",
+      "order": 52,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "bridge_flow",
+      "name": "Bridge flow",
+      "order": 53,
+      "type": "coFloat",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "thick_bridges",
+      "name": "Thick bridges",
+      "order": 54,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "counterbore_hole_bridging",
+      "name": "Bridge counterbore holes",
+      "order": 55,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "none": "None",
+        "partiallybridge": "Partially bridged",
+        "sacrificiallayer": "Sacrificial layer"
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "print_flow_ratio",
+      "name": "Object flow ratio",
+      "order": 56,
+      "type": "coFloat",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "top_solid_infill_flow_ratio",
+      "name": "Top surface flow ratio",
+      "order": 57,
+      "type": "coFloats",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "initial_layer_flow_ratio",
+      "name": "Initial layer flow ratio",
+      "order": 58,
+      "type": "coFloat",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "top_one_wall_type",
+      "name": "Only one wall on top surfaces",
+      "order": 59,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "not apply": "Not apply",
+        "all top": "Top surfaces",
+        "topmost": "Topmost surface"
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "top_area_threshold",
+      "name": "Top area threshold",
+      "order": 60,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "only_one_wall_first_layer",
+      "name": "Only one wall on first layer",
+      "order": 61,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "detect_overhang_wall",
+      "name": "Detect overhang wall",
+      "order": 62,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "smooth_speed_discontinuity_area",
+      "name": "Smooth speed discontinuity area",
+      "order": 63,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "smooth_coefficient",
+      "name": "Smooth coefficient",
+      "order": 64,
+      "type": "coFloat",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "smooth_speed_discontinuity_area",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Smooth speed discontinuity area under Quality → Advanced."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "reduce_crossing_wall",
+      "name": "Avoid crossing wall",
+      "order": 65,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "max_travel_detour_distance",
+      "name": "Avoid crossing wall - Max detour length",
+      "order": 66,
+      "type": "coFloatOrPercent",
+      "unit": "mm or %",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "reduce_crossing_wall",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Avoid crossing wall under Quality → Advanced."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "avoid_crossing_wall_includes_support",
+      "name": "Avoid crossing wall - Includes support",
+      "order": 67,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "reduce_crossing_wall",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Avoid crossing wall under Quality → Advanced."
+      }
+    },
+    {
+      "tab": "Quality",
+      "group": "Advanced",
+      "key": "z_direction_outwall_speed_continuous",
+      "name": "Smoothing wall speed along Z(experimental)",
+      "order": 68,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Walls",
+      "key": "wall_loops",
+      "name": "Wall loops",
+      "order": 69,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Walls",
+      "key": "alternate_extra_wall",
+      "name": "Alternate extra wall",
+      "order": 70,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Walls",
+      "key": "embedding_wall_into_infill",
+      "name": "Embedding the wall into the infill",
+      "order": 71,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Walls",
+      "key": "detect_thin_wall",
+      "name": "Detect thin wall",
+      "order": 72,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "interface_shells",
+      "name": "Interface shells",
+      "order": 73,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "top_surface_pattern",
+      "name": "Top surface pattern",
+      "order": 74,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "monotonic": "Monotonic",
+        "monotonicline": "Monotonic line",
+        "globalmonotonicline": "Global monotonic line",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral"
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "top_surface_density",
+      "name": "Top surface density",
+      "order": 75,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "top_shell_layers",
+      "name": "Top shell layers",
+      "order": 76,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "top_shell_thickness",
+      "name": "Top shell thickness",
+      "order": 77,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "top_color_penetration_layers",
+      "name": "Top paint penetration layers",
+      "order": 78,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "bottom_surface_pattern",
+      "name": "Bottom surface pattern",
+      "order": 79,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "bottom_surface_density",
+      "name": "Bottom surface density",
+      "order": 80,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "bottom_shell_layers",
+      "name": "Bottom shell layers",
+      "order": 81,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "bottom_shell_thickness",
+      "name": "Bottom shell thickness",
+      "order": 82,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "bottom_color_penetration_layers",
+      "name": "Bottom paint penetration layers",
+      "order": 83,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "infill_instead_top_bottom_surfaces",
+      "name": "Use infill instead of top and bottom surfaces",
+      "order": 84,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Top/bottom shells",
+      "key": "internal_solid_infill_pattern",
+      "name": "Internal solid infill pattern",
+      "order": 85,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "sparse_infill_density",
+      "name": "Sparse infill density",
+      "order": 86,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "fill_multiline",
+      "name": "Fill multiline",
+      "order": 87,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "sparse_infill_pattern",
+      "name": "Sparse infill pattern",
+      "order": 88,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "grid": "Grid",
+        "line": "Line",
+        "cubic": "Cubic",
+        "triangles": "Triangles",
+        "tri-hexagon": "Tri-hexagon",
+        "gyroid": "Gyroid",
+        "honeycomb": "Honeycomb",
+        "adaptivecubic": "Adaptive Cubic",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "3dhoneycomb": "3D Honeycomb",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral",
+        "supportcubic": "Support Cubic",
+        "lightning": "Lightning",
+        "crosshatch": "Cross Hatch",
+        "zigzag": "Zig Zag",
+        "crosszag": "Cross Zag",
+        "lockedzag": "Locked Zag",
+        "2dlattice": "2D Lattice"
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_infill",
+      "name": "Conformal infill",
+      "order": 89,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "zigzag",
+          "crosszag",
+          "lockedzag",
+          "zig-zag",
+          "alignedrectilinear",
+          "zig zag",
+          "cross zag",
+          "locked zag",
+          "rectilinear",
+          "aligned rectilinear"
+        ],
+        "label": "Choose a conformal-compatible Rectilinear or Zag pattern under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_stagger",
+      "name": "Layer stagger",
+      "order": 90,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "none": "Off",
+        "alternate": "Alternate"
+      },
+      "condition": {
+        "key": "conformal_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Conformal infill under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_link_keep_layers",
+      "name": "Forward layers",
+      "order": 91,
+      "type": "coInt",
+      "unit": "layers",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "conformal_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Conformal infill under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_link_flip_layers",
+      "name": "Reverse layers",
+      "order": 92,
+      "type": "coInt",
+      "unit": "layers",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "conformal_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Conformal infill under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_pole",
+      "name": "Radial center",
+      "order": 93,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "layer": "Each layer",
+        "axis": "Axis",
+        "bezier": "Smooth curve"
+      },
+      "condition": {
+        "key": "conformal_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Conformal infill under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_ray_count",
+      "name": "Radial line count",
+      "order": 94,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "conformal_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Conformal infill under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "conformal_hub_radius",
+      "name": "Center region radius",
+      "order": 95,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "conformal_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Conformal infill under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "locked_skin_infill_pattern",
+      "name": "Skin infill pattern",
+      "order": 96,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "grid": "Grid",
+        "line": "Line",
+        "cubic": "Cubic",
+        "triangles": "Triangles",
+        "tri-hexagon": "Tri-hexagon",
+        "gyroid": "Gyroid",
+        "honeycomb": "Honeycomb",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "3dhoneycomb": "3D Honeycomb",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral",
+        "crosshatch": "Cross Hatch",
+        "zigzag": "Zig Zag",
+        "crosszag": "Cross Zag"
+      },
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "skin_infill_density",
+      "name": "Skin infill density",
+      "order": 97,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "locked_skeleton_infill_pattern",
+      "name": "Skeleton infill pattern",
+      "order": 98,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear",
+        "grid": "Grid",
+        "line": "Line",
+        "cubic": "Cubic",
+        "triangles": "Triangles",
+        "tri-hexagon": "Tri-hexagon",
+        "gyroid": "Gyroid",
+        "honeycomb": "Honeycomb",
+        "alignedrectilinear": "Aligned Rectilinear",
+        "3dhoneycomb": "3D Honeycomb",
+        "hilbertcurve": "Hilbert Curve",
+        "archimedeanchords": "Archimedean Chords",
+        "octagramspiral": "Octagram Spiral",
+        "crosshatch": "Cross Hatch",
+        "zigzag": "Zig Zag",
+        "crosszag": "Cross Zag"
+      },
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "skeleton_infill_density",
+      "name": "Skeleton infill density",
+      "order": 99,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "infill_lock_depth",
+      "name": "Infill lock depth",
+      "order": 100,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "skin_infill_depth",
+      "name": "Skin infill depth",
+      "order": 101,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "skin_infill_line_width",
+      "name": "Skin line width",
+      "order": 102,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "skeleton_infill_line_width",
+      "name": "Skeleton line width",
+      "order": 103,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "lockedzag",
+          "locked zag"
+        ],
+        "label": "Select Locked Zag under Strength → Sparse infill → Sparse infill pattern."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "symmetric_infill_y_axis",
+      "name": "Symmetric infill y axis",
+      "order": 104,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "zigzag",
+          "crosszag",
+          "lockedzag",
+          "zig zag",
+          "cross zag",
+          "locked zag"
+        ],
+        "label": "Select a Zag pattern under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "infill_shift_step",
+      "name": "Infill shift step",
+      "order": 105,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "crosszag",
+          "lockedzag",
+          "cross zag",
+          "locked zag"
+        ],
+        "label": "Select Cross Zag or Locked Zag under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "sparse_infill_lattice_angle_1",
+      "name": "Lattice angle 1",
+      "order": 106,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "2dlattice",
+          "2d lattice"
+        ],
+        "label": "Select 2D Lattice under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "sparse_infill_lattice_angle_2",
+      "name": "Lattice angle 2",
+      "order": 107,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "2dlattice",
+          "2d lattice"
+        ],
+        "label": "Select 2D Lattice under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "infill_rotate_step",
+      "name": "Infill rotate step",
+      "order": 108,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "sparse_infill_pattern",
+        "values": [
+          "zigzag",
+          "zig zag"
+        ],
+        "label": "Select Zig Zag under Strength → Sparse infill."
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "sparse_infill_anchor",
+      "name": "Length of sparse infill anchor",
+      "order": 109,
+      "type": "coFloatOrPercent",
+      "unit": "mm or %",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "sparse_infill_anchor_max",
+      "name": "Maximum length of sparse infill anchor",
+      "order": 110,
+      "type": "coFloatOrPercent",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Strength",
+      "group": "Sparse infill",
+      "key": "filter_out_gap_fill",
+      "name": "Filter out tiny gaps",
+      "order": 111,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "infill_wall_overlap",
+      "name": "Infill/Wall overlap",
+      "order": 112,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "monotonic_travel_into_wall",
+      "name": "Monotonic line travel extend",
+      "order": 113,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "infill_direction",
+      "name": "Infill direction",
+      "order": 114,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "bridge_angle",
+      "name": "Bridge direction",
+      "order": 115,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "minimum_sparse_infill_area",
+      "name": "Minimum sparse infill threshold",
+      "order": 116,
+      "type": "coFloat",
+      "unit": "mm²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "infill_combination",
+      "name": "Infill combination",
+      "order": 117,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "detect_narrow_internal_solid_infill",
+      "name": "Detect narrow internal solid infill",
+      "order": 118,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "sub_top_surface_pattern",
+      "name": "Sub-top surface pattern",
+      "order": 119,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "ensure_vertical_shell_thickness",
+      "name": "Ensure vertical shell thickness",
+      "order": 120,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "disabled": "Disabled",
+        "partial": "Partial",
+        "enabled": "Enabled"
+      }
+    },
+    {
+      "tab": "Strength",
+      "group": "Advanced",
+      "key": "detect_floating_vertical_shell",
+      "name": "Detect floating vertical shells",
+      "order": 121,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "detect_narrow_internal_solid_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Detect narrow internal solid infill under Strength → Advanced."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Initial layer speed",
+      "key": "initial_layer_speed",
+      "name": "Initial layer",
+      "order": 122,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Initial layer speed",
+      "key": "initial_layer_infill_speed",
+      "name": "Initial layer infill",
+      "order": 123,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "outer_wall_speed",
+      "name": "Outer wall",
+      "order": 124,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "inner_wall_speed",
+      "name": "Inner wall",
+      "order": 125,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "small_perimeter_speed",
+      "name": "Small perimeters",
+      "order": 126,
+      "type": "coFloatsOrPercents",
+      "unit": "mm/s or %",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "small_perimeter_threshold",
+      "name": "Small perimeter threshold",
+      "order": 127,
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "sparse_infill_speed",
+      "name": "Sparse infill",
+      "order": 128,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "internal_solid_infill_speed",
+      "name": "Internal solid infill",
+      "order": 129,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "vertical_shell_speed",
+      "name": "Vertical shell speed",
+      "order": 130,
+      "type": "coFloatsOrPercents",
+      "unit": "mm/s or %",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "detect_narrow_internal_solid_infill",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Detect narrow internal solid infill under Strength → Advanced."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "top_surface_speed",
+      "name": "Top surface",
+      "order": 131,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "enable_overhang_speed",
+      "name": "Slow down for overhang",
+      "order": 132,
+      "type": "coBools",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "overhang_1_4_speed",
+      "name": "10%",
+      "order": 133,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "parent": "Overhang speed",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "overhang_2_4_speed",
+      "name": "25%",
+      "order": 134,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "parent": "Overhang speed",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "overhang_3_4_speed",
+      "name": "50%",
+      "order": 135,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "parent": "Overhang speed",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "overhang_4_4_speed",
+      "name": "75%",
+      "order": 136,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "parent": "Overhang speed",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "overhang_totally_speed",
+      "name": "100%",
+      "order": 137,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "parent": "Overhang speed",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "enable_height_slowdown",
+      "name": "Slow down by height",
+      "order": 138,
+      "type": "coBools",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "slowdown_start_height",
+      "name": "Starting height",
+      "order": 139,
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_height_slowdown",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Slow down by height under Speed → Other layers speed."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "slowdown_start_speed",
+      "name": "Speed at starting height",
+      "order": 140,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_height_slowdown",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Slow down by height under Speed → Other layers speed."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "slowdown_start_acc",
+      "name": "Acceleration at starting height",
+      "order": 141,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_height_slowdown",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Slow down by height under Speed → Other layers speed."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "slowdown_end_height",
+      "name": "Ending height",
+      "order": 142,
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_height_slowdown",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Slow down by height under Speed → Other layers speed."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "slowdown_end_speed",
+      "name": "Speed at ending height",
+      "order": 143,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_height_slowdown",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Slow down by height under Speed → Other layers speed."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "slowdown_end_acc",
+      "name": "Acceleration at ending height",
+      "order": 144,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_height_slowdown",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Slow down by height under Speed → Other layers speed."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "bridge_speed",
+      "name": "Bridge",
+      "order": 145,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "gap_infill_speed",
+      "name": "Gap infill",
+      "order": 146,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "support_speed",
+      "name": "Support",
+      "order": 147,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Other layers speed",
+      "key": "support_interface_speed",
+      "name": "Support interface",
+      "order": 148,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Travel speed",
+      "key": "travel_speed",
+      "name": "Travel",
+      "order": 149,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "default_acceleration",
+      "name": "Normal printing",
+      "order": 150,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "travel_acceleration",
+      "name": "Travel",
+      "order": 151,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "travel_short_distance_acceleration",
+      "name": "Short travel",
+      "order": 152,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "initial_layer_travel_acceleration",
+      "name": "Initial layer travel",
+      "order": 153,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "initial_layer_acceleration",
+      "name": "Initial layer",
+      "order": 154,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "outer_wall_acceleration",
+      "name": "Outer wall",
+      "order": 155,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "inner_wall_acceleration",
+      "name": "Inner wall",
+      "order": 156,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "top_surface_acceleration",
+      "name": "Top surface",
+      "order": 157,
+      "type": "coFloats",
+      "unit": "mm/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "sparse_infill_acceleration",
+      "name": "Sparse infill",
+      "order": 158,
+      "type": "coFloatsOrPercents",
+      "unit": "mm/s² or %",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "accel_to_decel_enable",
+      "name": "Enable accel_to_decel",
+      "order": 159,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "gcode_flavor",
+        "values": [
+          "klipper"
+        ],
+        "label": "Shown for a printer using Klipper G-code; hidden for Bambu printer presets."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Acceleration",
+      "key": "accel_to_decel_factor",
+      "name": "accel_to_decel",
+      "order": 160,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "gcode_flavor",
+        "values": [
+          "klipper"
+        ],
+        "label": "Shown for a printer using Klipper G-code; hidden for Bambu printer presets."
+      }
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "default_jerk",
+      "name": "Default",
+      "order": 161,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "outer_wall_jerk",
+      "name": "Outer wall",
+      "order": 162,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "inner_wall_jerk",
+      "name": "Inner wall",
+      "order": 163,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "infill_jerk",
+      "name": "Infill",
+      "order": 164,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "top_surface_jerk",
+      "name": "Top surface",
+      "order": 165,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "initial_layer_jerk",
+      "name": "First layer",
+      "order": 166,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "travel_jerk",
+      "name": "Travel",
+      "order": 167,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "max_volumetric_extrusion_rate_slope_positive",
+      "name": "Max volumetric slope positive",
+      "order": 168,
+      "type": "coFloat",
+      "unit": "mm³/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Speed",
+      "group": "Jerk(XY)",
+      "key": "max_volumetric_extrusion_rate_slope_negative",
+      "name": "Max volumetric slope negative",
+      "order": 169,
+      "type": "coFloat",
+      "unit": "mm³/s²",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "enable_support",
+      "name": "Enable support",
+      "order": 170,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "support_type",
+      "name": "Type",
+      "order": 171,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "normal(auto)": "normal(auto)",
+        "tree(auto)": "tree(auto)",
+        "normal(manual)": "normal(manual)",
+        "tree(manual)": "tree(manual)"
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "support_style",
+      "name": "Style",
+      "order": 172,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "default": "Default",
+        "grid": "Grid",
+        "snug": "Snug",
+        "tree_slim": "Tree Slim",
+        "tree_strong": "Tree Strong",
+        "tree_hybrid": "Tree Hybrid",
+        "tree_organic": "Tree Organic"
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "support_threshold_angle",
+      "name": "Threshold angle",
+      "order": 173,
+      "type": "coInt",
+      "unit": "°",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "support_on_build_plate_only",
+      "name": "On build plate only",
+      "order": 174,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "support_critical_regions_only",
+      "name": "Support critical regions only",
+      "order": 175,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "tree(auto)",
+          "tree(manual)"
+        ],
+        "label": "Enable support and choose a tree support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Support",
+      "key": "support_remove_small_overhang",
+      "name": "Remove small overhangs",
+      "order": 176,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Raft",
+      "key": "raft_layers",
+      "name": "Raft layers",
+      "order": 177,
+      "type": "coInt",
+      "unit": "layers",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Raft",
+      "key": "raft_contact_distance",
+      "name": "Raft contact Z distance",
+      "order": 178,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support filament",
+      "key": "support_filament",
+      "name": "Support/raft base",
+      "order": 179,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support filament",
+      "key": "support_interface_filament",
+      "name": "Support/raft interface",
+      "order": 180,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support filament",
+      "key": "support_interface_not_for_body",
+      "name": "Avoid interface filament for base",
+      "order": 181,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "enable_support_ironing",
+      "name": "Enable ironing support interface",
+      "order": 182,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "support_ironing_pattern",
+      "name": "Support ironing pattern",
+      "order": 183,
+      "type": "coEnum",
+      "mode": "Develop",
+      "enums": {
+        "concentric": "Concentric",
+        "zig-zag": "Rectilinear"
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "support_ironing_speed",
+      "name": "Support ironing speed",
+      "order": 184,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "support_ironing_flow",
+      "name": "Support ironing flow",
+      "order": 185,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "support_ironing_spacing",
+      "name": "Support ironing line spacing",
+      "order": 186,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "support_ironing_inset",
+      "name": "Support ironing inset",
+      "order": 187,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Support ironing",
+      "key": "support_ironing_direction",
+      "name": "Support ironing direction",
+      "order": 188,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "raft_first_layer_density",
+      "name": "Initial layer density",
+      "order": 189,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "raft_first_layer_expansion",
+      "name": "Initial layer expansion",
+      "order": 190,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "tree_support_wall_count",
+      "name": "Support wall loops",
+      "order": 191,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_top_z_distance",
+      "name": "Top Z distance",
+      "order": 192,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {
+        "0": "0 (soluble)",
+        "0.1": "0.1 (semi-detachable)",
+        "0.2": "0.2 (detachable)"
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_bottom_z_distance",
+      "name": "Bottom Z distance",
+      "order": 193,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_base_pattern",
+      "name": "Base pattern",
+      "order": 194,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "default": "Default",
+        "rectilinear": "Rectilinear",
+        "rectilinear-grid": "Rectilinear grid",
+        "honeycomb": "Honeycomb",
+        "lightning": "Lightning",
+        "hollow": "Hollow"
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_base_pattern_spacing",
+      "name": "Base pattern spacing",
+      "order": 195,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_angle",
+      "name": "Pattern angle",
+      "order": 196,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_interface_top_layers",
+      "name": "Top interface layers",
+      "order": 197,
+      "type": "coInt",
+      "unit": "layers",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_interface_bottom_layers",
+      "name": "Bottom interface layers",
+      "order": 198,
+      "type": "coInt",
+      "unit": "layers",
+      "mode": "Advanced",
+      "enums": {
+        "-1": "Same as top"
+      },
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "normal(auto)",
+          "normal(manual)"
+        ],
+        "label": "Select a normal support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_interface_pattern",
+      "name": "Interface pattern",
+      "order": 199,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "auto": "Default",
+        "rectilinear": "Rectilinear",
+        "concentric": "Concentric",
+        "rectilinear_interlaced": "Rectilinear Interlaced",
+        "grid": "Grid"
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_interface_spacing",
+      "name": "Top interface spacing",
+      "order": 200,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_bottom_interface_spacing",
+      "name": "Bottom interface spacing",
+      "order": 201,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_expansion",
+      "name": "Normal Support expansion",
+      "order": 202,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_object_xy_distance",
+      "name": "Support/object xy distance",
+      "order": 203,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "top_z_overrides_xy_distance",
+      "name": "Z overrides X/Y",
+      "order": 204,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "support_object_first_layer_gap",
+      "name": "Support/object first layer gap",
+      "order": 205,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "bridge_no_support",
+      "name": "Don't support bridges",
+      "order": 206,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "normal(auto)",
+          "normal(manual)"
+        ],
+        "label": "Select a normal support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "max_bridge_length",
+      "name": "Max bridge length",
+      "order": 207,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "tree(auto)",
+          "tree(manual)"
+        ],
+        "label": "Enable support and choose a tree support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Advanced",
+      "key": "independent_support_layer_height",
+      "name": "Independent support layer height",
+      "order": 208,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Support",
+      "group": "Tree Support",
+      "key": "tree_support_branch_distance",
+      "name": "Branch distance",
+      "order": 209,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "tree(auto)",
+          "tree(manual)"
+        ],
+        "label": "Enable support and choose a tree support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Tree Support",
+      "key": "tree_support_branch_diameter",
+      "name": "Branch diameter",
+      "order": 210,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "tree(auto)",
+          "tree(manual)"
+        ],
+        "label": "Enable support and choose a tree support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Tree Support",
+      "key": "tree_support_branch_angle",
+      "name": "Branch angle",
+      "order": 211,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "tree(auto)",
+          "tree(manual)"
+        ],
+        "label": "Enable support and choose a tree support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Support",
+      "group": "Tree Support",
+      "key": "tree_support_branch_diameter_angle",
+      "name": "Branch diameter angle",
+      "order": 212,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "support_type",
+        "values": [
+          "tree(auto)",
+          "tree(manual)"
+        ],
+        "label": "Enable support and choose a tree support Type under Support → Support."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Bed adhension",
+      "key": "skirt_loops",
+      "name": "Skirt loops",
+      "order": 213,
+      "type": "coInt",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Bed adhension",
+      "key": "skirt_height",
+      "name": "Skirt height",
+      "order": 214,
+      "type": "coInt",
+      "unit": "layers",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Bed adhension",
+      "key": "skirt_distance",
+      "name": "Skirt distance",
+      "order": 215,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Bed adhension",
+      "key": "brim_type",
+      "name": "Brim type",
+      "order": 216,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "auto_brim": "Auto",
+        "brim_ears": "Painted",
+        "outer_only": "Outer brim only",
+        "inner_only": "Inner brim only",
+        "outer_and_inner": "Outer and inner brim",
+        "no_brim": "No-brim"
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Bed adhension",
+      "key": "brim_width",
+      "name": "Brim width",
+      "order": 217,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Bed adhension",
+      "key": "brim_object_gap",
+      "name": "Brim-object gap",
+      "order": 218,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "enable_prime_tower",
+      "name": "Enable",
+      "order": 219,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_skip_points",
+      "name": "Skip points",
+      "order": 220,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_enable_framework",
+      "name": "Internal ribs",
+      "order": 221,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_width",
+      "name": "Width",
+      "order": 222,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {},
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_max_speed",
+      "name": "Max speed",
+      "order": 223,
+      "type": "coFloat",
+      "unit": "mm/s",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_brim_width",
+      "name": "Brim width",
+      "order": 224,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {
+        "-1": "Auto"
+      },
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_infill_gap",
+      "name": "Infill gap",
+      "order": 225,
+      "type": "coPercent",
+      "unit": "%",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_rib_wall",
+      "name": "Rib wall",
+      "order": 226,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "enable_prime_tower",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_extra_rib_length",
+      "name": "Extra rib length",
+      "order": 227,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "prime_tower_rib_wall",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower and its Rib wall under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_rib_width",
+      "name": "Rib width",
+      "order": 228,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "prime_tower_rib_wall",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower and its Rib wall under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "prime_tower_fillet_wall",
+      "name": "Fillet wall",
+      "order": 229,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "prime_tower_rib_wall",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable the Prime tower and its Rib wall under Others → Prime tower."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "enable_tower_interface_features",
+      "name": "Enable tower interface features",
+      "order": 230,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Prime tower",
+      "key": "wipe_tower_no_sparse_layers",
+      "name": "No sparse layers (experimental)",
+      "order": 231,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Flush options",
+      "key": "flush_into_infill",
+      "name": "Flush into objects' infill",
+      "order": 232,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Flush options",
+      "key": "flush_into_objects",
+      "name": "Flush into this object",
+      "order": 233,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Flush options",
+      "key": "flush_into_support",
+      "name": "Flush into objects' support",
+      "order": 234,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "slicing_mode",
+      "name": "Slicing Mode",
+      "order": 235,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "regular": "Regular",
+        "even_odd": "Even-odd",
+        "close_holes": "Close holes"
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "print_sequence",
+      "name": "Print sequence",
+      "order": 236,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "by layer": "By layer",
+        "by object": "By object"
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "spiral_mode",
+      "name": "Spiral vase",
+      "order": 237,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "spiral_mode_smooth",
+      "name": "Smooth Spiral",
+      "order": 238,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {},
+      "condition": {
+        "key": "spiral_mode",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Spiral vase under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "spiral_mode_max_xy_smoothing",
+      "name": "Max XY Smoothing",
+      "order": 239,
+      "type": "coFloatOrPercent",
+      "unit": "mm or %",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "spiral_mode_smooth",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Smooth Spiral under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "timelapse_type",
+      "name": "Timelapse",
+      "order": 240,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "0": "Instant",
+        "1": "Smooth"
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin",
+      "name": "Fuzzy Skin",
+      "order": 241,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "none": "None(allow paint)",
+        "external": "Contour",
+        "all": "Contour and hole",
+        "allwalls": "All walls",
+        "disabled_fuzzy": "Disabled"
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_mode",
+      "name": "Fuzzy skin generator mode",
+      "order": 242,
+      "type": "coEnum",
+      "mode": "Simple",
+      "enums": {
+        "displacement": "Displacement",
+        "extrusion": "Extrusion",
+        "combined": "Combined"
+      },
+      "condition": {
+        "key": "fuzzy_skin",
+        "values": [
+          "none",
+          "external",
+          "all",
+          "allwalls",
+          "none(allow paint)",
+          "contour",
+          "contour and hole",
+          "all walls"
+        ],
+        "label": "Select a Fuzzy Skin mode other than Disabled under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_noise_type",
+      "name": "Fuzzy skin noise type",
+      "order": 243,
+      "type": "coEnum",
+      "mode": "Simple",
+      "condition": {
+        "key": "fuzzy_skin",
+        "values": [
+          "none",
+          "external",
+          "all",
+          "allwalls",
+          "none(allow paint)",
+          "contour",
+          "contour and hole",
+          "all walls"
+        ],
+        "label": "Select a Fuzzy Skin mode other than Disabled under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_point_distance",
+      "name": "Fuzzy skin point distance",
+      "order": 244,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {},
+      "condition": {
+        "key": "fuzzy_skin",
+        "values": [
+          "none",
+          "external",
+          "all",
+          "allwalls",
+          "none(allow paint)",
+          "contour",
+          "contour and hole",
+          "all walls"
+        ],
+        "label": "Select a Fuzzy Skin mode other than Disabled under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_thickness",
+      "name": "Fuzzy skin thickness",
+      "order": 245,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Simple",
+      "enums": {},
+      "condition": {
+        "key": "fuzzy_skin",
+        "values": [
+          "none",
+          "external",
+          "all",
+          "allwalls",
+          "none(allow paint)",
+          "contour",
+          "contour and hole",
+          "all walls"
+        ],
+        "label": "Select a Fuzzy Skin mode other than Disabled under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_scale",
+      "name": "Fuzzy skin feature size",
+      "order": 246,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_octaves",
+      "name": "Fuzzy skin noise octaves",
+      "order": 247,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_persistence",
+      "name": "Fuzzy skin noise persistence",
+      "order": 248,
+      "type": "coFloat",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Special mode",
+      "key": "fuzzy_skin_first_layer",
+      "name": "Apply fuzzy skin to first layer",
+      "order": 249,
+      "type": "coBool",
+      "mode": "Simple",
+      "enums": {},
+      "condition": {
+        "key": "fuzzy_skin",
+        "values": [
+          "none",
+          "external",
+          "all",
+          "allwalls",
+          "none(allow paint)",
+          "contour",
+          "contour and hole",
+          "all walls"
+        ],
+        "label": "Select a Fuzzy Skin mode other than Disabled under Others → Special mode."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "enable_wrapping_detection",
+      "name": "Enable clumping detection",
+      "order": 250,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "enable_order_independent_overlap_carving",
+      "name": "Order-independent overlap carving",
+      "order": 251,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "interlocking_beam",
+      "name": "Use beam interlocking",
+      "order": 252,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "mmu_segmented_region_interlocking_depth",
+      "name": "Interlocking depth of a segmented region",
+      "order": 253,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "interlocking_beam_width",
+      "name": "Interlocking beam width",
+      "order": 254,
+      "type": "coFloat",
+      "unit": "mm",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "interlocking_beam",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Use beam interlocking under Others → Advanced."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "interlocking_orientation",
+      "name": "Interlocking direction",
+      "order": 255,
+      "type": "coFloat",
+      "unit": "°",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "interlocking_beam",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Use beam interlocking under Others → Advanced."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "interlocking_beam_layer_count",
+      "name": "Interlocking beam layers",
+      "order": 256,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "interlocking_beam",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Use beam interlocking under Others → Advanced."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "interlocking_depth",
+      "name": "Interlocking depth",
+      "order": 257,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "interlocking_beam",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Use beam interlocking under Others → Advanced."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "interlocking_boundary_avoidance",
+      "name": "Interlocking boundary avoidance",
+      "order": 258,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "interlocking_beam",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Use beam interlocking under Others → Advanced."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "sparse_infill_filament",
+      "name": "Sparse infill filament",
+      "order": 259,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "solid_infill_filament",
+      "name": "Solid infill",
+      "order": 260,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Advanced",
+      "key": "wall_filament",
+      "name": "Walls",
+      "order": 261,
+      "type": "coInt",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "G-code output",
+      "key": "reduce_infill_retraction_mode",
+      "name": "Reduce infill retraction",
+      "order": 262,
+      "type": "coEnum",
+      "mode": "Advanced",
+      "enums": {
+        "Disabled": "Disabled",
+        "Auto": "Auto",
+        "Enabled": "Enabled"
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "G-code output",
+      "key": "gcode_add_line_number",
+      "name": "Add line number",
+      "order": 263,
+      "type": "coBool",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "G-code output",
+      "key": "exclude_object",
+      "name": "Exclude objects",
+      "order": 264,
+      "type": "coBool",
+      "mode": "Advanced",
+      "enums": {},
+      "condition": {
+        "key": "gcode_flavor",
+        "values": [
+          "klipper"
+        ],
+        "label": "Shown for a printer using Klipper G-code; hidden for Bambu printer presets."
+      }
+    },
+    {
+      "tab": "Others",
+      "group": "G-code output",
+      "key": "filename_format",
+      "name": "Filename format",
+      "order": 265,
+      "type": "coString",
+      "mode": "Develop",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Post-processing scripts",
+      "key": "post_process",
+      "name": "Post-processing Scripts",
+      "order": 266,
+      "type": "coStrings",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Others",
+      "group": "Notes",
+      "key": "process_notes",
+      "name": "Process notes",
+      "order": 267,
+      "type": "coString",
+      "mode": "Advanced",
+      "enums": {}
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Basic information",
+      "key": "filament_flow_ratio",
+      "name": "Flow ratio",
+      "order": 268,
+      "type": "coFloats",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Basic information",
+      "key": "filament_density",
+      "name": "Density",
+      "order": 269,
+      "type": "coFloats",
+      "unit": "g/cm³",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Basic information",
+      "key": "range",
+      "name": "Recommended nozzle temperature",
+      "order": 270
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "chamber_temperatures",
+      "name": "Chamber temperature",
+      "order": 271,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "cool_plate_temp_initial_layer",
+      "name": "Initial layer",
+      "order": 272,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Cool Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "cool_plate_temp",
+      "name": "Other layers",
+      "order": 273,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Cool Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "eng_plate_temp_initial_layer",
+      "name": "Initial layer",
+      "order": 274,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Engineering Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "eng_plate_temp",
+      "name": "Other layers",
+      "order": 275,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Engineering Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "hot_plate_temp_initial_layer",
+      "name": "Initial layer",
+      "order": 276,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Smooth PEI Plate / High Temp Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "hot_plate_temp",
+      "name": "Other layers",
+      "order": 277,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Smooth PEI Plate / High Temp Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "textured_plate_temp_initial_layer",
+      "name": "Initial layer",
+      "order": 278,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Textured PEI Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "textured_plate_temp",
+      "name": "Other layers",
+      "order": 279,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Textured PEI Plate"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "nozzle_temperature_initial_layer",
+      "name": "Initial layer",
+      "order": 280,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Nozzle"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Print temperature",
+      "key": "nozzle_temperature",
+      "name": "Other layers",
+      "order": 281,
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple",
+      "parent": "Nozzle"
+    },
+    {
+      "tab": "Filament & Temperature",
+      "group": "Volumetric speed limitation",
+      "key": "filament_max_volumetric_speed",
+      "name": "Max volumetric speed",
+      "order": 282,
+      "type": "coFloats",
+      "unit": "mm³/s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "close_fan_the_first_x_layers",
+      "name": "For the first",
+      "order": 283,
+      "type": "coInts",
+      "unit": "layers",
+      "mode": "Simple",
+      "parent": "Initial layer fan"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "first_x_layer_part_fan_speed",
+      "name": "Fan speed",
+      "order": 284,
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Simple",
+      "parent": "Initial layer fan"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "fan_min_speed",
+      "name": "Fan speed",
+      "order": 285,
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Simple",
+      "parent": "Min fan speed threshold"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "fan_max_speed",
+      "name": "Fan speed",
+      "order": 286,
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Simple",
+      "parent": "Max fan speed threshold"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "reduce_fan_stop_start_freq",
+      "name": "Keep fan always on",
+      "order": 287,
+      "type": "coBools",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "slow_down_for_layer_cooling",
+      "name": "Slow printing down for better layer cooling",
+      "order": 288,
+      "type": "coBools",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "slow_down_min_speed",
+      "name": "Min print speed",
+      "order": 289,
+      "type": "coFloats",
+      "unit": "mm/s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "overhang_fan_speed",
+      "name": "Fan speed for overhang",
+      "order": 290,
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Advanced"
+    }
+  ]
+}
