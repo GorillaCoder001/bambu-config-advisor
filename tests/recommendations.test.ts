@@ -1,0 +1,37 @@
+import {describe,it,expect} from 'vitest';
+import {box,merge} from './fixtures';
+import {analyzeMesh} from '../src/analysis/mesh-analysis';
+import {recommend,exportText,tabs} from '../src/recommendations/engine';
+import {materialProfile,scalar} from '../src/profiles/materials';
+import {defaults} from '../src/profiles/printers';
+import type {Context} from '../src/types';
+import labels from '../src/profiles/setting-labels.json';
+const a=analyzeMesh(box(100,100,6));const ctx=(v:Partial<Context>):Context=>({...defaults,...v});const val=(r:ReturnType<typeof recommend>,key:string)=>r.settings.find(s=>s.key===key)!.value;
+describe('deterministic process recommendations',()=>{
+ it('recommends PETG Matte coaster from exact eSUN guidance',()=>{const r=recommend(a,ctx({material:'PETG Matte',manufacturer:'eSUN',profile:'eSUN PETG-Matte',priority:'Maximum quality',use:'Coaster / flat object',detail:true}));expect(val(r,'layer_height')).toBe('0.1 mm');expect(val(r,'outer_wall_speed')).toBe('32 mm/s');expect(val(r,'top_shell_layers')).toBe('12');expect(val(r,'nozzle_temperature')).toBe('250°C');expect(val(r,'textured_plate_temp')).toBe('70°C');expect(val(r,'fan_min_speed')).toBe('50%');expect(val(r,'filament_max_volumetric_speed')).toContain('required');expect(val(r,'enable_support')).toBe('OFF');});
+ it('uses finer layers for a PLA figurine',()=>expect(parseFloat(val(recommend(a,ctx({use:'Figurine'})),'layer_height'))).toBeLessThan(.16));
+ it('gives functional PETG enclosures additional walls',()=>{const r=recommend(a,ctx({material:'PETG',use:'Functional'}));expect(val(r,'wall_loops')).toBe('4');expect(val(r,'sparse_infill_density')).toBe('30%');});
+ it('uses a brim for a tall narrow model',()=>expect(val(recommend(analyzeMesh(box(10,10,100)),defaults),'brim_width')).toBe('6 mm'));
+ it('warns on exceeding A1 mini build volume',()=>expect(recommend(analyzeMesh(box(200,200,200)),ctx({printer:'A1 mini'})).warnings.some(w=>w.text.includes('exceeds'))).toBe(true));
+ it('checks X2D auxiliary reduced volume',()=>{const big=analyzeMesh(box(240,100,258));expect(recommend(big,ctx({dual:false})).warnings.some(w=>w.text.includes('Model exceeds'))).toBe(false);expect(recommend(big,ctx({dual:true})).warnings.some(w=>w.text.includes('Model exceeds'))).toBe(true);});
+ it('quality is slower than balanced and fast on expected visible fields',()=>{const rs=(['Maximum quality','Balanced','Fast'] as const).map(priority=>recommend(a,ctx({priority})));for(const key of ['outer_wall_speed','top_surface_speed']){expect(parseFloat(val(rs[0],key))).toBeLessThan(parseFloat(val(rs[1],key)));expect(parseFloat(val(rs[1],key))).toBeLessThan(parseFloat(val(rs[2],key)));}});
+ it('smaller nozzle allows finer quality layers',()=>expect(parseFloat(val(recommend(a,ctx({nozzle:.2,priority:'Maximum quality'})),'layer_height'))).toBeLessThan(parseFloat(val(recommend(a,ctx({nozzle:.4,priority:'Maximum quality'})),'layer_height'))));
+ it('support changes with geometry and cannot be overridden by avoidance preference',()=>{const over=analyzeMesh(merge(box(10,10,30,[0,0,15]),box(60,60,5,[0,0,32.5])));expect(val(recommend(a,defaults),'enable_support')).toBe('OFF');expect(val(recommend(over,ctx({avoidSupport:true})),'enable_support')).toBe('ON');});
+ it('reduces TPU nominal speeds',()=>expect(parseFloat(val(recommend(a,ctx({material:'TPU',priority:'Fast'})),'inner_wall_speed'))).toBeLessThanOrEqual(35));
+ it('keeps dimensions uncompensated until calibration',()=>expect(val(recommend(a,ctx({accuracy:true})),'elefant_foot_compensation')).toBe('0 mm'));
+ it('contains confidence, basis and concise reasons for every row',()=>{for(const s of recommend(a,defaults).settings){expect(s.reason.length).toBeGreaterThan(10);expect(['high','medium','low']).toContain(s.confidence);expect(['Model','Material','Preference','Preset']).toContain(s.basis);expect(s.value).not.toMatch(/NaN|undefined/);}});
+ it('all process keys map to pinned official names',()=>{const special=['overhang_1_4_speed','overhang_2_4_speed','overhang_3_4_speed','overhang_4_4_speed'];const r=recommend(analyzeMesh(merge(box(),box(40,40,4,[0,0,40]))),ctx({dual:true}));for(const s of r.settings.filter(s=>tabs.slice(0,5).includes(s.tab)))expect(special.includes(s.key)||Object.hasOwn(labels,s.key),s.key).toBe(true);});
+ it('exports a report covering all tabs without fake preset compatibility',()=>{const text=exportText(recommend(a,defaults),a,defaults);for(const tab of tabs)expect(text).toContain(tab);expect(text).toContain('No G-code or importable preset');});
+});
+describe('material provenance and unknowns',()=>{
+ it('uses exact machine temperatures from Bambu profiles',()=>{const p=materialProfile(ctx({manufacturer:'Bambu Lab',profile:'Bambu PLA Matte',material:'PLA Matte'}));expect(scalar(p,'nozzle_temperature')).toBe(220);expect(p.sources.nozzle_temperature.url).toContain('47a13eeb');expect(p.drying?.temperature).toBe(50);});
+ it('never collapses ambiguous extruder variant MVS arrays',()=>{const p=materialProfile(ctx({material:'PETG',manufacturer:'Bambu Lab',profile:'Bambu PETG HF'}));expect(scalar(p,'filament_max_volumetric_speed')).toBeNull();expect(val(recommend(a,ctx({material:'PETG',manufacturer:'Bambu Lab',profile:'Bambu PETG HF'})),'filament_max_volumetric_speed')).toContain('selected extruder');});
+ it('does not transfer generic PETG values to unknown Matte',()=>{const p=materialProfile(ctx({material:'PETG Matte'}));expect(scalar(p,'nozzle_temperature')).toBeNull();expect(p.notes.join(' ')).toContain('no universal');});
+ it('does not transfer PLA Basic values to unknown PLA Matte',()=>expect(scalar(materialProfile(ctx({material:'PLA Matte'})),'nozzle_temperature')).toBeNull());
+ it('preserves Polymaker versus eSUN cooling differences',()=>{const e=materialProfile(ctx({material:'PETG Matte',manufacturer:'eSUN',profile:'eSUN PETG-Matte'}));const p=materialProfile(ctx({material:'PETG',manufacturer:'Polymaker',profile:'Polymaker PolyLite PETG'}));expect(scalar(e,'fan_min_speed')).toBe(50);expect(scalar(p,'fan_max_speed')).toBe(20);expect(p.drying?.temperature).toBe(65);expect(e.drying?.hours).toBeUndefined();});
+ it('treats 0°C Cool Plate setting as unsupported, not a temperature',()=>expect(val(recommend(a,ctx({material:'PETG',plate:'Cool Plate'})),'cool_plate_temp')).toContain('Unsupported'));
+ it('never transfers branded drying limits to an unknown brand',()=>expect(materialProfile(ctx({manufacturer:'SUNLU',profile:'Some PETG',material:'PETG'})).drying).toBeUndefined());
+ it('requires matching family and manufacturer before selecting exact profile',()=>expect(materialProfile(ctx({profile:'Bambu PETG HF',manufacturer:'Bambu Lab',material:'PLA'})).exact).toBe(false));
+ it('does not borrow Silk+ drying instructions for original Silk',()=>expect(materialProfile(ctx({profile:'Bambu PLA Silk',manufacturer:'Bambu Lab',material:'PLA Silk'})).drying).toBeUndefined());
+ it('withholds values for unverified Other printer',()=>expect(Object.keys(materialProfile(ctx({printer:'Other'})).values)).toHaveLength(0));
+});
