@@ -49,3 +49,34 @@ describe('Studio infill storage names versus visible dropdown labels',()=>{
  });
  it('resolves non-translated literal dropdown labels such as Fuzzy Skin noise type',()=>{const current=parseCurrentSettings('{"fuzzy_skin_noise_type":"ridgedmulti"}');const row=recommend(a,defaults,current).settings.find(s=>s.key==='fuzzy_skin_noise_type')!;expect(currentValue(current,row)).toBe('Ridged Multifractal');expect(row.value).toBe('Ridged Multifractal');});
 });
+
+describe('filament dialog matches supplied screenshot',()=>{
+ it('uses the native Filament tab and all four screenshot sections in order',()=>{
+  const r=recommend(a,defaults);expect([...new Set(r.settings.filter(s=>s.tab==='Filament').map(s=>s.group))]).toEqual(['Basic information','Print temperature','Volumetric speed limitation','Filament scarf seam settings']);expect(r.settings.some(s=>['drying','ams_drying','enclosure','range'].includes(s.key))).toBe(false);expect(r.materialNotes.join(' ')).toContain('Drying:');
+ });
+ it('includes all screenshot fields with correctly ordered paired subfields',()=>{
+  const fields=['filament_type','filament_vendor','default_filament_colour','filament_diameter','filament_metal_stickiness','filament_flow_ratio','filament_density','filament_shrink','filament_velocity_adaptation_factor','filament_cost','temperature_vitrification','filament_prime_volume','filament_prime_volume_nc','filament_change_length','filament_change_length_nc','filament_ramming_travel_time','filament_ramming_travel_time_nc','filament_pre_cooling_temperature','filament_pre_cooling_temperature_nc','nozzle_temperature_range_low','nozzle_temperature_range_high','chamber_temperatures','supertack_plate_temp_initial_layer','supertack_plate_temp','cool_plate_temp_initial_layer','cool_plate_temp','eng_plate_temp_initial_layer','eng_plate_temp','hot_plate_temp_initial_layer','hot_plate_temp','textured_plate_temp_initial_layer','textured_plate_temp','nozzle_temperature_initial_layer','nozzle_temperature','filament_adaptive_volumetric_speed','filament_max_volumetric_speed','filament_ramming_volumetric_speed','filament_ramming_volumetric_speed_nc','filament_scarf_seam_type','filament_scarf_height','filament_scarf_gap','filament_scarf_length'];
+  expect(recommend(a,defaults).settings.filter(s=>fields.includes(s.key)).map(s=>s.key)).toEqual(fields);
+ });
+ it('uses exact paths for nozzle bounds, plate stages, ramming and filament scarf settings',()=>{
+  const r=recommend(a,defaults);const row=(key:string)=>r.settings.find(s=>s.key===key)!;
+  expect(settingPath(row('nozzle_temperature_range_low'))).toBe('Filament settings → Filament → Basic information → Recommended nozzle temperature → Min');
+  expect(settingPath(row('supertack_plate_temp_initial_layer'))).toBe('Filament settings → Filament → Print temperature → Cool Plate SuperTack → Initial layer');
+  expect(settingPath(row('filament_ramming_volumetric_speed_nc'))).toBe('Filament settings → Filament → Volumetric speed limitation → Ramming volumetric speed → Hotend change');
+  expect(settingPath(row('filament_scarf_seam_type'))).toBe('Filament settings → Filament → Filament scarf seam settings → Scarf seam type');
+ });
+ it('renders actual filament enums and mixed percent/mm units without guessing a variant',()=>{
+  const c=parseCurrentSettings('{"filament_metal_stickiness":["High"],"filament_scarf_seam_type":["none"],"filament_scarf_height":["10%"],"filament_scarf_gap":["0%"],"filament_prime_volume":["45"],"filament_cost":["17.99"]}');const r=recommend(a,defaults,c);const value=(key:string)=>r.settings.find(s=>s.key===key)!.value;
+  expect(value('filament_metal_stickiness')).toBe('High');expect(value('filament_scarf_seam_type')).toBe('None');expect(value('filament_scarf_height')).toBe('10%');expect(value('filament_scarf_gap')).toBe('0%');expect(value('filament_prime_volume')).toBe('45 mm³');expect(value('filament_cost')).toBe('17.99 money/kg');
+ });
+ it('keeps separate Extruder change and Hotend change values and sentinel meanings',()=>{
+  const c=parseCurrentSettings('{"filament_ramming_volumetric_speed":["-1"],"filament_ramming_volumetric_speed_nc":["-1"],"filament_change_length":["10","12"],"filament_change_length_nc":["10"]}');const r=recommend(a,defaults,c);const row=(key:string)=>r.settings.find(s=>s.key===key)!;expect(row('filament_change_length').value).toBe('Variant-specific: 10 mm / 12 mm');expect(row('filament_change_length_nc').value).toBe('10 mm');expect(row('filament_ramming_volumetric_speed').reason).toContain('-1 uses');
+ });
+ it('places cooling settings in their own native groups with nested layer-time fields',()=>{
+  const rows=recommend(a,defaults).settings.filter(s=>s.tab==='Cooling');expect([...new Set(rows.map(s=>s.group))]).toEqual(['Part cooling fan','Auxiliary part cooling fan','Exhaust fan']);expect(settingPath(rows.find(s=>s.key==='fan_cooling_layer_time')!)).toBe('Filament settings → Cooling → Part cooling fan → Min fan speed threshold → Layer time');expect(settingPath(rows.find(s=>s.key==='first_x_layer_fan_speed')!)).toBe('Filament settings → Cooling → Auxiliary part cooling fan → Initial layer fan → Fan speed');
+ });
+ it('does not invent plate support or change existing exact-filament temperature rules',()=>{const r=recommend(a,{...defaults,material:'PETG Matte',manufacturer:'eSUN',profile:'eSUN PETG-Matte'});expect(r.settings.find(s=>s.key==='nozzle_temperature_range_low')?.value).toBe('240°C');expect(r.settings.find(s=>s.key==='nozzle_temperature_range_high')?.value).toBe('260°C');expect(r.settings.find(s=>s.key==='textured_plate_temp')?.value).toBe('70°C');expect(r.settings.find(s=>s.key==='supertack_plate_temp')?.value).toContain('required');});
+ it('keeps drying instructions in exported preparation notes',()=>{const text=exportText(recommend(a,{...defaults,material:'PETG',manufacturer:'Bambu Lab',profile:'Bambu PETG Basic'}),a,defaults);expect(text).toContain('Filament preparation notes');expect(text).toContain('Drying: 65°C');});
+});
+
+it('does not show an active chamber temperature control for a P1S preset',()=>{const r=recommend(a,{...defaults,printer:'P1S'});const row=r.settings.find(s=>s.key==='chamber_temperatures')!;expect(studioSettingVisible(row,r.settings)).toBe(false);expect(row.visibility).toContain('chamber temperature control');});

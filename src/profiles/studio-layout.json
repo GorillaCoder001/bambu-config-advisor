@@ -3819,211 +3819,677 @@
       "enums": {}
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_type",
+      "order": 300,
+      "name": "Type",
+      "type": "coStrings",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_vendor",
+      "order": 301,
+      "name": "Vendor",
+      "type": "coStrings",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_soluble",
+      "order": 302,
+      "name": "Soluble material",
+      "type": "coBools",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_is_support",
+      "order": 303,
+      "name": "Support material",
+      "type": "coBools",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "impact_strength_z",
+      "order": 304,
+      "name": "Impact Strength Z",
+      "type": "coFloats",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "required_nozzle_HRC",
+      "order": 305,
+      "name": "Required nozzle HRC",
+      "type": "coInts",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "default_filament_colour",
+      "order": 306,
+      "name": "Default color",
+      "type": "coStrings",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_diameter",
+      "order": 307,
+      "name": "Diameter",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_adhesiveness_category",
+      "order": 308,
+      "name": "Adhesiveness Category",
+      "type": "coInts",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_metal_stickiness",
+      "order": 309,
+      "name": "Metal stickiness",
+      "type": "coEnums",
+      "mode": "Advanced",
+      "enums": {
+        "None": "None",
+        "Low": "Low",
+        "Medium": "Medium",
+        "High": "High"
+      }
+    },
+    {
+      "tab": "Filament",
       "group": "Basic information",
       "key": "filament_flow_ratio",
+      "order": 310,
       "name": "Flow ratio",
-      "order": 268,
       "type": "coFloats",
       "mode": "Advanced"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "enable_pressure_advance",
+      "order": 311,
+      "name": "Enable pressure advance",
+      "type": "coBools",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "pressure_advance",
+      "order": 312,
+      "name": "Pressure advance",
+      "type": "coFloats",
+      "mode": "Advanced",
+      "condition": {
+        "key": "enable_pressure_advance",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable pressure advance for a compatible printer/firmware preset."
+      }
+    },
+    {
+      "tab": "Filament",
       "group": "Basic information",
       "key": "filament_density",
+      "order": 313,
       "name": "Density",
-      "order": 269,
       "type": "coFloats",
       "unit": "g/cm³",
       "mode": "Advanced"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Basic information",
-      "key": "range",
-      "name": "Recommended nozzle temperature",
-      "order": 270
+      "key": "filament_shrink",
+      "order": 314,
+      "name": "Shrinkage",
+      "type": "coPercents",
+      "unit": "%",
+      "mode": "Advanced"
     },
     {
-      "tab": "Filament & Temperature",
-      "group": "Print temperature",
-      "key": "chamber_temperatures",
-      "name": "Chamber temperature",
-      "order": 271,
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_velocity_adaptation_factor",
+      "order": 315,
+      "name": "Velocity Adaptation Factor",
+      "type": "coFloats",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_cost",
+      "order": 316,
+      "name": "Price",
+      "type": "coFloats",
+      "unit": "money/kg",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "temperature_vitrification",
+      "order": 317,
+      "name": "Softening temperature",
+      "type": "coInts",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_printable",
+      "order": 318,
+      "name": "Filament printable",
+      "type": "coInts",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_cooling_before_tower",
+      "order": 319,
+      "name": "Wipe tower cooling",
+      "type": "coFloats",
+      "unit": "°C",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_tower_interface_pre_extrusion_dist",
+      "order": 320,
+      "name": "Interface layer pre-extrusion distance",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_tower_interface_pre_extrusion_length",
+      "order": 321,
+      "name": "Interface layer pre-extrusion length",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_tower_ironing_area",
+      "order": 322,
+      "name": "Tower ironing area",
+      "type": "coFloats",
+      "unit": "mm²",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_tower_interface_purge_volume",
+      "order": 323,
+      "name": "Interface layer purge length",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_tower_interface_print_temp",
+      "order": 324,
+      "name": "Interface layer print temperature",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_prime_volume",
+      "parent": "Filament prime volume",
+      "order": 325,
+      "name": "Filament change",
+      "type": "coFloats",
+      "unit": "mm³",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_prime_volume_nc",
+      "parent": "Filament prime volume",
+      "order": 326,
+      "name": "Hotend change",
+      "type": "coFloats",
+      "unit": "mm³",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_change_length",
+      "parent": "Filament ramming length",
+      "order": 327,
+      "name": "Extruder change",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_change_length_nc",
+      "parent": "Filament ramming length",
+      "order": 328,
+      "name": "Hotend change",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_ramming_travel_time",
+      "parent": "Travel time after ramming",
+      "order": 329,
+      "name": "Extruder change",
+      "type": "coFloats",
+      "unit": "s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_ramming_travel_time_nc",
+      "parent": "Travel time after ramming",
+      "order": 330,
+      "name": "Hotend change",
+      "type": "coFloats",
+      "unit": "s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_pre_cooling_temperature",
+      "parent": "Precooling target temperature",
+      "order": 331,
+      "name": "Extruder change",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Advanced",
+      "enums": {
+        "-1": "None"
+      }
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "filament_pre_cooling_temperature_nc",
+      "parent": "Precooling target temperature",
+      "order": 332,
+      "name": "Hotend change",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "nozzle_temperature_range_low",
+      "parent": "Recommended nozzle temperature",
+      "order": 333,
+      "name": "Min",
       "type": "coInts",
       "unit": "°C",
       "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
+      "group": "Basic information",
+      "key": "nozzle_temperature_range_high",
+      "parent": "Recommended nozzle temperature",
+      "order": 334,
+      "name": "Max",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Print temperature",
+      "key": "chamber_temperatures",
+      "order": 335,
+      "name": "Chamber temperature",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Print temperature",
+      "key": "supertack_plate_temp_initial_layer",
+      "parent": "Cool Plate SuperTack",
+      "order": 336,
+      "name": "Initial layer",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
+      "group": "Print temperature",
+      "key": "supertack_plate_temp",
+      "parent": "Cool Plate SuperTack",
+      "order": 337,
+      "name": "Other layers",
+      "type": "coInts",
+      "unit": "°C",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "cool_plate_temp_initial_layer",
+      "parent": "Cool Plate",
+      "order": 338,
       "name": "Initial layer",
-      "order": 272,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Cool Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "cool_plate_temp",
+      "parent": "Cool Plate",
+      "order": 339,
       "name": "Other layers",
-      "order": 273,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Cool Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "eng_plate_temp_initial_layer",
+      "parent": "Engineering Plate",
+      "order": 340,
       "name": "Initial layer",
-      "order": 274,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Engineering Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "eng_plate_temp",
+      "parent": "Engineering Plate",
+      "order": 341,
       "name": "Other layers",
-      "order": 275,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Engineering Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "hot_plate_temp_initial_layer",
+      "parent": "Smooth PEI Plate / High Temp Plate",
+      "order": 342,
       "name": "Initial layer",
-      "order": 276,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Smooth PEI Plate / High Temp Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "hot_plate_temp",
+      "parent": "Smooth PEI Plate / High Temp Plate",
+      "order": 343,
       "name": "Other layers",
-      "order": 277,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Smooth PEI Plate / High Temp Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "textured_plate_temp_initial_layer",
+      "parent": "Textured PEI Plate",
+      "order": 344,
       "name": "Initial layer",
-      "order": 278,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Textured PEI Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "textured_plate_temp",
+      "parent": "Textured PEI Plate",
+      "order": 345,
       "name": "Other layers",
-      "order": 279,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Textured PEI Plate"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "nozzle_temperature_initial_layer",
+      "parent": "Nozzle",
+      "order": 346,
       "name": "Initial layer",
-      "order": 280,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Nozzle"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
       "group": "Print temperature",
       "key": "nozzle_temperature",
+      "parent": "Nozzle",
+      "order": 347,
       "name": "Other layers",
-      "order": 281,
       "type": "coInts",
       "unit": "°C",
-      "mode": "Simple",
-      "parent": "Nozzle"
+      "mode": "Simple"
     },
     {
-      "tab": "Filament & Temperature",
+      "tab": "Filament",
+      "group": "Volumetric speed limitation",
+      "key": "filament_adaptive_volumetric_speed",
+      "order": 348,
+      "name": "Adaptive volumetric speed",
+      "type": "coBools",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
       "group": "Volumetric speed limitation",
       "key": "filament_max_volumetric_speed",
+      "order": 349,
       "name": "Max volumetric speed",
-      "order": 282,
       "type": "coFloats",
       "unit": "mm³/s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Volumetric speed limitation",
+      "key": "filament_ramming_volumetric_speed",
+      "parent": "Ramming volumetric speed",
+      "order": 350,
+      "name": "Extruder change",
+      "type": "coFloats",
+      "unit": "mm³/s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Volumetric speed limitation",
+      "key": "filament_ramming_volumetric_speed_nc",
+      "parent": "Ramming volumetric speed",
+      "order": 351,
+      "name": "Hotend change",
+      "type": "coFloats",
+      "unit": "mm³/s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Filament scarf seam settings",
+      "key": "filament_scarf_seam_type",
+      "order": 352,
+      "name": "Scarf seam type",
+      "type": "coEnums",
+      "mode": "Advanced",
+      "enums": {
+        "none": "None",
+        "external": "Contour",
+        "all": "Contour and hole"
+      }
+    },
+    {
+      "tab": "Filament",
+      "group": "Filament scarf seam settings",
+      "key": "filament_scarf_height",
+      "order": 353,
+      "name": "Scarf start height",
+      "type": "coFloatsOrPercents",
+      "unit": "mm/%",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Filament scarf seam settings",
+      "key": "filament_scarf_gap",
+      "order": 354,
+      "name": "Scarf slope gap",
+      "type": "coFloatsOrPercents",
+      "unit": "mm/%",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Filament",
+      "group": "Filament scarf seam settings",
+      "key": "filament_scarf_length",
+      "order": 355,
+      "name": "Scarf length",
+      "type": "coFloats",
+      "unit": "mm",
       "mode": "Advanced"
     },
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
       "key": "close_fan_the_first_x_layers",
+      "parent": "Initial layer fan",
+      "order": 356,
       "name": "For the first",
-      "order": 283,
       "type": "coInts",
       "unit": "layers",
-      "mode": "Simple",
-      "parent": "Initial layer fan"
+      "mode": "Simple"
     },
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
       "key": "first_x_layer_part_fan_speed",
+      "parent": "Initial layer fan",
+      "order": 357,
       "name": "Fan speed",
-      "order": 284,
       "type": "coInts",
       "unit": "%",
-      "mode": "Simple",
-      "parent": "Initial layer fan"
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "full_fan_speed_layer",
+      "parent": "Linear ramp up to",
+      "order": 358,
+      "name": "At",
+      "type": "coInts",
+      "mode": "Simple"
     },
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
       "key": "fan_min_speed",
+      "parent": "Min fan speed threshold",
+      "order": 359,
       "name": "Fan speed",
-      "order": 285,
       "type": "coInts",
       "unit": "%",
-      "mode": "Simple",
-      "parent": "Min fan speed threshold"
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "fan_cooling_layer_time",
+      "parent": "Min fan speed threshold",
+      "order": 360,
+      "name": "Layer time",
+      "type": "coInts",
+      "unit": "s",
+      "mode": "Simple"
     },
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
       "key": "fan_max_speed",
+      "parent": "Max fan speed threshold",
+      "order": 361,
       "name": "Fan speed",
-      "order": 286,
       "type": "coInts",
       "unit": "%",
-      "mode": "Simple",
-      "parent": "Max fan speed threshold"
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "slow_down_layer_time",
+      "parent": "Max fan speed threshold",
+      "order": 362,
+      "name": "Layer time",
+      "type": "coInts",
+      "unit": "s",
+      "mode": "Simple"
     },
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
       "key": "reduce_fan_stop_start_freq",
+      "order": 363,
       "name": "Keep fan always on",
-      "order": 287,
       "type": "coBools",
       "mode": "Simple"
     },
@@ -4031,17 +4497,49 @@
       "tab": "Cooling",
       "group": "Part cooling fan",
       "key": "slow_down_for_layer_cooling",
+      "order": 364,
       "name": "Slow printing down for better layer cooling",
-      "order": 288,
       "type": "coBools",
       "mode": "Simple"
     },
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
+      "key": "no_slow_down_for_cooling_on_outwalls",
+      "order": 365,
+      "name": "Don't slow down outer walls",
+      "type": "coBools",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "cooling_slowdown_logic",
+      "order": 366,
+      "name": "Cooling slowdown logic",
+      "type": "coEnums",
+      "mode": "Develop",
+      "enums": {
+        "uniform_cooling": "Uniform cooling",
+        "consistent_surface": "Consistent surface"
+      }
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "cooling_perimeter_transition_distance",
+      "order": 367,
+      "name": "Perimeter transition distance",
+      "type": "coFloats",
+      "unit": "mm",
+      "mode": "Develop"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
       "key": "slow_down_min_speed",
+      "order": 368,
       "name": "Min print speed",
-      "order": 289,
       "type": "coFloats",
       "unit": "mm/s",
       "mode": "Advanced"
@@ -4049,12 +4547,167 @@
     {
       "tab": "Cooling",
       "group": "Part cooling fan",
+      "key": "enable_overhang_bridge_fan",
+      "order": 369,
+      "name": "Force cooling for overhang and bridge",
+      "type": "coBools",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "overhang_fan_threshold",
+      "order": 370,
+      "name": "Cooling overhang threshold",
+      "type": "coEnums",
+      "unit": "",
+      "mode": "Advanced",
+      "enums": {
+        "0%": "0%",
+        "10%": "10%",
+        "25%": "25%",
+        "50%": "50%",
+        "75%": "75%",
+        "95%": "95%"
+      }
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "overhang_threshold_participating_cooling",
+      "order": 371,
+      "name": "Overhang threshold for participating cooling",
+      "type": "coEnums",
+      "unit": "",
+      "mode": "Advanced",
+      "enums": {
+        "0%": "0%",
+        "10%": "10%",
+        "25%": "25%",
+        "50%": "50%",
+        "75%": "75%",
+        "100%": "100%"
+      }
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
       "key": "overhang_fan_speed",
+      "order": 372,
       "name": "Fan speed for overhang",
-      "order": 290,
       "type": "coInts",
       "unit": "%",
       "mode": "Advanced"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "pre_start_fan_time",
+      "order": 373,
+      "name": "Pre start fan time",
+      "type": "coFloats",
+      "unit": "s",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Part cooling fan",
+      "key": "ironing_fan_speed",
+      "order": 374,
+      "name": "Ironing fan speed",
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Advanced"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Auxiliary part cooling fan",
+      "key": "close_additional_fan_first_x_layers",
+      "parent": "Initial layer fan",
+      "order": 375,
+      "name": "For the first",
+      "type": "coInts",
+      "unit": "layers",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Auxiliary part cooling fan",
+      "key": "first_x_layer_fan_speed",
+      "parent": "Initial layer fan",
+      "order": 376,
+      "name": "Fan speed",
+      "type": "coFloats",
+      "unit": "%",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Auxiliary part cooling fan",
+      "key": "additional_fan_full_speed_layer",
+      "parent": "Linear ramp up",
+      "order": 377,
+      "name": "At layer",
+      "type": "coInts",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Auxiliary part cooling fan",
+      "key": "additional_cooling_fan_speed",
+      "parent": "Linear ramp up",
+      "order": 378,
+      "name": "ramp up to",
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Exhaust fan",
+      "key": "activate_air_filtration",
+      "order": 379,
+      "name": "Activate air filtration",
+      "type": "coBools",
+      "mode": "Simple"
+    },
+    {
+      "tab": "Cooling",
+      "group": "Exhaust fan",
+      "key": "during_print_exhaust_fan_speed",
+      "order": 380,
+      "name": "During print",
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Simple",
+      "condition": {
+        "key": "activate_air_filtration",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Activate air filtration under Filament settings → Cooling → Exhaust fan."
+      }
+    },
+    {
+      "tab": "Cooling",
+      "group": "Exhaust fan",
+      "key": "complete_print_exhaust_fan_speed",
+      "order": 381,
+      "name": "Complete print",
+      "type": "coInts",
+      "unit": "%",
+      "mode": "Simple",
+      "condition": {
+        "key": "activate_air_filtration",
+        "values": [
+          "1",
+          "true",
+          "on"
+        ],
+        "label": "Enable Activate air filtration under Filament settings → Cooling → Exhaust fan."
+      }
     }
   ]
 }

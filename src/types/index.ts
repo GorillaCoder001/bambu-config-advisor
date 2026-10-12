@@ -1,6 +1,6 @@
 export type Confidence = 'high' | 'medium' | 'low';
 export type Basis = 'Model' | 'Material' | 'Preference' | 'Preset';
-export type Tab = 'Quality' | 'Strength' | 'Speed' | 'Support' | 'Others' | 'Filament & Temperature' | 'Cooling';
+export type Tab = 'Quality' | 'Strength' | 'Speed' | 'Support' | 'Others' | 'Filament' | 'Cooling';
 export type Priority = 'Maximum quality' | 'Balanced' | 'Fast' | 'Maximum strength';
 export interface CurrentSettings {values:Record<string,string[]>;source:string;notes:string[];overrides:string[];manualKeys?:string[];}
 export interface Mesh {currentSettings?:CurrentSettings;positions: Float32Array; notes: string[]; format: 'STL'|'3MF'|'Demo';}

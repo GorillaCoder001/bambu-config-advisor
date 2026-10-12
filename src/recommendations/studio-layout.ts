@@ -10,13 +10,13 @@ export function formatStudioValue(raw:string,s:Pick<Setting,'key'|'value'>):stri
  if(control?.type==='coBool'||control?.type==='coBools'){if(/^(?:0|1|true|false|on|off)$/i.test(value))return /^(1|true|on)$/i.test(value)?'ON':'OFF';}
  const enums=control?.enums;if(enums){const stored=Object.keys(enums).find(k=>k.toLowerCase()===value.toLowerCase());if(stored)return enums[stored];const label=Object.values(enums).find(v=>v.toLowerCase()===value.toLowerCase());if(label)return label;}
  const declaredUnit=control?.unit;const unit=declaredUnit==='mm or %'||declaredUnit==='mm/%'?'mm':declaredUnit||s.value.match(/(?:mm\/s²|mm³\/s|mm\/s|g\/cm³|mm|°C|%|°|layers)$/)?.[0];
- if(unit&&['mm/s²','mm³/s','mm/s','g/cm³','mm','mm²','mm³/s²','°C','%','°','layers'].includes(unit)&&/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(value))return String(Number(value))+(['%','°C','°'].includes(unit)?'':' ')+unit;
+ if(unit&&['mm/s²','mm³/s','mm/s','g/cm³','mm','mm²','mm³','mm³/s²','s','money/kg','°C','%','°','layers'].includes(unit)&&/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(value))return String(Number(value))+(['%','°C','°'].includes(unit)?'':' ')+unit;
  return raw;
 }
 export function placeStudioSetting(setting:Setting):Setting {
  const control=studioControl(setting.key);if(!control)return {...setting,location:['Print preparation guidance',setting.group,setting.name]};
  const scope=['Quality','Strength','Speed','Support','Others'].includes(control.tab)?'Process':'Filament settings';
- const tab=control.tab==='Filament & Temperature'?'Filament':control.tab;
+ const tab=control.tab;
  const name=control.parent?control.parent+' · '+control.name:control.name;
  return {...setting,tab:control.tab,group:control.group,name,value:formatStudioValue(setting.value,setting),location:[scope,tab,control.group,...(control.parent?[control.parent]:[]),control.name],visibility:control.condition?.label,studioMode:control.mode==='Advanced'?'Advanced':undefined};
 }

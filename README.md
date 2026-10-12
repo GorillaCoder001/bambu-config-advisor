@@ -34,7 +34,7 @@ The workflow tests, type-checks through the build script, builds, configures Pag
 - Measurements: XYZ bounds, triangle/unique welded-vertex count, area, closed single-component volume, bounding footprint, height, aspect ratio, coplanar base-contact candidate, top/bottom-facing surface area, overhang distribution and near-axis flat-surface candidates.
 - Mesh topology: boundary/non-manifold edges, components, winding conflicts, reversed component winding via signed volume, zero-area faces, duplicate triangles and complexity threshold.
 - Geometry heuristics: flat/wide, tall/narrow, possible shell/sparse form and fine tessellation. Every inference is labeled; sampled edge sizes are **not** minimum printable features or wall thickness.
-- Explainable rules for Quality, Strength, Speed, Support and Others; separate Filament & Temperature and Cooling tabs. Reasons, confidence, model/material/preference basis and source expansion.
+- Explainable rules for Quality, Strength, Speed, Support and Others; separate Filament and Cooling tabs. Reasons, confidence, model/material/preference basis and source expansion.
 - Printer/nozzle/material/plate/profile inputs; functional-fit, fine-detail, finish, strength and support-avoidance preferences.
 - Quality/Balanced/Fast comparison; copy text, download JSON report and print-friendly full summary.
 - Three synthetic samples: coaster, tower and overhang. They are clearly labeled as demo models.
@@ -72,6 +72,10 @@ The reviewed placement catalog is `src/profiles/studio-layout.json`, pinned to t
 Standard process controls across all five tabs are represented. Existing dynamic recommendations remain; other controls retain explicitly supplied current values or display **Keep current / process preset**. That preserves existing calibration rather than inventing unsupported numeric changes. Developer-only settings and post-processing scripts/notes are excluded from advice. UI availability can differ between Studio versions, printer presets and selected objects.
 
 Resolution keeps millimeter values to three decimal places: 0.012 mm is not rounded to 0.01 mm. Stored enum values such as `inner wall/outer wall` are compared using Studio display labels, preventing false change suggestions.
+
+The **Filament** tab mirrors the filament edit dialog: Basic information → Print temperature → Volumetric speed limitation → Filament scarf seam settings. Nozzle range Min/Max, every plate's Initial layer/Other layers, Extruder/Hotend change pairs and scarf controls have separate rows and exact paths. **Cooling** uses Part cooling fan → Auxiliary part cooling fan → Exhaust fan with fan-speed and layer-time subfields. Use the installed plate's temperature row; the other plate rows are shown to match Studio's configuration layout. Cool Plate SuperTack is available in the print context.
+
+Drying/enclosure advice appears under Material, moisture & adhesion notes and in exported preparation notes, not as invented Studio fields. Manufacturer values stay tied to the selected exact filament; screenshot values are not copied across different materials or extruder variants. Price and machine-specific priming/ramming keep supplied current values. A ramming speed of -1 means use the filament max-flow setting.
 
 ## Current settings → recommendations
 

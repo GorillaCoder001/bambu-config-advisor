@@ -48,3 +48,7 @@ it('renders imported internal solid infill as Rectilinear in both comparison col
  render(<App/>);fireEvent.change(screen.getByLabelText('Paste current settings JSON'),{target:{value:'{"internal_solid_infill_pattern":"zig-zag"}'}});fireEvent.click(screen.getByRole('button',{name:'Apply current settings'}));fireEvent.click(screen.getByRole('tab',{name:'Strength'}));
  const input=screen.getByLabelText('Current Top/bottom shells Internal solid infill pattern') as HTMLInputElement;expect(input.value).toBe('Rectilinear');const row=input.closest('.setting-row')!;expect(row.querySelector('.setting-value strong')?.textContent).toBe('Rectilinear');expect(row.textContent).not.toContain('zig-zag');
 });
+
+it('shows native Filament groups and paired temperature/scarf controls',()=>{
+ render(<App/>);fireEvent.click(screen.getByRole('tab',{name:'Filament'}));const panel=screen.getByRole('tabpanel');expect([...panel.querySelectorAll('.setting-group h4')].map(e=>e.textContent)).toEqual(['Basic information','Print temperature','Volumetric speed limitation','Filament scarf seam settings']);expect(screen.getByLabelText('Current Basic information Recommended nozzle temperature · Min')).toBeTruthy();expect(screen.getByLabelText('Current Print temperature Cool Plate SuperTack · Initial layer')).toBeTruthy();expect(screen.getByLabelText('Current Filament scarf seam settings Scarf seam type')).toBeTruthy();expect(screen.queryByText('Conditioning')).toBeNull();
+});

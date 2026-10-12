@@ -9,7 +9,7 @@ export const printers = [
 ];
 export const nozzles=[.2,.4,.6,.8];
 export const materials=['PLA','PLA Matte','PLA Silk','PETG','PETG Matte','TPU','ABS','ASA','Other'];
-export const plates=['Textured PEI','Smooth PEI / High Temp','Engineering Plate','Cool Plate'];
+export const plates=['Textured PEI','Smooth PEI / High Temp','Engineering Plate','Cool Plate SuperTack','Cool Plate'];
 export const manufacturers=['Generic','Bambu Lab','Polymaker','eSUN','Overture','SUNLU','Other'];
 export const uses=['Decorative','Functional','Coaster / flat object','Figurine','Container','Bottle cover / sleeve','Mechanical part','Outdoor','Heat-exposed','Other'];
 export const defaults={printer:'X2D',nozzle:.4,material:'PLA',manufacturer:'Generic',profile:'',plate:'Textured PEI',priority:'Balanced' as const,use:'Decorative',accuracy:false,finish:false,detail:false,strong:false,avoidSupport:false,dual:false,customVolume:[0,0,0]};
