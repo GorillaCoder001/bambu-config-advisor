@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {parseCurrentSettings,mergeCurrentSettings,currentValue,comparisonStatus} from '../src/recommendations/current-settings';
+import {parseCurrentSettings,mergeCurrentSettings,nozzleCurrentSettings,currentValue,comparisonStatus} from '../src/recommendations/current-settings';
 import {previewPositions,PREVIEW_TRIANGLE_LIMIT} from '../src/components/ModelViewer';
 import type {Setting} from '../src/types';
 const layer:Setting={tab:'Quality',group:'Layer height',key:'layer_height',name:'Layer height',value:'0.2 mm',reason:'Test',confidence:'medium',basis:'Preference',status:'recommended'};
@@ -15,3 +15,16 @@ describe('current settings provenance and comparison',()=>{
  it('keeps manual editing literal while comparing numeric values with units',()=>{const c=parseCurrentSettings('{"layer_height":"0.2"}');c.manualKeys=['layer_height'];expect(currentValue(c,layer)).toBe('0.2');expect(comparisonStatus(c,layer)).toBe('same');});
 });
 it('bounds preview geometry without mutating the full uploaded model',()=>{const count=PREVIEW_TRIANGLE_LIMIT+2;const p=new Float32Array(count*9);p[p.length-1]=123;const sample=previewPositions(p);expect(sample.length).toBe(PREVIEW_TRIANGLE_LIMIT*9);expect(sample.at(-1)).toBe(123);expect(p.length).toBe(count*9);});
+
+it('resolves reordered Standard nozzle labels and leaves unidentified arrays blank',()=>{
+ const c=parseCurrentSettings(JSON.stringify({initial_layer_speed:['40','25'],print_extruder_variant:['Bowden Standard','Direct Drive Standard']}));
+ expect(nozzleCurrentSettings(c,'main')?.values.initial_layer_speed).toEqual(['25']);
+ expect(nozzleCurrentSettings(c,'auxiliary')?.values.initial_layer_speed).toEqual(['40']);
+ const unknown=parseCurrentSettings('{"initial_layer_speed":["25","40"]}');
+ expect(nozzleCurrentSettings(unknown,'main')?.values.initial_layer_speed).toBeUndefined();
+});
+it('keeps nozzle manual edits separate',()=>{
+ const c={values:{'initial_layer_speed@main':['22'],'initial_layer_speed@auxiliary':['18']},source:'Manual',notes:[],overrides:[],manualKeys:['initial_layer_speed@main','initial_layer_speed@auxiliary']};
+ expect(nozzleCurrentSettings(c,'main')?.values.initial_layer_speed).toEqual(['22']);
+ expect(nozzleCurrentSettings(c,'auxiliary')?.values.initial_layer_speed).toEqual(['18']);
+});

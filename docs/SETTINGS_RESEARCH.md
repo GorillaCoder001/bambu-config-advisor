@@ -30,3 +30,11 @@ The Bambu wiki pages could not be fetched during this review. Bambu-specific beh
 Compare Studio's sliced time, Speed and Flow views before changing several fields together. Check support contacts and removal access, actual wall paths, top coverage and first-layer adhesion. For a bottle cover, measure the internal cavity and bottle and print a small fit section. Thin cover walls may contain little sparse infill, so lowering infill can save much less time than expected.
 
 The advisor produces planning ranges rather than toolpaths. Actual print time, unsupported islands, local wall widths, bridge spans, surface defects and mechanical performance still need slicing or physical testing.
+
+## X2D nozzle selection update (13 October 2026)
+
+Speed now has Main: Standard (left) and Auxiliary: Standard (right) selectors. Both use the diameter and filament selected in Print context. Recommendations may match when the same material and profile limits apply; values are not made different just to distinguish the tabs. Mixed material or mixed diameter jobs require reviewing each nozzle with its own print context.
+
+The pinned official [direct/Bowden template](https://github.com/bambulab/BambuStudio/blob/47a13eeb1d9af65ef2371e361c856e21d4f6ca72/resources/profiles/BBL/filament/fdm_filament_template_direct_bowden.json) lists Direct Drive Standard, Direct Drive High Flow, Bowden Standard, Bowden High Flow. The [E3D template](https://github.com/bambulab/BambuStudio/blob/47a13eeb1d9af65ef2371e361c856e21d4f6ca72/resources/profiles/BBL/filament/fdm_filament_template_direct_bowden_e3d.json) inserts E3D High Flow after each drive's High Flow entry. X2D Standard baseline selection uses indices 0 and 2 for the four-entry layout, and 0 and 3 for the six-entry layout. This supersedes the earlier withholding of differing Standard/hotend arrays.
+
+Imported current values are resolved by exact `print_extruder_variant` or `filament_extruder_variant` labels rather than assumed array order. Missing labels leave differing current values blank. Nozzle-specific manual edits remain independent. Global object overrides still require review in Studio. Text and JSON reports include both nozzle speed recommendations.

@@ -47,8 +47,17 @@ export function materialProfile(c:Context):ThermalProfile {
  if(c.material==='PETG Matte'&&!known)notes.push('PETG Matte has no universal thermal profile. Choose eSUN PETG-Matte if that is your actual filament, or use its manufacturer preset.');
  if(c.material==='PLA Matte'&&!known)notes.push('PLA Matte is not assigned PLA Basic values. Select your actual manufacturer profile.');
  if(c.nozzle===.2&&c.material==='TPU')notes.push('Small-nozzle TPU suitability requires manufacturer confirmation; many flexible filaments are unsuitable for 0.2 mm.');
+ // X2D Standard positions in the pinned direct/bowden templates: main direct
+ // drive first; auxiliary Bowden follows all direct-drive hotend choices.
+ const resolved=match?{...match[1].values}:{};
+ if(c.printer==='X2D')for(const [key,values] of Object.entries(resolved)){
+  if(values.length!==4&&values.length!==6)continue;
+  if(key==='compatible_printers'||key.startsWith('filament_dev_'))continue;
+  const index=c.extruder==='auxiliary'?(values.length===6?3:2):0;
+  resolved[key]=[values[index]];
+ }
  const product=known?products[known.name]:null;
  if(known?.name==='Bambu PLA Silk')notes.push('Original PLA Silk drying data is unresolved; do not substitute Silk+ or Silk Multi Color instructions.');
- return {name:match?match[0]:base||'Manufacturer preset required',exact:!!known,values:match?.[1].values||{},sources:Object.fromEntries(Object.entries(match?.[1].sources||{}).map(([k,v])=>[k,{...v,accessed:db.reviewed,version:db.version}])),notes,drying:product?{temperature:product.temperature,hours:product.hours,method:'Forced-air drying oven; not printer heatbed temperature',source:source(known!.name+' · manufacturer conditioning',product.url),ams:product.ams}:undefined,reviewed:db.reviewed};
+ return {name:match?match[0]:base||'Manufacturer preset required',exact:!!known,values:resolved,sources:Object.fromEntries(Object.entries(match?.[1].sources||{}).map(([k,v])=>[k,{...v,accessed:db.reviewed,version:db.version}])),notes,drying:product?{temperature:product.temperature,hours:product.hours,method:'Forced-air drying oven; not printer heatbed temperature',source:source(known!.name+' · manufacturer conditioning',product.url),ams:product.ams}:undefined,reviewed:db.reviewed};
 }
 export function scalar(profile:ThermalProfile,key:string):number|null {const a=profile.values[key];if(!a?.length||new Set(a).size>1||!Number.isFinite(Number(a[0])))return null;return Number(a[0]);}

@@ -26,3 +26,9 @@
 .setting-meaning,.setting-why{margin:0 0 12px;line-height:1.65}.setting-meaning>strong,.setting-why>strong,.setting-help p>strong{display:block;font-size:10px;font-weight:600;color:#b9d9c8;margin-bottom:4px}.setting-meaning{color:#a9c1b6}.setting-help p{font-size:11px;line-height:1.7;margin:12px 0}.setting-help a{display:block;color:#95dec0;font-size:10px;line-height:1.65;margin:12px 0;overflow-wrap:anywhere}.setting-help a small{display:block;color:#86a598;font-size:9px}.setting-help .evidence-note{padding:10px;border-left:2px solid #d1b465;background:#1c231d;color:#cabf9e}.setting-help .source-links>strong{font-size:10px;color:#b9d9c8}.setting-help .technical-source{font-size:9px;border-top:1px solid #30483f;padding-top:8px}.setting-help .technical-source p{overflow-wrap:anywhere;font:10px/1.7 monospace}
 
 .settings-research-summary{margin:28px 0}.settings-research-summary h2{font-size:20px}.settings-research-summary>p{color:#a9c1b6;font-size:13px;line-height:1.7}.research-notice .button{margin:8px 12px 0 0}
+
+.nozzle-selector{display:flex;gap:6px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--border)}
+.nozzle-selector button{padding:9px 16px;border:1px solid #3c5447;border-radius:20px;background:transparent;color:inherit;cursor:pointer}
+.nozzle-selector button.selected{background:#254e36;color:#dcf5e1;border-color:#8bcaa0}
+.nozzle-selector button:focus-visible{outline:2px solid #b2e7c0;outline-offset:3px}
+.nozzle-selection-note strong{color:#b2e7c0}

@@ -25,7 +25,12 @@ describe('deterministic process recommendations',()=>{
 });
 describe('material provenance and unknowns',()=>{
  it('uses exact machine temperatures from Bambu profiles',()=>{const p=materialProfile(ctx({manufacturer:'Bambu Lab',profile:'Bambu PLA Matte',material:'PLA Matte'}));expect(scalar(p,'nozzle_temperature')).toBe(220);expect(p.sources.nozzle_temperature.url).toContain('47a13eeb');expect(p.drying?.temperature).toBe(50);});
- it('never collapses ambiguous extruder variant MVS arrays',()=>{const p=materialProfile(ctx({material:'PETG',manufacturer:'Bambu Lab',profile:'Bambu PETG HF'}));expect(scalar(p,'filament_max_volumetric_speed')).toBeNull();expect(val(recommend(a,ctx({material:'PETG',manufacturer:'Bambu Lab',profile:'Bambu PETG HF'})),'filament_max_volumetric_speed')).toContain('selected extruder');});
+ it('selects the named X2D Standard nozzle instead of mixing hotend flow choices',()=>{
+ const c=ctx({material:'PLA',manufacturer:'Bambu Lab',profile:'Bambu PLA Basic'});
+ expect(scalar(materialProfile(c),'filament_max_volumetric_speed')).toBe(21);
+ expect(scalar(materialProfile({...c,extruder:'auxiliary'}),'filament_max_volumetric_speed')).toBe(21);
+ expect(val(recommend(a,c),'filament_max_volumetric_speed')).toBe('21 mm³/s');
+ });
  it('does not transfer generic PETG values to unknown Matte',()=>{const p=materialProfile(ctx({material:'PETG Matte'}));expect(scalar(p,'nozzle_temperature')).toBeNull();expect(p.notes.join(' ')).toContain('no universal');});
  it('does not transfer PLA Basic values to unknown PLA Matte',()=>expect(scalar(materialProfile(ctx({material:'PLA Matte'})),'nozzle_temperature')).toBeNull());
  it('preserves Polymaker versus eSUN cooling differences',()=>{const e=materialProfile(ctx({material:'PETG Matte',manufacturer:'eSUN',profile:'eSUN PETG-Matte'}));const p=materialProfile(ctx({material:'PETG',manufacturer:'Polymaker',profile:'Polymaker PolyLite PETG'}));expect(scalar(e,'fan_min_speed')).toBe(50);expect(scalar(p,'fan_max_speed')).toBe(20);expect(p.drying?.temperature).toBe(65);expect(e.drying?.hours).toBeUndefined();});

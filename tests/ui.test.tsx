@@ -81,3 +81,14 @@ describe('collapsed model panel and print-time planning',()=>{
   render(<App/>);fireEvent.change(screen.getByLabelText('Current Bambu Studio time in hours'),{target:{value:'16'}});fireEvent.click(screen.getByRole('button',{name:'Copy all'}));await waitFor(()=>expect(navigator.clipboard.writeText).toHaveBeenCalled());expect(vi.mocked(navigator.clipboard.writeText).mock.calls[0][0]).toContain('sliced time: 16 h');fireEvent.click(screen.getByRole('button',{name:'Tower'}));expect((screen.getByLabelText('Current Bambu Studio time in hours') as HTMLInputElement).value).toBe('');
  });
 });
+
+it('switches Speed between Main and Auxiliary with independent current values',{timeout:10000},()=>{
+ render(<App/>);fireEvent.click(screen.getByRole('tab',{name:'Speed'}));
+ fireEvent.change(screen.getByLabelText('Current Initial layer speed Initial layer'),{target:{value:'22'}});
+ fireEvent.click(screen.getByRole('button',{name:/Auxiliary: Standard/}));
+ expect((screen.getByLabelText('Current Initial layer speed Initial layer') as HTMLInputElement).value).toBe('');
+ fireEvent.change(screen.getByLabelText('Current Initial layer speed Initial layer'),{target:{value:'18'}});
+ fireEvent.click(screen.getByRole('button',{name:/Main: Standard/}));
+ expect((screen.getByLabelText('Current Initial layer speed Initial layer') as HTMLInputElement).value).toBe('22');
+ expect(screen.queryByText(/Variant-specific:/)).toBeNull();
+});

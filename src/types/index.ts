@@ -13,7 +13,7 @@ export interface Analysis {
  classifications:{label:string;confidence:Confidence;reason:string}[]; fineDetail:boolean; apparentFeature:number|null;
  thinDimension:number; bridgeCandidate:boolean; normalReliability:boolean; notes:string[];
 }
-export interface Context {printer:string; nozzle:number; material:string; manufacturer:string; profile:string;plate:string;priority:Priority;use:string;accuracy:boolean;finish:boolean;detail:boolean;strong:boolean;avoidSupport:boolean;dual:boolean;customVolume:number[];}
+export interface Context {printer:string; extruder?:'main'|'auxiliary'; nozzle:number; material:string; manufacturer:string; profile:string;plate:string;priority:Priority;use:string;accuracy:boolean;finish:boolean;detail:boolean;strong:boolean;avoidSupport:boolean;dual:boolean;customVolume:number[];}
 export interface Source {title:string;url:string;accessed?:string;version?:string;}
 export interface SettingExplanation {meaning:string;tradeoff:string;check:string;evidence:string;definitionSource:Source;}
 export interface Setting {explanation?:SettingExplanation;location?:string[];visibility?:string;availability?:string;studioApplicable?:boolean;studioMode?:'Advanced';intent?:'retain';tab:Tab;group:string;key:string;name:string;value:string;reason:string;confidence:Confidence;basis:Basis;status:'recommended'|'review';sources?:Source[];raw?:unknown;}
