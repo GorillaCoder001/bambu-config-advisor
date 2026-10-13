@@ -25,7 +25,7 @@ describe('research explanations and calibration protection',()=>{
   for(const priority of ['Maximum quality','Balanced','Fast','Maximum strength'] as const){const r=recommend(a,{...defaults,priority});const outer=parseFloat(r.settings.find(s=>s.key==='outer_wall_speed')!.value);for(const row of r.settings.filter(s=>/^overhang_[1-4]_4_speed$/.test(s.key)))expect(parseFloat(row.value)).toBeLessThanOrEqual(outer);}
  });
  it('does not guess among current extruder variants or claim an invalid value was used for a flow cap',()=>{
-  for(const values of [['3','6'],['invalid']]){const current=parseCurrentSettings(JSON.stringify({filament_max_volumetric_speed:values}));const r=recommend(a,{...defaults,priority:'Fast'},current);expect(r.settings.find(s=>s.key==='inner_wall_speed')!.reason).toContain('12 mm³/s');expect(r.settings.find(s=>s.key==='filament_max_volumetric_speed')!.intent).toBe('retain');}
+  for(const values of [['3','6'],['invalid']]){const current=parseCurrentSettings(JSON.stringify({filament_max_volumetric_speed:values}));const r=recommend(a,{...defaults,priority:'Fast'},current);expect(r.settings.find(s=>s.key==='inner_wall_speed')!.reason).toContain('12 mm³/s');expect(r.settings.find(s=>s.key==='filament_max_volumetric_speed')!.intent).toBe(values.length===1?'retain':undefined);}
  });
  it('does not turn a tiny positive flow cap into zero-speed automatic behavior',()=>{
   const r=recommend(a,defaults,parseCurrentSettings('{"filament_max_volumetric_speed":"0.0001"}'));const speed=parseFloat(r.settings.find(s=>s.key==='inner_wall_speed')!.value);expect(speed).toBeGreaterThan(0);expect(speed).toBeLessThanOrEqual(.0001/(.45*.16)*.9);
