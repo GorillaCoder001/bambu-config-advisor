@@ -37,7 +37,7 @@ export function estimatePrintTime(a:Analysis,c:Context,settings:Setting[]):Print
  const assumptions=[
   measured?'Material volume uses the measured closed model, with approximate wall, shell and infill allocation.':'Solid volume is unavailable. Time uses a very rough surface-area skin proxy; interior material and wall thickness are unknown.',
   'Assumes the current Z orientation, one material and one model/group. No toolpaths are generated.',
-  flow>0?'Extrusion is capped by the selected verified max volumetric speed.':'Max volumetric speed is unverified; assumes the nominal settings can be reached.',
+  flow>0?'Extrusion is capped by the maximum flow shown in the recommendation, from a profile or your provided current value; it is not a measured hotend result.':'Max volumetric speed is unverified; assumes the nominal settings can be reached.',
   'Includes a 5–15 minute preparation allowance and broad travel/acceleration allowances; actual calibration and startup can differ.',
   supports?'Upper range includes a rough support allowance. Support quantity and placement are not calculated.':'Assumes no generated supports.',
   layerCooling>0?'Uses the provided minimum layer-time setting as a rough cooling floor.':'Layer cooling may add time; no verified minimum layer time is available.',
