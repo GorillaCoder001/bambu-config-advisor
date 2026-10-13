@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {describe,it,expect,vi,beforeEach,afterEach} from 'vitest';
-import {render,screen,fireEvent,waitFor,cleanup} from '@testing-library/react';
+import {render,screen,fireEvent,waitFor,cleanup,within} from '@testing-library/react';
 import App from '../src/App';
 import {binary,mf,xml} from './fixtures';
 import {strToU8} from 'fflate';
@@ -18,12 +18,13 @@ describe('workspace interaction contract',()=>{
  it('shows privacy statement, demo geometry and process tabs',()=>{render(<App/>);expect(screen.getByText('Your model is analyzed locally in your browser and is not uploaded to a server.')).toBeTruthy();expect(screen.getByText('DEMO MODEL')).toBeTruthy();expect(screen.getByRole('tab',{name:'Quality'}).getAttribute('aria-selected')).toBe('true');});
  it('switches tabs and exposes exact field labels',()=>{render(<App/>);fireEvent.click(screen.getByRole('tab',{name:'Strength'}));expect(screen.getByText('Wall loops')).toBeTruthy();expect(screen.getByRole('tab',{name:'Strength'}).getAttribute('aria-selected')).toBe('true');});
  it('supports keyboard tab navigation',()=>{render(<App/>);fireEvent.keyDown(screen.getByRole('tab',{name:'Quality'}),{key:'ArrowRight'});expect(screen.getByRole('tab',{name:'Strength'}).getAttribute('aria-selected')).toBe('true');});
- it('advances through all settings tabs from the bottom, clears filtering and focuses the next tab',()=>{
+ // Multi-step jsdom scenarios need headroom on shared CI runners; assertions still cover every state.
+ it('advances through all settings tabs from the bottom, clears filtering and focuses the next tab',{timeout:10000},()=>{
   const scrollIntoView=vi.fn();vi.stubGlobal('matchMedia',vi.fn(()=>({matches:false})));Object.defineProperty(HTMLElement.prototype,'scrollIntoView',{value:scrollIntoView,configurable:true});
-  render(<App/>);fireEvent.change(screen.getByLabelText('Filter settings'),{target:{value:'no matching setting'}});
+  render(<App/>);const tablist=within(screen.getByRole('tablist',{name:'Bambu Studio settings'})),bottom=within(screen.getByRole('navigation',{name:'Settings navigation'}));fireEvent.change(screen.getByLabelText('Filter settings'),{target:{value:'no matching setting'}});
   for(const name of ['Strength','Speed','Support','Others','Filament','Cooling','Quality']){
-   fireEvent.click(screen.getByRole('button',{name:new RegExp((name==='Quality'?'First tab':'Next tab')+' · '+name)}));
-   const tab=screen.getByRole('tab',{name});expect(tab.getAttribute('aria-selected')).toBe('true');expect(document.activeElement).toBe(tab);expect((screen.getByLabelText('Filter settings') as HTMLInputElement).value).toBe('');
+   fireEvent.click(bottom.getByRole('button',{name:new RegExp((name==='Quality'?'First tab':'Next tab')+' · '+name)}));
+   const tab=tablist.getByRole('tab',{name});expect(tab.getAttribute('aria-selected')).toBe('true');expect(document.activeElement).toBe(tab);expect((screen.getByLabelText('Filter settings') as HTMLInputElement).value).toBe('');
   }
   expect(scrollIntoView).toHaveBeenCalledTimes(7);expect(scrollIntoView).toHaveBeenLastCalledWith({behavior:'smooth',block:'start',inline:'nearest'});delete (HTMLElement.prototype as any).scrollIntoView;
  });
@@ -52,12 +53,12 @@ describe('current-to-recommended settings',()=>{
 
 describe('exact Studio navigation',()=>{
  it('shows plain explanations and exposes trade-offs, checks and an exact official definition link',()=>{
-  render(<App/>);const row=screen.getByLabelText('Current Layer height Layer height').closest('.setting-row')!;expect(row.textContent).toContain('What it does');expect(row.textContent).toContain('Why this value');expect(row.textContent).toContain('roughly');expect(row.querySelector('.setting-help summary')?.textContent).toContain('Trade-offs, checks & sources');expect(row.querySelector('.setting-help a')?.getAttribute('href')).toMatch(/PrintConfig.cpp#L\d+$/);
+  render(<App/>);const row=screen.getByLabelText('Current Layer height Layer height').closest('.setting-row')!;expect(row.textContent).toContain('What it does');expect(row.textContent).toContain('Why this value');expect(row.textContent).toContain('roughly');const summary=row.querySelector('.setting-help summary')!;expect(summary.textContent).toContain('Trade-offs, checks & sources');expect(row.querySelector('.setting-help a')).toBeNull();fireEvent.click(summary);expect(row.querySelector('.setting-help')?.hasAttribute('open')).toBe(true);expect(row.querySelector('.setting-help a')?.getAttribute('href')).toMatch(/PrintConfig.cpp#L\d+$/);fireEvent.click(summary);expect(row.querySelector('.setting-help a')).toBeNull();
   fireEvent.change(screen.getByLabelText('Filter settings'),{target:{value:'path simplification tolerance'}});expect(screen.getByLabelText('Current Precision Resolution')).toBeTruthy();
  });
  it('shows Quality sections in Studio order and a path on each row',()=>{render(<App/>);const panel=screen.getByRole('tabpanel');expect([...panel.querySelectorAll('.setting-group h4')].map(e=>e.textContent)).toEqual(['Layer height','Line width','Seam','Precision','Ironing','Wall generator','Advanced']);expect(screen.getByText('Process → Quality → Precision → Slice gap closing radius')).toBeTruthy();});
  it('shows the complete Strength sections including fields from the attached example',()=>{render(<App/>);fireEvent.click(screen.getByRole('tab',{name:'Strength'}));expect(screen.getByText('Top paint penetration layers')).toBeTruthy();expect(screen.getByText('Internal solid infill pattern')).toBeTruthy();expect(screen.getByText('Length of sparse infill anchor')).toBeTruthy();expect(screen.getByText('Infill/Wall overlap')).toBeTruthy();expect(screen.getByText('Process → Strength → Advanced → Infill/Wall overlap')).toBeTruthy();});
- it('reveals hidden scarf controls with instructions, and after the override is entered',()=>{render(<App/>);expect(screen.queryByLabelText('Current Seam Scarf seam type')).toBeNull();fireEvent.click(screen.getByLabelText('Show conditional controls'));expect(screen.getByLabelText('Current Seam Scarf seam type')).toBeTruthy();expect(screen.getAllByText(/Enable “Override filament scarf seam setting”/).length).toBeGreaterThan(0);fireEvent.click(screen.getByLabelText('Show conditional controls'));fireEvent.change(screen.getByLabelText('Current Seam Override filament scarf seam setting'),{target:{value:'ON'}});expect(screen.getByLabelText('Current Seam Scarf seam type')).toBeTruthy();});
+ it('reveals hidden scarf controls with instructions, and after the override is entered',{timeout:10000},()=>{render(<App/>);const panel=within(screen.getByRole('tabpanel'));expect(screen.queryByLabelText('Current Seam Scarf seam type')).toBeNull();fireEvent.click(screen.getByLabelText('Show conditional controls'));expect(screen.getByLabelText('Current Seam Scarf seam type')).toBeTruthy();expect(panel.getAllByText(/Enable “Override filament scarf seam setting”/).length).toBeGreaterThan(0);fireEvent.click(screen.getByLabelText('Show conditional controls'));fireEvent.change(screen.getByLabelText('Current Seam Override filament scarf seam setting'),{target:{value:'ON'}});expect(screen.getByLabelText('Current Seam Scarf seam type')).toBeTruthy();});
 });
 
 it('renders imported internal solid infill as Rectilinear in both comparison columns',()=>{

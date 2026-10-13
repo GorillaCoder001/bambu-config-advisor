@@ -7,7 +7,7 @@ import {formatTimeRange} from '../recommendations/print-time';
 import {recommend,tabs} from '../recommendations/engine';
 const basisClass=(s:Setting)=>s.basis.toLowerCase();
 export function SettingRow({s,current,onEdit}:{s:Setting;current:CurrentSettings|null;onEdit:(key:string,value:string)=>void}){
- const status=comparisonStatus(current,s),help=s.explanation;
+ const status=comparisonStatus(current,s),help=s.explanation;const [expanded,setExpanded]=useState(false);
  return <div className="setting-row">
   <div className="setting-name"><span className={'setting-state '+s.status}>{s.status==='review'?<AlertTriangle size={13}/>:<Check size={13}/>}</span><div><strong>{s.name}</strong><small className="setting-location">{settingPath(s)}</small><div className="setting-tags"><span className={'basis '+basisClass(s)}>{({Model:'Geometry rule',Material:'Filament source',Preference:'Advisor rule',Preset:'Keep preset'})[s.basis]}</span><span title="Confidence in the evidence, not guaranteed print success">{s.confidence} confidence</span></div></div></div>
   <div className="setting-current"><label className="mobile-value-label" htmlFor={'current-'+s.key}>Current</label><input id={'current-'+s.key} aria-label={'Current '+s.group+' '+s.name} placeholder="Not provided" maxLength={512} title={currentValue(current,s)||'Enter your current Bambu Studio value'} value={currentValue(current,s)||''} onChange={e=>onEdit(s.key,e.target.value)}/>{current?.overrides.includes(s.key)&&<small>Global value · object overrides</small>}</div>
@@ -17,11 +17,11 @@ export function SettingRow({s,current,onEdit}:{s:Setting;current:CurrentSettings
    <p className="setting-why"><strong>Why this value</strong>{s.reason}</p>
    {s.availability&&<p className="setting-visibility">{s.availability}</p>}
    {s.visibility&&<p className="setting-visibility"><strong>Where to reveal it:</strong> {s.visibility}</p>}
-   {(help||s.sources?.length)&&<details className="setting-help"><summary>Trade-offs, checks & sources <ChevronDown size={12}/></summary>
+   {(help||s.sources?.length)&&<details className="setting-help" open={expanded}><summary onClick={e=>{e.preventDefault();setExpanded(!expanded);}}>Trade-offs, checks & sources <ChevronDown size={12}/></summary>{expanded&&<>
     {help&&<><p><strong>Trade-off</strong>{help.tradeoff}</p><p><strong>Check before printing</strong>{help.check}</p><p className="evidence-note">{help.evidence}</p><a href={help.definitionSource.url} target="_blank" rel="noreferrer">Official setting definition ↗<small>Studio {help.definitionSource.version?.slice(0,10)} · checked {help.definitionSource.accessed}</small></a></>}
     {!!s.sources?.length&&<div className="source-links"><strong>Value / preset references</strong>{s.sources.map((source,i)=><a key={i} href={source.url} target="_blank" rel="noreferrer">{source.title} ↗<small>Reviewed {source.accessed||'2026-10-12'}{source.version?' · '+source.version.slice(0,10):''}</small></a>)}</div>}
     {s.raw!=null&&<details className="technical-source"><summary>Technical source value</summary><p>{JSON.stringify(s.raw)}</p></details>}
-   </details>}
+   </>}</details>}
   </div>
  </div>;
 }
