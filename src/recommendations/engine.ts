@@ -55,9 +55,9 @@ export function recommend(a:Analysis,c:Context,current?:CurrentSettings|null):Re
   add('Support','Support','support_threshold_angle','45°','Bambu threshold is face slope from horizontal: support candidates below 45°.','Model');
   add('Support','Interface','support_interface_top_layers','3','A small interface stack supports the underside; tune for removal.','Preference');
   add('Support','Interface','support_base_pattern_spacing','2.5 mm','A moderate support spacing starting point; verify large undersides.','Preference');
-  add('Support','Interface','support_interface_spacing',c.material.startsWith('PETG')?'0.5 mm':'0.4 mm','Same-material support interface spacing; PETG bonding can make removal difficult.','Material','medium','review');
+  add('Support','Interface','support_interface_spacing',c.material.startsWith('PETG')?'0.5 mm':'0.4 mm','Same-material support interface spacing; PETG bonding can make removal difficult.','Preference','medium','review');
   const gap=Math.max(.2,Math.ceil(p.layer*(c.material.startsWith('PETG')?2:1)/.05)*.05);
-  add('Support','Interface','support_top_z_distance',mm(gap),'Same-material support separation; trial-print a support coupon. Different interface materials need a separate profile.','Material','medium','review');
+  add('Support','Interface','support_top_z_distance',mm(gap),'Same-material support separation; trial-print a support coupon. Different interface materials need a separate profile.','Preference','medium','review');
  }
  add('Others','Bed adhesion','brim_type',p.brim?'Outer brim only':'No-brim',p.brim?'Tall/narrow, low-contact or warp-prone configuration benefits from additional adhesion.':'The footprint provides a stable starting contact candidate.','Model');
  if(p.brim){add('Others','Bed adhesion','brim_width',mm(p.brim),'Extra base area improves stability; account for it in plate placement.','Model');add('Others','Bed adhesion','brim_object_gap','0.1 mm','A small removable separation; adhesion depends on material and plate.');}

@@ -5,7 +5,7 @@ import {recommend,exportText} from '../src/recommendations/engine';
 import {parseCurrentSettings} from '../src/recommendations/current-settings';
 import {defaults} from '../src/profiles/printers';
 import {analyzeMesh} from '../src/analysis/mesh-analysis';
-import {box} from './fixtures';
+import {box,merge} from './fixtures';
 const a=analyzeMesh(box(90,90,180));
 describe('research explanations and calibration protection',()=>{
  it('has a plain-language meaning for every included Studio control',()=>{
@@ -35,6 +35,9 @@ describe('research explanations and calibration protection',()=>{
  });
  it('does not let flat-face geometry override an explicitly chosen bottle-cover profile',()=>{
   const r=recommend(analyzeMesh(box(100,100,6)),{...defaults,use:'Bottle cover / sleeve'});expect(r.settings.find(s=>s.key==='wall_loops')!.value).toBe('2');expect(r.settings.find(s=>s.key==='sparse_infill_density')!.value).toBe('10%');
+ });
+ it('labels authored support gaps as trial rules rather than published filament settings',()=>{
+  const over=analyzeMesh(merge(box(10,10,30,[0,0,15]),box(60,60,5,[0,0,32.5])));const r=recommend(over,{...defaults,material:'PETG'});for(const key of ['support_top_z_distance','support_interface_spacing']){const row=r.settings.find(s=>s.key===key)!;expect(row.basis).toBe('Preference');expect(row.explanation?.evidence).toContain('Advisor rule:');}
  });
  it('includes plain explanations and evidence in the copied report',()=>{const text=exportText(recommend(a,defaults),a,defaults);expect(text).toContain('What it does:');expect(text).toContain('Check:');expect(text).toContain('Advisor rule:');});
 });
