@@ -9,8 +9,9 @@ export const priorityPolicies:Record<Priority,{layerFactor:number;outer:number;i
 export interface Rule {id:string;when:(a:Analysis,c:Context)=>boolean;apply:(p:Policy,a:Analysis,c:Context)=>void;}
 // Ordered, named, deterministic heuristics. These are starting-point adjustments, not manufacturer facts.
 export const rules:Rule[]=[
- {id:'fine-detail',when:(a,c)=>a.fineDetail||c.detail||c.use==='Figurine',apply:(p,a,c)=>{p.detail=true;if(c.priority!=='Fast')p.layer=Math.min(p.layer,Math.max(.06,c.nozzle*.3));p.outer*=.8;p.topSpeed*=.8;}},
- {id:'functional-walls',when:(a,c)=>c.strong||c.priority==='Maximum strength'||['Functional','Mechanical part','Container','Bottle cover / sleeve','Outdoor','Heat-exposed'].includes(c.use),apply:p=>{p.functional=true;p.walls=4;p.infill=30;p.top=1;p.bottom=1;}},
+ {id:'fine-detail',when:(a,c)=>c.detail||c.use==='Figurine',apply:(p,a,c)=>{p.detail=true;if(c.priority!=='Fast')p.layer=Math.min(p.layer,Math.max(.06,c.nozzle*.3));p.outer*=.8;p.topSpeed*=.8;}},
+ {id:'functional-walls',when:(a,c)=>c.strong||c.priority==='Maximum strength'||['Functional','Mechanical part','Container','Outdoor','Heat-exposed'].includes(c.use),apply:p=>{p.functional=true;p.walls=4;p.infill=30;p.top=1;p.bottom=1;}},
+ {id:'bottle-cover-efficiency',when:(a,c)=>c.use==='Bottle cover / sleeve'&&!c.strong&&c.priority!=='Maximum strength',apply:(p,a,c)=>{p.walls=2;p.infill=10;p.top=.8;p.bottom=.6;if(!p.detail&&c.priority!=='Maximum quality')p.layer=Math.round(Math.max(.06,c.nozzle*.5)*100)/100;}},
  {id:'broad-top-shell',when:(a,c)=>a.normalReliability&&(a.topPercent>30||c.use==='Coaster / flat object'),apply:p=>{p.top=1.2;p.bottom=.8;p.walls=Math.max(p.walls,3);p.infill=Math.max(p.infill,20);}},
  {id:'petg-quality',when:(a,c)=>c.material.startsWith('PETG')&&c.priority==='Maximum quality',apply:p=>{p.outer=Math.min(p.outer,40);p.topSpeed=Math.min(p.topSpeed,25);p.initial=25;}},
  {id:'silk-visible-surfaces',when:(a,c)=>c.material==='PLA Silk',apply:p=>{p.outer=Math.min(p.outer,40);p.topSpeed=Math.min(p.topSpeed,35);}},

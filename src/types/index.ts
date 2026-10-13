@@ -16,4 +16,4 @@ export interface Analysis {
 export interface Context {printer:string; nozzle:number; material:string; manufacturer:string; profile:string;plate:string;priority:Priority;use:string;accuracy:boolean;finish:boolean;detail:boolean;strong:boolean;avoidSupport:boolean;dual:boolean;customVolume:number[];}
 export interface Source {title:string;url:string;accessed?:string;version?:string;}
 export interface Setting {location?:string[];visibility?:string;availability?:string;studioApplicable?:boolean;studioMode?:'Advanced';intent?:'retain';tab:Tab;group:string;key:string;name:string;value:string;reason:string;confidence:Confidence;basis:Basis;status:'recommended'|'review';sources?:Source[];raw?:unknown;}
-export interface Recommendation {title:string;settings:Setting[];warnings:{severity:'review'|'problem';text:string}[];rules:string[];materialNotes:string[];baseline:string;reviewed:string;}
+export interface Recommendation {printTime?:import('../recommendations/print-time').PrintTimeEstimate;title:string;settings:Setting[];warnings:{severity:'review'|'problem';text:string}[];rules:string[];materialNotes:string[];baseline:string;reviewed:string;}

@@ -1,6 +1,6 @@
 # Created3D · Bambu Config Advisor
 
-Browser-local STL/3MF model inspection and deterministic, explainable recommendations grouped like Bambu Studio. **This is a model-analysis + recommendation assistant, not a slicer.** No extrusion paths, support toolpaths, G-code, slicing time or filament-weight estimates are generated.
+Browser-local STL/3MF model inspection and deterministic, explainable recommendations grouped like Bambu Studio. **This is a model-analysis + recommendation assistant, not a slicer.** No extrusion paths, support toolpaths or G-code are generated. Print-time planning ranges are low-confidence geometry estimates; Bambu Studio supplies the final sliced time.
 
 ## Run locally
 
@@ -62,6 +62,16 @@ The database is a sourced starting point, **not physically production validated*
 Your model is analyzed locally in your browser and is not uploaded to a server. Files remain in memory and are released on replacement/closing. Exports may include geometry/context but omit the model's triangle coordinates and original filename. There is no persistence or telemetry. Opening a source link navigates to that public website but does not send the model.
 
 All parsing/geometry analysis runs in a Web Worker with progress and termination-based cancellation. Limits: 256 MiB input, 2,000,000 triangles, 6,000,000 resource vertices, 4,096 ZIP entries, 2 GiB declared expanded archive, and 512 MiB expanded model XML. ZIP directory/local sizes and paths are checked before model-entry decompression; ZIP64, encryption, external resources, traversal and high-ratio large entries are rejected. XML DOCTYPE/entities are rejected, entity processing is disabled, indices/transforms are validated, and cyclic or excessively nested component graphs are rejected. Large model XML mesh tables use compact typed arrays rather than millions of XML objects. Above 200,000 triangles, every face still contributes to surface/dimension measurements, but detailed topology, unique-vertex counts, components and solid volume are withheld. The preview samples at most 200,000 triangles with a visible notice. Model metadata is never rendered as HTML. A restrictive CSP excludes external runtime scripts and object embeds.
+
+## Model sidebar and print-time planning
+
+Use the collapse icon next to the model format badge to reduce the whole model/geometry sidebar to a narrow rail. Expand it to restore the preview, analysis, current inputs and upload controls. The layout gives the recommendations more space and uses a compact horizontal rail on small screens. The 3D preview does not resize to a zero-area hidden viewport.
+
+**Estimated print time** shows a provisional range for the recommended settings. **Compare modes** includes Quality/Balanced/Fast ranges. A user-supplied current Studio time (in hours) provides a sliced reference and is cleared when replacing the model. Time ranges, assumptions and the optional reference are included in copied/printed/text/JSON reports (report schema 3).
+
+The estimate uses closed-model material volume where available; shell/wall/infill allocation, nominal deposition rates, known max-flow caps, height/layer count and broad travel/preparation/support allowances. When solid volume is unavailable, it uses a very rough surface-area skin proxy and says so. It never fills a hollow cover's entire bounding box with assumed material. It does not calculate toolpaths, support quantities, multi-colour purging or exact acceleration. These ranges have not been calibrated against physical prints and do not replace a Studio slice estimate.
+
+Dense triangulation alone no longer selects fine layers or reduces speeds. Fine-detail mode now requires the user's detail preference or figurine intent. **Use Balanced bottle-cover settings** preserves nozzle/material/checked preferences, selects the bottle-cover intent and Balanced priority, and normally uses 0.20 mm layers for a 0.4 mm nozzle, 2 walls and 10% infill. Explicit fine detail/strength and geometry review rules still apply. Decorative cover intent no longer automatically receives the functional 4-wall/30%-infill policy. Actual fine text, mating fit and bow supports require slice-preview checks. Maximum quality remains available and intentionally takes longer.
 
 ## Exact Bambu Studio placement
 
