@@ -3,7 +3,7 @@ import {ChevronDown,Check,AlertTriangle,SlidersHorizontal,ArrowRight,ArrowUp} fr
 import type {Recommendation,Tab,Setting,Analysis,Context,CurrentSettings} from '../types';
 import {currentValue,comparisonStatus,nozzleCurrentSettings} from '../recommendations/current-settings';
 import {settingPath,studioSettingVisible} from '../recommendations/studio-layout';
-import {formatTimeRange} from '../recommendations/print-time';
+import {formatEstimatedTime} from '../recommendations/print-time';
 import {recommend,tabs} from '../recommendations/engine';
 const basisClass=(s:Setting)=>s.basis.toLowerCase();
 export function SettingRow({s,current,onEdit}:{s:Setting;current:CurrentSettings|null;onEdit:(key:string,value:string)=>void}){
@@ -42,5 +42,5 @@ export function RecommendationTabs({result,current,onEdit,analysis,context}:{res
 }
 export function Compare({analysis,context}:{analysis:Analysis;context:Context}){
  const modes=['Maximum quality','Balanced','Fast'] as const;const results=modes.map(priority=>recommend(analysis,{...context,priority}));const keys=['layer_height','wall_loops','sparse_infill_density','outer_wall_speed','top_surface_speed','outer_wall_acceleration'];
- return <section className="compare-panel"><p className="eyebrow">SAME MODEL. DIFFERENT PRIORITIES.</p><h3>Find your balance</h3><p className="muted">Nominal values reflect the same filament, nozzle and geometry. A flow limit can make two modes converge.</p><div className="compare-scroll"><table><thead><tr><th>Setting</th>{modes.map(m=><th key={m}>{m}</th>)}</tr></thead><tbody><tr className="compare-time-row"><th>Estimated print time<small>Planning range</small></th>{results.map((r,i)=><td key={i}>{r.printTime?formatTimeRange(r.printTime):'Unavailable'}</td>)}</tr>{keys.map(key=><tr key={key}><th>{results[0].settings.find(s=>s.key===key)?.name}</th>{results.map((r,i)=><td key={i}>{r.settings.find(s=>s.key===key)?.value}</td>)}</tr>)}</tbody></table></div></section>;
+ return <section className="compare-panel"><p className="eyebrow">SAME MODEL. DIFFERENT PRIORITIES.</p><h3>Find your balance</h3><p className="muted">Nominal values reflect the same filament, nozzle and geometry. A flow limit can make two modes converge.</p><div className="compare-scroll"><table><thead><tr><th>Setting</th>{modes.map(m=><th key={m}>{m}</th>)}</tr></thead><tbody><tr className="compare-time-row"><th>Estimated print time<small>Single estimate</small></th>{results.map((r,i)=><td key={i}>{r.printTime?formatEstimatedTime(r.printTime):'Unavailable'}</td>)}</tr>{keys.map(key=><tr key={key}><th>{results[0].settings.find(s=>s.key===key)?.name}</th>{results.map((r,i)=><td key={i}>{r.settings.find(s=>s.key===key)?.value}</td>)}</tr>)}</tbody></table></div></section>;
 }

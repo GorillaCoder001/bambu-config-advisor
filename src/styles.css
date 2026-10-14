@@ -32,3 +32,5 @@
 .nozzle-selector button.selected{background:#254e36;color:#dcf5e1;border-color:#8bcaa0}
 .nozzle-selector button:focus-visible{outline:2px solid #b2e7c0;outline-offset:3px}
 .nozzle-selection-note strong{color:#b2e7c0}
+
+.filament-estimate{padding:14px 0;border-top:1px solid #31453a;border-bottom:1px solid #31453a;margin:16px 0}.filament-estimate>strong{font-size:1.5rem;color:#b2e7c0}.filament-estimate p,.filament-estimate small{font-size:.78rem;line-height:1.7;color:#a8b6ac}
