@@ -1,3 +1,4 @@
+import {flatTopEvidence} from './surface-finish';
 import type {Analysis,Context,Priority} from '../types';
 export interface Policy {layer:number;walls:number;infill:number;top:number;bottom:number;outer:number;inner:number;topSpeed:number;infillSpeed:number;solidSpeed:number;initial:number;accel:number;outerAccel:number;topAccel:number;support:boolean;brim:number;detail:boolean;functional:boolean;}
 export const priorityPolicies:Record<Priority,{layerFactor:number;outer:number;inner:number;top:number;infill:number;solid:number;accel:number;outerAccel:number;topAccel:number}>={
@@ -12,9 +13,10 @@ export const rules:Rule[]=[
  {id:'fine-detail',when:(a,c)=>c.detail||c.use==='Figurine',apply:(p,a,c)=>{p.detail=true;if(c.priority!=='Fast')p.layer=Math.min(p.layer,Math.max(.06,c.nozzle*.3));p.outer*=.8;p.topSpeed*=.8;}},
  {id:'functional-walls',when:(a,c)=>c.strong||c.priority==='Maximum strength'||['Functional','Mechanical part','Container','Outdoor','Heat-exposed'].includes(c.use),apply:p=>{p.functional=true;p.walls=4;p.infill=30;p.top=1;p.bottom=1;}},
  {id:'bottle-cover-efficiency',when:(a,c)=>c.use==='Bottle cover / sleeve'&&!c.strong&&c.priority!=='Maximum strength',apply:(p,a,c)=>{p.walls=2;p.infill=10;p.top=.8;p.bottom=.6;if(!p.detail&&c.priority!=='Maximum quality')p.layer=Math.round(Math.max(.06,c.nozzle*.5)*100)/100;}},
- {id:'broad-top-shell',when:(a,c)=>a.normalReliability&&c.use!=='Bottle cover / sleeve'&&(a.topPercent>30||c.use==='Coaster / flat object'),apply:p=>{p.top=1.2;p.bottom=.8;p.walls=Math.max(p.walls,3);p.infill=Math.max(p.infill,20);}},
+ {id:'broad-top-shell',when:(a,c)=>c.use!=='Bottle cover / sleeve'&&(c.use==='Coaster / flat object'||flatTopEvidence(a)),apply:p=>{p.top=1.2;p.bottom=.8;p.walls=Math.max(p.walls,3);p.infill=Math.max(p.infill,20);}},
  {id:'petg-quality',when:(a,c)=>c.material.startsWith('PETG')&&c.priority==='Maximum quality',apply:p=>{p.outer=Math.min(p.outer,40);p.topSpeed=Math.min(p.topSpeed,25);p.initial=25;}},
  {id:'silk-visible-surfaces',when:(a,c)=>c.material==='PLA Silk',apply:p=>{p.outer=Math.min(p.outer,40);p.topSpeed=Math.min(p.topSpeed,35);}},
+ {id:'flat-top-finish-speed',when:(a,c)=>c.use==='Coaster / flat object'||c.finish&&flatTopEvidence(a),apply:(p,a,c)=>{p.topSpeed=Math.min(p.topSpeed,c.material.startsWith('PETG')?40:50);}},
  {id:'flexible-speed',when:(a,c)=>c.material==='TPU',apply:p=>{p.outer=Math.min(p.outer,25);p.inner=Math.min(p.inner,35);p.topSpeed=Math.min(p.topSpeed,25);p.infillSpeed=Math.min(p.infillSpeed,35);p.solidSpeed=Math.min(p.solidSpeed,30);p.initial=15;p.accel=1500;p.outerAccel=800;p.topAccel=800;}},
  {id:'overhang-candidates',when:a=>a.overhangPercent>.3||!a.normalReliability,apply:p=>{p.support=true;}},
  {id:'tall-stability',when:a=>a.aspect>3||a.contactArea/Math.max(a.footprint,1)<.08,apply:p=>{p.brim=6;p.accel=Math.min(p.accel,3000);}},

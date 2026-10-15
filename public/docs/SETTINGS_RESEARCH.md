@@ -48,3 +48,18 @@ Time is calculated from estimated deposited walls, shell and infill volume; role
 Grams = deposited mm³ / 1000 × density g/cm³. Published profile density is preferred. When unavailable, labelled family assumptions are used: PLA variants 1.24, PETG variants 1.27, ABS 1.04, ASA 1.07 and TPU 1.21 g/cm³; unknown material falls back to 1.24. Model mass and estimated support mass are shown separately. Support volume uses 8% plus overhang percentage, capped at 40% of model extrusion. This does not simulate support generation. Purging, prime tower, brim and loading waste are excluded.
 
 When mesh volume is unverified, the surface-area proxy remains explicitly approximate for both grams and time. The application has no browser slicer engine or server slicing service. Generating toolpaths with a compatible slicer is required for a slicer-derived estimate; even that cannot guarantee the actual physical completion time.
+
+## Surface-finish recommendation review (15 October 2026)
+
+The former ironing rule required the finish preference, reliable normals, top area above 30% of the total surface and no detail preference. This missed explicit coaster intent and disabled a provided Topmost surface choice. These conditions are replaced by a named surface-finish decision:
+
+- Coaster intent triggers an ironing trial for supported rigid materials. Unverified normals require explicit Preview review; reliable geometry with no substantial horizontal top does not trigger ironing.
+- Measured flat-top evidence uses upward horizontal area (normal Z above 0.98), at least 15% of the XY bounding footprint and at least 4 mm². This is an authored screening heuristic, not a sliced top-surface measurement. It replaces the misleading total-surface percentage cutoff.
+- Existing Top surfaces / Topmost surface choices and valid ironing speed, flow and spacing are preserved. Fine-detail preference prompts an artwork warning rather than a blanket veto.
+- Default Top surfaces covers lower flat backgrounds below raised text. Topmost surface only treats the highest layer and may leave the coaster background untouched. Inspect actual paths in Preview.
+- PETG requires a clean nozzle and a test patch because plastic can accumulate on the nozzle. Fast mode explicitly warns that ironing adds time. TPU and unknown materials do not receive automatic ironing.
+- Trial values, when no valid value is provided: 20 mm/s, 10% flow, spacing 0.375 × nozzle diameter (0.15 mm at 0.4 mm). These are authored starting points, not manufacturer calibration. Existing numeric values are preferred.
+- Explicit coaster intent also drives top-shell backing when normals are unverified. Coaster top-fill speed is capped at 40 mm/s for PETG or 50 mm/s for other rigid materials, without changing hidden infill/travel speeds. Lower existing priority speeds and flow caps still apply.
+- Time and grams now include the extra ironing pass and extrusion. Aggregate area cannot distinguish Topmost paths from lower terraces; those estimates still require slicer confirmation.
+
+Reviewed the surface-finish chain across geometry evidence, user intent, material behavior, current calibration, top-shell backing, top speed, ironing and time/mass reporting. This is not certification of every setting or a physical print result. [Primary technical guidance: Prusa ironing](https://help.prusa3d.com/article/ironing_177488). Bambu field names and placement remain pinned to the existing official configuration snapshot.

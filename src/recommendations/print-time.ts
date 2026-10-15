@@ -34,7 +34,12 @@ export function estimatePrintTime(a:Analysis,c:Context,settings:Setting[]):Print
  const outerVolume=wallVolume/walls;let extrusion=outerVolume/outer+(wallVolume-outerVolume)/inner+capVolume/top+infillVolume/infill;
  const firstRate=Math.max(.001,Math.min(flow>0?flow*.9:Infinity,initial*width*Math.max(1,value(settings,'initial_layer_speed',25))));
  const firstVolume=Math.min(deposited,Math.max(0,a.contactArea)*initial);extrusion+=Math.max(0,firstVolume/firstRate-firstVolume/Math.max(.1,(outer+inner)/2));
- if(settings.find(s=>s.key==='ironing_type')?.value!=='No ironing')extrusion+=topArea/(Math.max(.05,value(settings,'ironing_spacing',.15))*Math.max(1,value(settings,'ironing_speed',20)));
+ const ironingType=settings.find(s=>s.key==='ironing_type')?.value;
+ const ironingEnabled=ironingType==='Top surfaces'||ironingType==='Topmost surface';
+ // Aggregate top area cannot distinguish the highest layer from all flat tops.
+ const ironingArea=ironingEnabled?(a.normalReliability?Math.max(0,a.flatAreas[5]||topArea):Math.max(topArea,a.footprint*.6)):0;
+ const ironingVolume=ironingArea*layer*value(settings,'ironing_flow',10)/100;
+ if(ironingEnabled)extrusion+=ironingArea/(Math.max(.05,value(settings,'ironing_spacing',.15))*Math.max(1,value(settings,'ironing_speed',20)));
  const layerCooling=enabled(settings,'slow_down_for_layer_cooling')?value(settings,'slow_down_layer_time',0):0;
  const base=Math.max(extrusion,layers*layerCooling);
  const supports=enabled(settings,'enable_support');
@@ -47,10 +52,11 @@ export function estimatePrintTime(a:Analysis,c:Context,settings:Setting[]):Print
  const profileDensity=value(settings,'filament_density',0);
  const densityGcm3=profileDensity>0?profileDensity:familyDensity[c.material]||1.24;
  const densitySource=profileDensity>0?'profile' as const:'family assumption' as const;
- const modelGrams=deposited/1000*densityGcm3,supportGrams=supportVolume/1000*densityGcm3;
+ const modelGrams=(deposited+ironingVolume)/1000*densityGcm3,supportGrams=supportVolume/1000*densityGcm3;
  const filamentGrams=modelGrams+supportGrams;
  const assumptions=[
   measured?'Material volume uses the measured closed model, with approximate wall, shell and infill allocation.':'Solid volume is unavailable. Time uses a very rough surface-area skin proxy; interior material and wall thickness are unknown.',
+  ...(ironingEnabled?['Ironing adds a smoothing pass and extra extrusion. Aggregate top area is used; with unverified normals, a rough 60% footprint allowance is used. Topmost versus lower terraces and raised artwork require slice preview.']:[]),
   'Assumes the current Z orientation, one material and one model/group. No toolpaths are generated.',
   flow>0?'Extrusion is capped by the maximum flow shown in the recommendation, from a profile or your provided current value; it is not a measured hotend result.':'Max volumetric speed is unverified; assumes the nominal settings can be reached.',
   'Includes an assumed 10-minute preparation, approximate acceleration on short moves and travel overhead. Actual machine startup can differ.',
@@ -62,7 +68,7 @@ export function estimatePrintTime(a:Analysis,c:Context,settings:Setting[]):Print
  const drivers=[`${layer} mm layers · approximately ${layers.toLocaleString()} layers`,`${Math.round(value(settings,'outer_wall_speed',40))} mm/s outer walls · ${walls} wall loops`,supports?'Supports enabled: inspect the bow, underside and support-only regions.':'Supports off in the recommendation.'];
  if(c.priority==='Maximum quality')drivers.push('Maximum quality prioritizes finish over print duration.');
  if(a.dense)drivers.push('Triangle count affects analysis/slicing workload; it is not evidence that thinner print layers are needed.');
- return {seconds,filamentGrams,modelGrams,supportGrams,densityGcm3,densitySource,layers,method:measured?'measured-volume':'surface-proxy',confidence:'low',depositedVolumeMm3:deposited,assumptions,drivers};
+ return {seconds,filamentGrams,modelGrams,supportGrams,densityGcm3,densitySource,layers,method:measured?'measured-volume':'surface-proxy',confidence:'low',depositedVolumeMm3:deposited+ironingVolume,assumptions,drivers};
 }
 export function formatDuration(seconds:number):string {
  const minutes=Math.max(1,Math.round(seconds/60));const hours=Math.floor(minutes/60),remaining=minutes%60;
