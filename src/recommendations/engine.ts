@@ -4,6 +4,7 @@ import {orderStudioSettings,studioControls,placeStudioSetting,studioLayoutSource
 import labels from '../profiles/setting-labels.json';
 import {materialProfile,scalar} from '../profiles/materials';
 import {printers} from '../profiles/printers';
+import {ironingAdvice} from './surface-finish';
 import {derivePolicy} from './policies';
 import {explainSetting} from './setting-help';
 import type {Analysis,Context,CurrentSettings,Recommendation,Setting,Tab,Basis,Confidence,Source} from '../types';
@@ -28,8 +29,18 @@ export function recommend(a:Analysis,c:Context,current?:CurrentSettings|null):Re
  add('Quality','Wall generator','wall_generator',p.detail?'Arachne':'Classic',p.detail?'Variable-width walls may help fine features; verify thin regions in slice preview.':'Constant-width walls provide a straightforward baseline.');
  add('Quality','Advanced','wall_sequence',c.accuracy?'outer/inner':'inner/outer',c.accuracy?'Outer-first can improve external dimensions but can worsen unsupported overhangs.':'Inner walls support the outer wall before its visible pass.','Preference','medium',c.accuracy&&p.support?'review':'recommended');
  add('Quality','Advanced','is_infill_first','OFF','Walls establish the perimeter before infill.');
- const iron=c.finish&&a.normalReliability&&a.topPercent>30&&!p.detail&&c.material!=='TPU';
- add('Quality','Ironing','ironing_type',iron?'Top surfaces':'No ironing',iron?'Broad flat top and surface-finish preference favor an ironing trial. It costs time and needs flow tuning.':'Keep ironing off for detail, curves or an uncalibrated surface.',iron?'Model':'Preference','medium',iron?'review':'recommended');
+ const ironing=ironingAdvice(a,c,current);
+ const iron=ironing.enabled;
+ add('Quality','Ironing','ironing_type',ironing.value,ironing.reason,ironing.retained?'Preset':'Preference','medium',iron?'review':'recommended',[{title:'Prusa · ironing behavior and calibration',url:'https://help.prusa3d.com/article/ironing_177488',accessed:'2026-10-15'}]);
+ if(ironing.retained)settings[settings.length-1].intent='retain';
+ if(iron){
+  for(const [key,fallback,unit,max] of [['ironing_speed',20,' mm/s',300],['ironing_flow',10,'%',100],['ironing_spacing',round(Math.max(.05,c.nozzle*.375),3),' mm',c.nozzle]] as const){
+   const existing=currentValue(current,{key} as Setting),n=existing?parseFloat(existing):NaN;
+   const retain=Number.isFinite(n)&&n>0&&n<=max;
+   add('Quality','Ironing',key,retain?existing!:fallback+unit,retain?'Keep your provided ironing value. Print a small flat trial before changing this calibration.':'Advisor trial starting point, not a manufacturer-tuned value. Test speed, flow and spacing together on a small flat patch.',retain?'Preset':'Preference','medium','review');
+   if(retain)settings[settings.length-1].intent='retain';
+  }
+ }
  add('Strength','Walls','wall_loops',String(p.walls),p.functional?'Functional/strength input increases perimeter material; orientation still determines inter-layer strength.':p.walls>2?'Broad top/flat-part rule adds a perimeter for edge robustness.':'Two walls are a moderate decorative starting point.','Preference');
  add('Strength','Top / bottom shells','top_surface_pattern','Monotonic','Consistent top-line direction favors an even visible finish.');
  add('Strength','Top / bottom shells','top_surface_density','100%','Solid top layers close the top skin.');
