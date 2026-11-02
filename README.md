@@ -1,6 +1,6 @@
 # Created3D · Bambu Config Advisor
 
-Browser-local STL/3MF model inspection and deterministic, explainable recommendations grouped like Bambu Studio. **This is a model-analysis + recommendation assistant, not a slicer.** No extrusion paths, support toolpaths or G-code are generated. Print-time planning ranges are low-confidence geometry estimates; Bambu Studio supplies the final sliced time.
+Browser-local STL/3MF model inspection, explainable Bambu Studio recommendations, and experimental browser-only WASM slicing. Upload the original model, open the browser slicer, check the imported project, then Slice. No separate sliced file or server upload is required. Single-material timing, multicolour toolpaths and per-material filament usage are supported; complete multicolour/X2D timing is not yet supported. See [browser slicing details and limits](BROWSER_SLICING.md).
 
 ## Run locally
 
