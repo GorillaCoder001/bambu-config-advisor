@@ -95,14 +95,16 @@ it('switches Speed between Main and Auxiliary with independent current values',{
 
 it('does not show a geometry subtotal as a five-colour job total',()=>{
  render(<App/>);fireEvent.change(screen.getByLabelText('Paste current settings JSON'),{target:{value:JSON.stringify({filament_colour:['purple','pink','white','red','black'],filament_type:Array(5).fill('PETG')})}});fireEvent.click(screen.getByRole('button',{name:'Apply current settings'}));
- expect(document.querySelector('.time-summary strong')?.textContent).toBe('Colour-change data needed');
- expect(screen.getByLabelText('Filaments used')).toBeTruthy();expect(screen.getByLabelText('Total colour / tool changes')).toBeTruthy();
- expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('Total grams need colour-change data');
+ expect(document.querySelector('.time-summary strong')?.textContent).toMatch(/\d+ (h|min)/);
+ expect(screen.queryByLabelText('Total colour / tool changes')).toBeNull();
+ expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('Model + supports');
+ expect(screen.getByText(/Multi-colour time and grams shown cover/)).toBeTruthy();
+ expect(screen.queryByRole('button',{name:'Open browser slicer'})).toBeNull();
 });
 it('imports a per-plate Studio slice reference and keeps it labelled after context changes',async()=>{
  render(<App/>);const buffer=mf(xml(),{'Metadata/slice_info.config':strToU8('<config><plate><metadata key="index" value="1"/><metadata key="prediction" value="72900"/><metadata key="weight" value="211.87"/></plate></config>')});
  const file=new File([buffer],'same-model.gcode.3mf');Object.defineProperty(file,'arrayBuffer',{value:async()=>buffer});
- fireEvent.change(screen.getByLabelText('Import saved Studio slice (.3mf / .gcode.3mf)'),{target:{files:[file]}});
+ fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[file]}});
  await waitFor(()=>expect(document.querySelector('.time-summary strong')?.textContent).toBe('20 h 15 min'));
  expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('211.87 g');
  fireEvent.click(screen.getByRole('button',{name:'Fast'}));expect(screen.getByText(/does not update when recommendations change/)).toBeTruthy();expect(document.querySelector('.time-summary strong')?.textContent).toBe('20 h 15 min');

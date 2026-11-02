@@ -1,6 +1,6 @@
 # Created3D · Bambu Config Advisor
 
-Browser-local STL/3MF model inspection, explainable Bambu Studio recommendations, and experimental browser-only WASM slicing. Upload the original model, open the browser slicer, check the imported project, then Slice. No separate sliced file or server upload is required. Single-material timing, multicolour toolpaths and per-material filament usage are supported; complete multicolour/X2D timing is not yet supported. See [browser slicing details and limits](BROWSER_SLICING.md).
+Browser-local STL/3MF model inspection and explainable Bambu Studio recommendations. Upload once: background geometry processing automatically shows a single time estimate and material usage in grams. Saved per-plate Studio results are read automatically from the same 3MF when present. Geometry-only uploads use a labelled approximation, not real toolpath slicing. Multicolour estimates exclude unknown change/purge overhead. The heavy experimental browser-slicer workspace has been removed; see [workflow details](BROWSER_SLICING.md).
 
 ## Run locally
 

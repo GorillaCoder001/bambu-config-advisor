@@ -7,8 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
-    "check": "tsc --noEmit",
-    "test:slicer": "node scripts/check-browser-slicer.mjs"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "fast-xml-parser": "5.11.2",
@@ -16,9 +15,7 @@
     "lucide-react": "0.468.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "three": "0.160.1",
-    "three-slicer": "0.4.1",
-    "three-slicer-viewer": "0.4.1"
+    "three": "0.180.0"
   },
   "devDependencies": {
     "@testing-library/react": "16.3.0",
