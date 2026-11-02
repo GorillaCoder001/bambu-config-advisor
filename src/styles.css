@@ -34,3 +34,5 @@
 .nozzle-selection-note strong{color:#b2e7c0}
 
 .filament-estimate{padding:14px 0;border-top:1px solid #31453a;border-bottom:1px solid #31453a;margin:16px 0}.filament-estimate>strong{font-size:1.5rem;color:#b2e7c0}.filament-estimate p,.filament-estimate small{font-size:.78rem;line-height:1.7;color:#a8b6ac}
+
+.job-inputs,.slice-import{padding:16px 0;border-top:1px solid #31453a;margin-top:16px}.job-inputs p,.slice-import p{font-size:.78rem;line-height:1.7;color:#b8c7bc}.slice-import input,.slice-import select{display:block;margin:8px 0;max-width:100%}.job-inputs .time-actions{display:flex;flex-wrap:wrap;gap:14px}.job-inputs label{flex:1 1 180px}.job-inputs summary{cursor:pointer}

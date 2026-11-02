@@ -1,6 +1,6 @@
 import type {Analysis,Context,Setting} from '../types';
 export interface PrintTimeEstimate {
- seconds:number;filamentGrams:number;modelGrams:number;supportGrams:number;densityGcm3:number;densitySource:'profile'|'family assumption';layers:number;method:'measured-volume'|'surface-proxy';confidence:'low';
+ geometrySeconds:number;towerSeconds:number;complete:boolean;colorCount:number;changeOverheadSeconds:number;purgeGrams:number;towerGrams:number;seconds:number;filamentGrams:number;modelGrams:number;supportGrams:number;densityGcm3:number;densitySource:'profile'|'family assumption';layers:number;method:'measured-volume'|'surface-proxy';confidence:'low';
  depositedVolumeMm3:number;assumptions:string[];drivers:string[];
 }
 const value=(settings:Setting[],key:string,fallback:number)=>{const raw=settings.find(s=>s.key===key)?.value||'';const n=parseFloat(raw);return Number.isFinite(n)&&n>=0?n:fallback;};
@@ -53,25 +53,35 @@ export function estimatePrintTime(a:Analysis,c:Context,settings:Setting[]):Print
  const densityGcm3=profileDensity>0?profileDensity:familyDensity[c.material]||1.24;
  const densitySource=profileDensity>0?'profile' as const:'family assumption' as const;
  const modelGrams=(deposited+ironingVolume)/1000*densityGcm3,supportGrams=supportVolume/1000*densityGcm3;
- const filamentGrams=modelGrams+supportGrams;
+ const colorCount=Math.max(1,Math.min(64,Math.round(c.colorCount||1)));
+ const multi=colorCount>1;
+ const valid=(n:number|undefined,max:number)=>n!=null&&Number.isFinite(n)&&n>=0&&n<=max;
+ const changesKnown=valid(c.filamentChanges,1000000)&&Number.isInteger(c.filamentChanges);
+ const complete=!multi||(changesKnown&&valid(c.changeSeconds,3600)&&((c.filamentChanges||0)===0||(c.changeSeconds||0)>0)&&valid(c.purgeGrams,100000)&&valid(c.towerGrams,100000));
+ const changeOverheadSeconds=multi&&complete?c.filamentChanges!*c.changeSeconds!:0;
+ const purgeGrams=multi&&complete?c.purgeGrams!:0,towerGrams=multi&&complete?c.towerGrams!:0;
+ const filamentGrams=modelGrams+supportGrams+purgeGrams+towerGrams;
+ // Change duration is inclusive of loading/unloading and purging; do not double count purge extrusion time.
+ const towerSeconds=towerGrams/densityGcm3*1000/rate('support_speed');
  const assumptions=[
   measured?'Material volume uses the measured closed model, with approximate wall, shell and infill allocation.':'Solid volume is unavailable. Time uses a very rough surface-area skin proxy; interior material and wall thickness are unknown.',
   ...(ironingEnabled?['Ironing adds a smoothing pass and extra extrusion. Aggregate top area is used; with unverified normals, a rough 60% footprint allowance is used. Topmost versus lower terraces and raised artwork require slice preview.']:[]),
-  'Assumes the current Z orientation, one material and one model/group. No toolpaths are generated.',
+  'Assumes the current Z orientation and one model/group. No toolpaths are generated. All geometry uses the selected material; mixed-material jobs require a saved Studio slice.',
   flow>0?'Extrusion is capped by the maximum flow shown in the recommendation, from a profile or your provided current value; it is not a measured hotend result.':'Max volumetric speed is unverified; assumes the nominal settings can be reached.',
   'Includes an assumed 10-minute preparation, approximate acceleration on short moves and travel overhead. Actual machine startup can differ.',
   'Filament mass = deposited volume in mm³ ÷ 1000 × density in g/cm³. Density: '+densityGcm3+' g/cm³ ('+densitySource+'). Material flow limits affect time; density converts volume to grams.',
   supports?'Support grams use an authored allowance of 8% plus overhang percentage, capped at 40% of model extrusion. Support geometry is not generated.':'Assumes no generated supports.',
   layerCooling>0?'Uses the provided minimum layer-time setting as a rough cooling floor.':'Layer cooling may add time; no verified minimum layer time is available.',
-  'Multi-colour purging, filament changes, retries, model repairs and exact acceleration/toolpath effects are not simulated. Confirm by slicing in Bambu Studio.'
+  multi?(complete?'Colour-change overhead uses your change count and average inclusive seconds per change. Purge and tower grams use your supplied values; tower extrusion time is added separately.':'Multi-colour total is unavailable until change count, inclusive seconds/change, purge grams and tower grams are provided. Colour count alone is insufficient.'):'Single-colour estimate excludes purge, tower, brim and loading waste.',
+  'Retries, model repairs, nozzle-specific toolpaths and exact motion are not simulated. Confirm by slicing in Bambu Studio.'
  ];
  const drivers=[`${layer} mm layers · approximately ${layers.toLocaleString()} layers`,`${Math.round(value(settings,'outer_wall_speed',40))} mm/s outer walls · ${walls} wall loops`,supports?'Supports enabled: inspect the bow, underside and support-only regions.':'Supports off in the recommendation.'];
  if(c.priority==='Maximum quality')drivers.push('Maximum quality prioritizes finish over print duration.');
  if(a.dense)drivers.push('Triangle count affects analysis/slicing workload; it is not evidence that thinner print layers are needed.');
- return {seconds,filamentGrams,modelGrams,supportGrams,densityGcm3,densitySource,layers,method:measured?'measured-volume':'surface-proxy',confidence:'low',depositedVolumeMm3:deposited+ironingVolume,assumptions,drivers};
+ return {geometrySeconds:seconds,towerSeconds,complete,colorCount,changeOverheadSeconds,purgeGrams,towerGrams,seconds:seconds+changeOverheadSeconds+towerSeconds,filamentGrams,modelGrams,supportGrams,densityGcm3,densitySource,layers,method:measured?'measured-volume':'surface-proxy',confidence:'low',depositedVolumeMm3:deposited+ironingVolume,assumptions,drivers};
 }
 export function formatDuration(seconds:number):string {
  const minutes=Math.max(1,Math.round(seconds/60));const hours=Math.floor(minutes/60),remaining=minutes%60;
  return hours?(hours+' h'+(remaining?' '+remaining+' min':'')):minutes+' min';
 }
-export const formatEstimatedTime=(estimate:PrintTimeEstimate)=>formatDuration(estimate.seconds);
+export const formatEstimatedTime=(estimate:PrintTimeEstimate)=>!estimate.complete?'Colour-change data needed':estimate.method==='surface-proxy'?'Saved slice needed: volume unverified':formatDuration(estimate.seconds);

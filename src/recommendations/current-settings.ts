@@ -1,8 +1,9 @@
+import {machineLimitKeys} from './machine-limits';
 import {XMLParser, XMLValidator} from 'fast-xml-parser';
 import labels from '../profiles/setting-labels.json';
 import {formatStudioValue,studioControls} from './studio-layout';
 import type {CurrentSettings,Setting} from '../types';
-const known=new Set(['print_extruder_variant','print_extruder_id','filament_extruder_variant',...Object.keys(labels),...studioControls.map(s=>s.key)]);
+const known=new Set([...machineLimitKeys,'filament_colour','filament_type','filament_settings_id','print_extruder_variant','print_extruder_id','filament_extruder_variant',...Object.keys(labels),...studioControls.map(s=>s.key)]);
 const aliases:Record<string,string>={initial_layer_height:'initial_layer_print_height',chamber_temperature:'chamber_temperatures'};
 export function parseCurrentSettings(text:string,source='Imported Bambu settings JSON'):CurrentSettings {
  if(text.length>8*1024*1024)throw new Error('Settings file exceeds the 8 MB limit.');

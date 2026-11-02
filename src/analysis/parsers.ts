@@ -1,3 +1,4 @@
+import {parseSliceInfo} from './slice-summary';
 import { unzipSync } from 'fflate';
 import { XMLParser, XMLValidator } from 'fast-xml-parser';
 import type { Mesh } from '../types';
@@ -98,6 +99,9 @@ export function parse3MF(buffer:ArrayBuffer):Mesh {
   }docs.set(path,{objects,build:arr(model.build?.item),factor});
  }
  const root=[...docs.keys()].find(p=>p.toLowerCase()==='3d/3dmodel.model')||fail('3MF must include 3D/3dmodel.model.');
+ let sliceSummaries:ReturnType<typeof parseSliceInfo>=[];
+ const slicePath=[...entries.keys()].find(p=>p.toLowerCase()==='metadata/slice_info.config');
+ if(slicePath&&entries.get(slicePath)!.originalSize<=LIMITS.settings){try{sliceSummaries=parseSliceInfo(new TextDecoder('utf-8',{fatal:true}).decode(extract(slicePath)));}catch{settingsNotes.push('Saved slice summary is invalid; re-export the sliced plate from Studio.');}}
  const notes=['3MF build-item and component transforms are preserved; colours and painted supports are not imported.',...settingsNotes];let instances=0,totalTriangles=0;
  const placements:{obj:any;transforms:number[][]}[]=[];
  function visit(path:string,id:string,stack:string[],transforms:number[][]){
@@ -112,6 +116,16 @@ export function parse3MF(buffer:ArrayBuffer):Mesh {
  for(const {obj,transforms}of placements){const mirror=transforms.reduce((v,m)=>v*det(m),1)<0;
   for(let i=0;i<obj.triangles.length;i+=3){const order=mirror?[i,i+2,i+1]:[i,i+1,i+2];for(const k of order){const vi=obj.triangles[k]*3;let p=[obj.vertices[vi],obj.vertices[vi+1],obj.vertices[vi+2]];for(const m of transforms)p=point(p,m);output.set(p,offset);offset+=3;}}
  }
- return {positions:validatePositions(output),format:'3MF',notes,currentSettings};
+ return {positions:validatePositions(output),format:'3MF',notes,currentSettings,sliceSummaries};
 }
 export function parseModel(buffer:ArrayBuffer,filename:string):Mesh {const ext=filename.split('.').at(-1)?.toLowerCase();if(ext==='stl')return parseSTL(buffer);if(ext==='3mf')return parse3MF(buffer);return fail('Unsupported format. Upload a binary/ASCII STL or a 3MF.');}
+
+export function readSliced3MF(buffer:ArrayBuffer){
+ if(buffer.byteLength>LIMITS.bytes)throw new Error('Sliced file exceeds 256 MB.');
+ const entries=inspectZip(buffer),path=[...entries.keys()].find(p=>p.toLowerCase()==='metadata/slice_info.config');
+ if(!path||entries.get(path)!.originalSize>LIMITS.settings)throw new Error('No supported saved slice summary. Export the sliced plate as a sliced 3MF from Studio.');
+ const files=unzipSync(new Uint8Array(buffer),{filter:e=>e.name===path});
+ const summaries=parseSliceInfo(new TextDecoder('utf-8',{fatal:true}).decode(files[path]));
+ if(!summaries.length)throw new Error('No valid plate time and weight found. Slice the plate and export again.');
+ return summaries;
+}

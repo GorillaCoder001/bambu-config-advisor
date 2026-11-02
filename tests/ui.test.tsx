@@ -75,7 +75,7 @@ describe('collapsed model panel and print-time planning',()=>{
   render(<App/>);fireEvent.change(screen.getByLabelText('Current Layer height Layer height'),{target:{value:'0.2 mm'}});fireEvent.click(screen.getByRole('button',{name:'Collapse model panel'}));const content=document.getElementById('model-workspace-content')!;expect(content.hidden).toBe(true);expect(screen.getByRole('button',{name:'Expand model panel'}).getAttribute('aria-expanded')).toBe('false');expect(document.querySelector('.workspace.sidebar-collapsed')).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'Expand model panel'}));expect(content.hidden).toBe(false);expect(screen.getByText('Sample coaster')).toBeTruthy();expect((screen.getByLabelText('Current Layer height Layer height') as HTMLInputElement).value).toBe('0.2 mm');
  });
  it('shows a single time and grams, accepts a sliced time reference and switches to the efficient bottle profile',()=>{
-  render(<App/>);expect(screen.getByRole('region',{name:'Estimated print time'})).toBeTruthy();expect(screen.getByLabelText('Estimated filament usage').textContent).toContain(' g');expect(document.querySelector('.time-summary strong')?.textContent).not.toContain('–');fireEvent.change(screen.getByLabelText('Current Bambu Studio time in hours'),{target:{value:'16'}});expect(screen.getAllByText('16 h').length).toBeGreaterThan(0);fireEvent.click(screen.getByRole('button',{name:'Use Balanced bottle-cover settings'}));expect((screen.getByLabelText('Intended use') as HTMLSelectElement).value).toBe('Bottle cover / sleeve');expect(screen.getByText('0.2 mm layers')).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'Compare modes'}));expect(screen.getAllByText('Estimated print time').length).toBeGreaterThan(1);expect(screen.getByText('Single estimate')).toBeTruthy();
+  render(<App/>);expect(screen.getByRole('region',{name:'Estimated print time'})).toBeTruthy();expect(screen.getByLabelText('Estimated filament usage').textContent).toContain(' g');expect(document.querySelector('.time-summary strong')?.textContent).not.toContain('–');fireEvent.change(screen.getByLabelText('Current Bambu Studio time in hours'),{target:{value:'16'}});expect(screen.getAllByText('16 h').length).toBeGreaterThan(0);fireEvent.change(screen.getByLabelText('Intended use'),{target:{value:'Bottle cover / sleeve'}});fireEvent.click(screen.getByRole('button',{name:'Use Balanced bottle-cover settings'}));expect((screen.getByLabelText('Intended use') as HTMLSelectElement).value).toBe('Bottle cover / sleeve');expect(screen.getByText('0.2 mm layers')).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'Compare modes'}));expect(screen.getAllByText('Estimated print time').length).toBeGreaterThan(1);expect(screen.getByText('Single estimate')).toBeTruthy();
  });
  it('clears the sliced time reference when changing model and includes it in copied reports',async()=>{
   render(<App/>);fireEvent.change(screen.getByLabelText('Current Bambu Studio time in hours'),{target:{value:'16'}});fireEvent.click(screen.getByRole('button',{name:'Copy all'}));await waitFor(()=>expect(navigator.clipboard.writeText).toHaveBeenCalled());expect(vi.mocked(navigator.clipboard.writeText).mock.calls[0][0]).toContain('sliced time: 16 h');fireEvent.click(screen.getByRole('button',{name:'Tower'}));expect((screen.getByLabelText('Current Bambu Studio time in hours') as HTMLInputElement).value).toBe('');
@@ -91,4 +91,20 @@ it('switches Speed between Main and Auxiliary with independent current values',{
  fireEvent.click(screen.getByRole('button',{name:/Main: Standard/}));
  expect((screen.getByLabelText('Current Initial layer speed Initial layer') as HTMLInputElement).value).toBe('22');
  expect(screen.queryByText(/Variant-specific:/)).toBeNull();
+});
+
+it('does not show a geometry subtotal as a five-colour job total',()=>{
+ render(<App/>);fireEvent.change(screen.getByLabelText('Paste current settings JSON'),{target:{value:JSON.stringify({filament_colour:['purple','pink','white','red','black'],filament_type:Array(5).fill('PETG')})}});fireEvent.click(screen.getByRole('button',{name:'Apply current settings'}));
+ expect(document.querySelector('.time-summary strong')?.textContent).toBe('Colour-change data needed');
+ expect(screen.getByLabelText('Filaments used')).toBeTruthy();expect(screen.getByLabelText('Total colour / tool changes')).toBeTruthy();
+ expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('Total grams need colour-change data');
+});
+it('imports a per-plate Studio slice reference and keeps it labelled after context changes',async()=>{
+ render(<App/>);const buffer=mf(xml(),{'Metadata/slice_info.config':strToU8('<config><plate><metadata key="index" value="1"/><metadata key="prediction" value="72900"/><metadata key="weight" value="211.87"/></plate></config>')});
+ const file=new File([buffer],'same-model.gcode.3mf');Object.defineProperty(file,'arrayBuffer',{value:async()=>buffer});
+ fireEvent.change(screen.getByLabelText('Import saved Studio slice (.3mf / .gcode.3mf)'),{target:{files:[file]}});
+ await waitFor(()=>expect(document.querySelector('.time-summary strong')?.textContent).toBe('20 h 15 min'));
+ expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('211.87 g');
+ fireEvent.click(screen.getByRole('button',{name:'Fast'}));expect(screen.getByText(/does not update when recommendations change/)).toBeTruthy();expect(document.querySelector('.time-summary strong')?.textContent).toBe('20 h 15 min');
+ fireEvent.click(screen.getByRole('button',{name:'Tower'}));expect(screen.queryByText(/Saved Studio plate 1/)).toBeNull();
 });
