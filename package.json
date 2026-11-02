@@ -7,27 +7,30 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "test:slicer": "node scripts/check-browser-slicer.mjs"
   },
   "dependencies": {
+    "fast-xml-parser": "5.11.2",
+    "fflate": "0.8.3",
+    "lucide-react": "0.468.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "three": "0.180.0",
-    "fflate": "0.8.3",
-    "fast-xml-parser": "5.11.2",
-    "lucide-react": "0.468.0"
+    "three": "0.160.1",
+    "three-slicer": "0.4.1",
+    "three-slicer-viewer": "0.4.1"
   },
   "devDependencies": {
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
     "@types/react": "19.1.16",
     "@types/react-dom": "19.1.9",
     "@types/three": "0.180.0",
     "@vitejs/plugin-react": "4.7.0",
+    "jsdom": "26.1.0",
     "typescript": "5.9.3",
     "vite": "6.4.4",
-    "vitest": "4.1.11",
-    "jsdom": "26.1.0",
-    "@testing-library/react": "16.3.0",
-    "@testing-library/user-event": "14.6.1"
+    "vitest": "4.1.11"
   },
   "engines": {
     "node": ">=22.12.0"
