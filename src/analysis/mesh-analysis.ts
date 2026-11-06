@@ -1,5 +1,5 @@
 import type {Analysis, Mesh} from '../types';
-export const FULL_TOPOLOGY_LIMIT=200_000;
+export const FULL_TOPOLOGY_LIMIT=400_000;
 export function analyzeMesh(mesh:Mesh,progress:(message:string)=>void=()=>{}):Analysis {
  const p=mesh.positions,n=p.length/9;if(!n)throw new Error('No geometry to analyze.');progress('Measuring geometry…');
  const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];for(let i=0;i<p.length;i++) {const a=i%3;min[a]=Math.min(min[a],p[i]);max[a]=Math.max(max[a],p[i]);}
@@ -7,7 +7,7 @@ export function analyzeMesh(mesh:Mesh,progress:(message:string)=>void=()=>{}):An
  const center=min.map((v,i)=>(v+max[i])/2),tol=Math.max(1e-6,Math.max(...dimensions)*1e-7),areaTol=tol*tol;
  const topologyChecked=n<=FULL_TOPOLOGY_LIMIT;
  const weld=new Map<string,number>(),parents=new Uint32Array(topologyChecked?n:0),signed=new Float64Array(topologyChecked?n:0);
- const edges=new Map<string,{count:number;balance:number;first:number}>(),faceSet=new Set<string>();
+ const edges=new Map<number,{count:number;balance:number;first:number}>(),faceSet=new Set<string>();
  let area=0,contactArea=0,top=0,bottom=0,overhang=0,steep=0,degenerate=0,duplicates=0;const bins=[0,0,0,0],flatAreas=[0,0,0,0,0,0];const smallEdges:number[]=[];
  const find=(v:number):number=>{let r=v;while(parents[r]!==r)r=parents[r];while(parents[v]!==v){const t=parents[v];parents[v]=r;v=t;}return r;};
  const join=(a:number,b:number)=>{a=find(a);b=find(b);if(a!==b)parents[b]=a;};if(topologyChecked)for(let i=0;i<n;i++)parents[i]=i;
@@ -18,7 +18,7 @@ export function analyzeMesh(mesh:Mesh,progress:(message:string)=>void=()=>{}):An
   if(ar<=areaTol){degenerate++;continue;}area+=ar;const normal=cross.map(v=>v/length);const zavg=(a[2]+b[2]+c[2])/3;
   if(topologyChecked){const ids=[a,b,c].map(q=>{const k=q.map(x=>Math.round(x/tol)).join(',');let id=weld.get(k);if(id==null){id=weld.size;weld.set(k,id);}return id;});
   const faceKey=[...ids].sort((a,b)=>a-b).join(',');if(faceSet.has(faceKey))duplicates++;else faceSet.add(faceKey);
-  for(let k=0;k<3;k++){const x=ids[k],y=ids[(k+1)%3],key=x<y?x+','+y:y+','+x,old=edges.get(key);if(old){old.count++;old.balance+=x<y?1:-1;join(i,old.first);}else edges.set(key,{count:1,balance:x<y?1:-1,first:i});}
+  for(let k=0;k<3;k++){const x=ids[k],y=ids[(k+1)%3],key=Math.min(x,y)*(n*3)+Math.max(x,y),old=edges.get(key);if(old){old.count++;old.balance+=x<y?1:-1;join(i,old.first);}else edges.set(key,{count:1,balance:x<y?1:-1,first:i});}
   const ac=a.map((v,k)=>v-center[k]),bc=b.map((v,k)=>v-center[k]),cc=c.map((v,k)=>v-center[k]);signed[i]=(ac[0]*(bc[1]*cc[2]-bc[2]*cc[1])+ac[1]*(bc[2]*cc[0]-bc[0]*cc[2])+ac[2]*(bc[0]*cc[1]-bc[1]*cc[0]))/6;}
   if(normal[2]>.95)top+=ar;if(normal[2]<-.95)bottom+=ar;
   if(Math.max(a[2],b[2],c[2])-min[2]<=tol*4)contactArea+=Math.abs(cross[2])/2;

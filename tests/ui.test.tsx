@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
 import {describe,it,expect,vi,beforeEach,afterEach} from 'vitest';
-import {render,screen,fireEvent,waitFor,cleanup,within} from '@testing-library/react';
+import {render as renderApp,screen,fireEvent,waitFor,cleanup,within} from '@testing-library/react';
 import App from '../src/App';
+// These legacy interaction tests exercise the optional full Studio controls.
+function render(ui:React.ReactNode){const mounted=renderApp(ui);fireEvent.click(screen.getByText('All Studio controls & current settings'));return mounted;}
 import {binary,mf,xml} from './fixtures';
 import {strToU8} from 'fflate';
 import {parseModel} from '../src/analysis/parsers';
@@ -16,7 +18,7 @@ beforeEach(()=>{vi.stubGlobal('Worker',TestWorker);vi.stubGlobal('URL',class ext
 afterEach(()=>{cleanup();vi.restoreAllMocks();vi.unstubAllGlobals();});
 describe('workspace interaction contract',()=>{
  it('shows privacy statement, demo geometry and process tabs',()=>{render(<App/>);expect(screen.getByText('Your model is analyzed locally in your browser and is not uploaded to a server.')).toBeTruthy();expect(screen.getByText('DEMO MODEL')).toBeTruthy();expect(screen.getByRole('tab',{name:'Quality'}).getAttribute('aria-selected')).toBe('true');});
- it('switches tabs and exposes exact field labels',()=>{render(<App/>);fireEvent.click(screen.getByRole('tab',{name:'Strength'}));expect(screen.getByText('Wall loops')).toBeTruthy();expect(screen.getByRole('tab',{name:'Strength'}).getAttribute('aria-selected')).toBe('true');});
+ it('switches tabs and exposes exact field labels',()=>{render(<App/>);fireEvent.click(screen.getByRole('tab',{name:'Strength'}));expect(within(screen.getByRole('tabpanel')).getByText('Wall loops')).toBeTruthy();expect(screen.getByRole('tab',{name:'Strength'}).getAttribute('aria-selected')).toBe('true');});
  it('supports keyboard tab navigation',()=>{render(<App/>);fireEvent.keyDown(screen.getByRole('tab',{name:'Quality'}),{key:'ArrowRight'});expect(screen.getByRole('tab',{name:'Strength'}).getAttribute('aria-selected')).toBe('true');});
  // Multi-step jsdom scenarios need headroom on shared CI runners; assertions still cover every state.
  it('advances through all settings tabs from the bottom, clears filtering and focuses the next tab',{timeout:10000},()=>{
@@ -34,7 +36,7 @@ describe('workspace interaction contract',()=>{
  it('changes context and recommendations dynamically',()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Intended use'),{target:{value:'Functional'}});fireEvent.click(screen.getByRole('tab',{name:'Strength'}));expect(within(screen.getByRole('tabpanel')).getByText('3')).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'Quality'}));expect(screen.getByText('0.1 mm layers')).toBeTruthy();});
  it('handles unsupported upload without losing the current model',()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[new File(['bad'],'bad.obj')]}});expect(screen.getByRole('alert').textContent).toContain('Unsupported');expect(screen.getByText('Sample coaster')).toBeTruthy();});
  it('uploads a model and displays real analysis',async()=>{render(<App/>);const f=new File([binary()],'my-part.stl');Object.defineProperty(f,'arrayBuffer',{value:async()=>binary()});fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[f]}});await waitFor(()=>expect(screen.getByText('my-part.stl')).toBeTruthy());expect(screen.getByText('20 × 20 × 20')).toBeTruthy();});
- it('selects an overhang sample and changes support setting',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Overhang'}));fireEvent.click(screen.getByRole('tab',{name:'Support'}));expect(screen.getByText('ON')).toBeTruthy();});
+ it('selects an overhang sample and changes support setting',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Overhang'}));fireEvent.click(screen.getByRole('tab',{name:'Support'}));expect(within(screen.getByRole('tabpanel')).getByText('ON')).toBeTruthy();});
  it('copies all settings with report limitations',async()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Copy all'}));await waitFor(()=>expect(navigator.clipboard.writeText).toHaveBeenCalled());expect(vi.mocked(navigator.clipboard.writeText).mock.calls[0][0]).toContain('No G-code or importable preset');});
  it('exports JSON and calls print',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'JSON'}));expect(URL.createObjectURL).toHaveBeenCalled();fireEvent.click(screen.getByRole('button',{name:'Print'}));expect(window.print).toHaveBeenCalled();});
  it('shows key comparisons without a giant table',()=>{render(<App/>);fireEvent.click(screen.getByRole('button',{name:'Compare modes'}));expect(screen.getByText('Find your balance')).toBeTruthy();expect(screen.getByRole('table')).toBeTruthy();});
@@ -115,4 +117,20 @@ it('offers a speed-quality action that clears fine detail without changing selec
  render(<App/>);fireEvent.change(screen.getByLabelText('Filament family'),{target:{value:'PETG'}});fireEvent.click(screen.getByRole('button',{name:'Quality'}));
  fireEvent.click(screen.getByRole('button',{name:'Use Balanced speed + quality'}));
  expect(screen.getByRole('button',{name:'Balanced'}).getAttribute('aria-pressed')).toBe('true');expect((screen.getByLabelText('Filament family') as HTMLSelectElement).value).toBe('PETG');expect(screen.getByText('0.2 mm layers')).toBeTruthy();
+});
+
+it('keeps the full Studio library collapsed in the default streamlined workspace',()=>{
+ renderApp(<App/>);expect((screen.getByText('All Studio controls & current settings').closest('details') as HTMLDetailsElement).open).toBe(false);expect(screen.getByRole('region',{name:'Recommended changes'})).toBeTruthy();expect(screen.queryByText('Shorter prints, protected visible surfaces')).toBeNull();
+ fireEvent.click(screen.getByText('All Studio controls & current settings'));expect(screen.getByRole('tab',{name:'Quality'})).toBeTruthy();
+});
+it('automatically switches a 3MF upload from PLA to PETG and shows configured slots',async()=>{
+ renderApp(<App/>);const buffer=mf(xml(),{'Metadata/project_settings.config':strToU8(JSON.stringify({filament_type:['PETG','PETG'],filament_settings_id:['Generic PETG @BBL X2D','Generic PETG @BBL X2D'],printer_model:'Bambu Lab X2D',nozzle_diameter:['0.4']}))});const file=new File([buffer],'Gengar_smartphone_holder.3mf');Object.defineProperty(file,'arrayBuffer',{value:async()=>buffer});fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[file]}});
+ await waitFor(()=>expect((screen.getByLabelText('Filament family') as HTMLSelectElement).value).toBe('PETG'));
+ expect((screen.getByLabelText('Intended use') as HTMLSelectElement).value).toBe('Functional');expect(screen.getByRole('region',{name:'Detected project'}).textContent).toContain('2 configured filament slots');
+ fireEvent.change(screen.getByLabelText('Filament family'),{target:{value:'PLA'}});expect(screen.getByRole('region',{name:'Detected project'}).textContent).toContain('changed manually');
+});
+
+it('withholds geometry grams when a mixed-material upload has no single known density',async()=>{
+ renderApp(<App/>);const buffer=mf(xml(),{'Metadata/project_settings.config':strToU8('{"filament_type":["PETG","PLA"]}')});const file=new File([buffer],'mixed.3mf');Object.defineProperty(file,'arrayBuffer',{value:async()=>buffer});fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[file]}});
+ await waitFor(()=>expect((screen.getByLabelText('Filament family') as HTMLSelectElement).value).toBe('Other'));expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('Material density needed');
 });

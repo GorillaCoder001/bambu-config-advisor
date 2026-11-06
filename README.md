@@ -124,3 +124,9 @@ Next: real-printer coupon validation; official extruder-variant index mapping; B
 ### Speed while keeping visible quality
 
 Choose **Use Balanced speed + quality** for a time-conscious starting profile, then inspect the Studio slice. Balanced 0.4 mm uses 0.20 mm layers for ordinary models; Balanced figurines use 0.16 mm. Ordinary functional parts no longer default to heavy-load wall/infill values. Explicit fine detail and load-bearing strength remain available. Main and Auxiliary speeds have separate limits. See [the tuning review, evidence and limitations](docs/SPEED_QUALITY_REVIEW.md). These are trial values; the advisor does not promise a new duration from height alone or simulate missing multicolour operations.
+
+### Project-aware upload analysis
+
+3MF uploads now select saved filament/material, recognized product/vendor, printer and common nozzle diameter automatically. Configured slots remain visible without pretending every slot is printed. STL requires material confirmation. Mixed/unknown materials and different nozzle diameters stay explicitly unresolved instead of borrowing a PLA profile. File-name clues can suggest phone-holder or coaster use and remain editable.
+
+The default page shows key recommendations with expandable reasons; the full Studio library is under **All Studio controls & current settings**. Geometry checks now cover up to 400,000 triangles using compact numeric edge identities, while keeping strict volume-verification guards. See [analysis behavior and limits](docs/PROJECT_ANALYSIS.md). No cloud AI or model upload is required.
