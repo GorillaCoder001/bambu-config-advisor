@@ -110,7 +110,7 @@ it('imports a per-plate Studio slice reference and keeps it labelled after conte
  await waitFor(()=>expect(document.querySelector('.time-summary strong')?.textContent).toBe('20 h 15 min'));
  expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('211.87 g');
  fireEvent.click(screen.getByRole('button',{name:'Fast'}));expect(screen.getByText(/does not update when recommendations change/)).toBeTruthy();expect(document.querySelector('.time-summary strong')?.textContent).toBe('20 h 15 min');
- fireEvent.click(screen.getByRole('button',{name:'Tower'}));expect(screen.queryByText(/Saved Studio plate 1/)).toBeNull();
+ fireEvent.click(screen.getByRole('button',{name:'Expand model panel'}));fireEvent.click(screen.getByRole('button',{name:'Tower'}));expect(screen.queryByText(/Saved Studio plate 1/)).toBeNull();
 });
 
 it('offers a speed-quality action that clears fine detail without changing selected filament',()=>{
@@ -133,4 +133,17 @@ it('automatically switches a 3MF upload from PLA to PETG and shows configured sl
 it('withholds geometry grams when a mixed-material upload has no single known density',async()=>{
  renderApp(<App/>);const buffer=mf(xml(),{'Metadata/project_settings.config':strToU8('{"filament_type":["PETG","PLA"]}')});const file=new File([buffer],'mixed.3mf');Object.defineProperty(file,'arrayBuffer',{value:async()=>buffer});fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[file]}});
  await waitFor(()=>expect((screen.getByLabelText('Filament family') as HTMLSelectElement).value).toBe('Other'));expect(screen.getByLabelText('Estimated filament usage').textContent).toContain('Material density needed');
+});
+
+it('collapses the model and detection details on successful uploads, including the same filename again',async()=>{
+ renderApp(<App/>);
+ const makeFile=(material:string)=>{const buffer=mf(xml(),{'Metadata/project_settings.config':strToU8(JSON.stringify({filament_type:[material]}))});const file=new File([buffer],'holder.3mf');Object.defineProperty(file,'arrayBuffer',{value:async()=>buffer});return file;};
+ fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[makeFile('PETG')]}});
+ await waitFor(()=>expect(document.getElementById('model-workspace-content')!.hidden).toBe(true));
+ const details=screen.getByText('Detection details').closest('details')!;expect(details.open).toBe(false);
+ fireEvent.click(screen.getByText('Detection details'));expect(details.open).toBe(true);
+ fireEvent.click(screen.getByRole('button',{name:'Expand model panel'}));expect(document.getElementById('model-workspace-content')!.hidden).toBe(false);
+ fireEvent.change(screen.getByLabelText('Upload STL or 3MF model'),{target:{files:[makeFile('PLA')]}});
+ await waitFor(()=>expect((screen.getByLabelText('Filament family') as HTMLSelectElement).value).toBe('PLA'));
+ expect(document.getElementById('model-workspace-content')!.hidden).toBe(true);expect(screen.getByText('Detection details').closest('details')!.open).toBe(false);
 });
