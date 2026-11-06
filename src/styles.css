@@ -40,3 +40,32 @@
 .action-setting summary{display:flex;justify-content:space-between;gap:16px;cursor:pointer}
 .action-setting summary span{color:var(--accent,#a5eed3);text-align:right}
 .action-setting p{margin:10px 0}
+
+/* Readable settings: normal-size labels and clear disclosure affordances. */
+.studio-controls-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;font:600 16px/1.4 ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#e6f2ed}
+.disclosure-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 34px;width:34px;height:34px;border:1px solid #5a9f84;border-radius:7px;background:#1c382e;color:#a8f0cf}
+.disclosure-icon svg{stroke-width:2.5;transition:transform .15s ease}
+.studio-controls-disclosure[open]>summary .disclosure-icon svg{transform:rotate(180deg)}
+.studio-controls-disclosure>summary:hover{color:#b7f4d8}
+.settings-panel .table-labels{font-family:inherit;font-size:14px;font-weight:600;line-height:1.5;letter-spacing:0;text-transform:none;color:#d5e7dd;padding-top:14px;padding-bottom:14px;background:#15231f}
+.settings-panel .setting-group>h4{font-family:inherit;font-size:15px;font-weight:600;line-height:1.5;letter-spacing:0;text-transform:none;color:#daece2;padding-top:13px;padding-bottom:13px}
+.settings-panel .setting-name strong{font-size:15px;font-weight:600;color:#e1eee7;line-height:1.5}
+.settings-panel .setting-current input{font-family:inherit;font-size:14px;line-height:1.5;min-height:44px;color:#e3f0e9}
+.settings-panel .setting-value strong{font-family:inherit;font-size:15px;font-weight:600;line-height:1.5;font-variant-numeric:tabular-nums;color:#b2f0d0}
+.settings-panel .comparison-status{font-family:inherit;font-size:12px;line-height:1.5}
+.settings-panel .setting-reason,.settings-panel .setting-reason p{font-size:14px;line-height:1.65;color:#c2d3ca}
+.settings-panel .setting-help>summary{font-size:14px;line-height:1.5;min-height:36px;color:#a4e8c7;justify-content:space-between}
+.settings-panel .setting-help[open]>summary svg{transform:rotate(180deg)}
+.settings-panel .setting-location,.settings-panel .source-links small,.settings-panel .setting-help a small{font-family:inherit;font-size:12px;line-height:1.6;color:#aebfb6}
+.settings-panel .studio-placement-note p{font-size:14px;color:#c9dcd1}
+.settings-panel .studio-placement-note label{font-size:14px;min-height:36px}
+.settings-panel .studio-placement-note small,.settings-panel .settings-foot{font-size:12px;color:#aebfb6;line-height:1.6}
+.action-setting>summary strong{flex:1}
+.action-setting>summary:after{content:'';display:block;flex:0 0 9px;width:9px;height:9px;border-right:2px solid #a4e8c7;border-bottom:2px solid #a4e8c7;transform:rotate(45deg);margin:0 4px 4px 8px}
+.action-setting[open]>summary:after{transform:rotate(225deg);margin-top:5px}
+.action-setting>summary,.print-time-panel>details>summary{font-size:14px;line-height:1.6;min-height:36px}
+.material-notes summary{font-size:14px;min-height:44px}
+.material-notes summary svg:last-child{width:20px;height:20px;color:#a4e8c7}
+.export-panel small{font-size:12px;line-height:1.6;color:#acbfb2}
+@media(prefers-reduced-motion:reduce){.disclosure-icon svg{transition:none}}
+.settings-panel .setting-help a{font-size:14px;line-height:1.6}
