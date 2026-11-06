@@ -120,3 +120,7 @@ For STL or geometry-only 3MF, import Bambu process/filament JSON via **Import se
 Tests cover parsing, security rejection, synthetic geometry, deterministic rule ordering, brand/profile separation, build volumes, copying/export, tab navigation and input changes. See [implementation report](docs/IMPLEMENTATION_REPORT.md).
 
 Next: real-printer coupon validation; official extruder-variant index mapping; BVH-based local thickness and occlusion sampling; per-object/per-plate 3MF selection; conservative orientation ranking; browser/WebGL and narrow-screen QA; a verified native-preset round-trip test for one explicitly supported Bambu Studio version.
+
+### Speed while keeping visible quality
+
+Choose **Use Balanced speed + quality** for a time-conscious starting profile, then inspect the Studio slice. Balanced 0.4 mm uses 0.20 mm layers for ordinary models; Balanced figurines use 0.16 mm. Ordinary functional parts no longer default to heavy-load wall/infill values. Explicit fine detail and load-bearing strength remain available. Main and Auxiliary speeds have separate limits. See [the tuning review, evidence and limitations](docs/SPEED_QUALITY_REVIEW.md). These are trial values; the advisor does not promise a new duration from height alone or simulate missing multicolour operations.

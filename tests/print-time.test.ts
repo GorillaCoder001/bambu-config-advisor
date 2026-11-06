@@ -9,7 +9,7 @@ const context={...defaults,use:'Bottle cover / sleeve'};
 const value=(r:ReturnType<typeof recommend>,key:string)=>r.settings.find(s=>s.key===key)!.value;
 describe('time-aware bottle-cover recommendations',()=>{
  it('does not slow a dense mesh solely because its small triangle edges suggest fine detail',()=>{
-  const dense={...a,dense:true,fineDetail:true,triangles:194674};const r=recommend(dense,defaults);expect(value(r,'layer_height')).toBe('0.16 mm');expect(value(r,'outer_wall_speed')).toBe('80 mm/s');expect(r.rules).not.toContain('fine-detail');
+  const dense={...a,dense:true,fineDetail:true,triangles:194674};const r=recommend(dense,defaults);expect(value(r,'layer_height')).toBe('0.2 mm');expect(value(r,'outer_wall_speed')).toBe('80 mm/s');expect(r.rules).not.toContain('fine-detail');
  });
  it('uses efficient bottle-cover settings rather than automatic functional strength settings',()=>{
   const r=recommend(a,context);expect(value(r,'layer_height')).toBe('0.2 mm');expect(value(r,'wall_loops')).toBe('2');expect(value(r,'sparse_infill_density')).toBe('10%');

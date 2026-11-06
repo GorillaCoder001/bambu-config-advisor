@@ -3,17 +3,18 @@ import type {Analysis,Context,Priority} from '../types';
 export interface Policy {layer:number;walls:number;infill:number;top:number;bottom:number;outer:number;inner:number;topSpeed:number;infillSpeed:number;solidSpeed:number;initial:number;accel:number;outerAccel:number;topAccel:number;support:boolean;brim:number;detail:boolean;functional:boolean;}
 export const priorityPolicies:Record<Priority,{layerFactor:number;outer:number;inner:number;top:number;infill:number;solid:number;accel:number;outerAccel:number;topAccel:number}>={
  'Maximum quality':{layerFactor:.25,outer:40,inner:80,top:25,infill:100,solid:75,accel:3000,outerAccel:1500,topAccel:800},
- 'Balanced':{layerFactor:.4,outer:80,inner:140,top:60,infill:180,solid:140,accel:5000,outerAccel:2500,topAccel:1500},
- 'Fast':{layerFactor:.5,outer:140,inner:200,top:100,infill:240,solid:180,accel:6000,outerAccel:4000,topAccel:2500},
+ 'Balanced':{layerFactor:.5,outer:80,inner:140,top:60,infill:180,solid:140,accel:5000,outerAccel:2500,topAccel:1500},
+ 'Fast':{layerFactor:.6,outer:140,inner:200,top:100,infill:240,solid:180,accel:6000,outerAccel:4000,topAccel:2500},
  'Maximum strength':{layerFactor:.5,outer:50,inner:100,top:40,infill:130,solid:100,accel:3000,outerAccel:1800,topAccel:1000}
 };
 export interface Rule {id:string;when:(a:Analysis,c:Context)=>boolean;apply:(p:Policy,a:Analysis,c:Context)=>void;}
 // Ordered, named, deterministic heuristics. These are starting-point adjustments, not manufacturer facts.
 export const rules:Rule[]=[
- {id:'fine-detail',when:(a,c)=>c.detail||c.use==='Figurine',apply:(p,a,c)=>{p.detail=true;if(c.priority!=='Fast')p.layer=Math.min(p.layer,Math.max(.06,c.nozzle*.3));p.outer*=.8;p.topSpeed*=.8;}},
- {id:'functional-walls',when:(a,c)=>c.strong||c.priority==='Maximum strength'||['Functional','Mechanical part','Container','Outdoor','Heat-exposed'].includes(c.use),apply:p=>{p.functional=true;p.walls=4;p.infill=30;p.top=1;p.bottom=1;}},
+ {id:'fine-detail',when:(a,c)=>c.detail||c.use==='Figurine'&&c.priority==='Maximum quality',apply:(p,a,c)=>{p.detail=true;if(c.priority!=='Fast')p.layer=Math.min(p.layer,Math.max(.06,c.nozzle*.3));p.outer*=.8;p.topSpeed*=.8;}},
+ {id:'figurine-balanced',when:(a,c)=>c.use==='Figurine'&&c.priority==='Balanced'&&!c.detail,apply:(p,a,c)=>{p.layer=Math.min(p.layer,Math.max(.06,Math.round(c.nozzle*.4*100)/100));}},
+ {id:'functional-walls',when:(a,c)=>c.strong||c.priority==='Maximum strength'||['Functional','Mechanical part','Container','Outdoor','Heat-exposed'].includes(c.use),apply:(p,a,c)=>{p.functional=true;const heavy=c.strong||c.priority==='Maximum strength'||['Mechanical part','Outdoor','Heat-exposed'].includes(c.use);p.walls=heavy?4:3;p.infill=heavy?30:15;p.top=heavy?1:.8;p.bottom=heavy?1:.6;}},
  {id:'bottle-cover-efficiency',when:(a,c)=>c.use==='Bottle cover / sleeve'&&!c.strong&&c.priority!=='Maximum strength',apply:(p,a,c)=>{p.walls=2;p.infill=10;p.top=.8;p.bottom=.6;if(!p.detail&&c.priority!=='Maximum quality')p.layer=Math.round(Math.max(.06,c.nozzle*.5)*100)/100;}},
- {id:'broad-top-shell',when:(a,c)=>c.use!=='Bottle cover / sleeve'&&(c.use==='Coaster / flat object'||flatTopEvidence(a)),apply:p=>{p.top=1.2;p.bottom=.8;p.walls=Math.max(p.walls,3);p.infill=Math.max(p.infill,20);}},
+ {id:'broad-top-shell',when:(a,c)=>c.use!=='Bottle cover / sleeve'&&(c.use==='Coaster / flat object'||flatTopEvidence(a)&&a.height<=Math.max(a.dimensions[0],a.dimensions[1])*.2),apply:p=>{p.top=1.2;p.bottom=.8;p.walls=Math.max(p.walls,3);p.infill=Math.max(p.infill,20);}},
  {id:'petg-quality',when:(a,c)=>c.material.startsWith('PETG')&&c.priority==='Maximum quality',apply:p=>{p.outer=Math.min(p.outer,40);p.topSpeed=Math.min(p.topSpeed,25);p.initial=25;}},
  {id:'silk-visible-surfaces',when:(a,c)=>c.material==='PLA Silk',apply:p=>{p.outer=Math.min(p.outer,40);p.topSpeed=Math.min(p.topSpeed,35);}},
  {id:'flat-top-finish-speed',when:(a,c)=>c.use==='Coaster / flat object'||c.finish&&flatTopEvidence(a),apply:(p,a,c)=>{p.topSpeed=Math.min(p.topSpeed,c.material.startsWith('PETG')?40:50);}},
